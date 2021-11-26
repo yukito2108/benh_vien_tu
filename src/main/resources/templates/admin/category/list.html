@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Danh sách category</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/modal_img.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/category.css}">
+    </th:block>
+</head>
+<body>
+<main id="main-content" class="category-list-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item active">Danh sách category</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button class="btn btn-success btn-view-add__category" th:data-id="0">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Thêm category</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline" style="overflow-x: auto; background: #fff">
+                <div class="card-body pad p-2">
+                    <div class="category-wrap" style="min-width: 1200px; background: #fff">
+                        <div class="category-list">
+                            <ul class="scroll-item" data-cols="1">
+                                <th:block th:each="category : ${categories}">
+                                    <li class="category-item" th:id='${"category--id_" + category.getId()}' th:data-id="${category.getId()}" th:data-parent-id="${category.getCategoryParentId()}">
+                                        <p th:text="${category.name}"></p>
+                                        <i th:if="${category.getCategoryChild().size() > 0}"
+                                           class="ml-2 fas fa-chevron-right"></i>
+                                        <div class="item-action shadow">
+                                            <button class="btn btn-view-add__category"
+                                                    th:data-id="${category.getId()}">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <button class="btn btn-view-edit__category"
+                                                    th:data-id="${category.getId()}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-confirm-delete__category"
+                                                    th:data-id="${category.getId()}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </th:block>
+                            </ul>
+                            <ul class="scroll-item" data-cols="2"></ul>
+                            <ul class="scroll-item" data-cols="3"></ul>
+                            <ul class="scroll-item" data-cols="4"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal add new category-->
+    <div class="modal fade" id="modal-add-new-category" tabindex="-1" role="dialog"
+         aria-labelledby="modalAddNewCategory" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary btn-add__category--new">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal update category-->
+    <div class="modal fade" id="modal-update-category" tabindex="-1" role="dialog" aria-labelledby="modalUpdateCategory"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chỉnh sửa category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary btn-update-category">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal delete category-->
+    <div class="modal fade" id="modal-delete-category" tabindex="-1" role="dialog" aria-labelledby="modalDeleteCategory"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" hidden id="delete-category-id">
+                    <span>Bạn chắc chắn muốn xóa category?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger btn-delete-category">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:replace="~{fragment/choose_img_modal :: choose-img-modal}"></th:block>
+</main>
+
+<th:block id="js-resources">
+    <!-- List js -->
+    <script th:src="@{/adminlte/plugins/list/list.min.js}"></script>
+    <!-- Modal img js -->
+    <script th:src="@{/adminlte/dist/js/modal_img.js}"></script>
+    <!-- main js -->
+    <script th:src="@{/script/admin/manage-category.js}"></script>
+
+    <script th:inline="javascript">
+        $(function () {
+            let imgs = [[${images}]];
+            let tmp = [];
+            imgs.forEach(img => tmp.push({"grid-item-img": img}))
+            initListImg(tmp);
+
+            let c = [[${allCategories}]]
+            initListCategories(c)
+        })
+    </script>
+</th:block>
+</body>
+</html>
+
+

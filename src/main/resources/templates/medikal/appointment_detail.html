@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Medikal - Health Care &amp; Medical HTML5 Template</title>
+    <meta name="keywords" content="HTML5,CSS3,HTML,Template,Multi-Purpose,M_Adnan,Corporate Theme,Medikal,Health Care,Medikal - Health Care & Medical HTML5 Template">
+    <meta name="description" content="Medikal - Health Care & Medical HTML5 Template">
+
+
+    <!-- FONTS ONLINE -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:500,600,700,100,800,900,400,200,300' rel='stylesheet' type='text/css'>
+
+    <!--MAIN STYLE-->
+    <link th:href="@{/medikal1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/main.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/responsive.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/animate.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/ionicons.min.css}" rel="stylesheet" type="text/css">
+    <!-- Appointment Chat CSS -->
+    <link rel="stylesheet" th:href="@{/css/vendor/chat.css}"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<!-- Page Wrap ===========================================-->
+<div id="wrap">
+
+    <!-- TOP BAR ===========================================-->
+    <div class="top-bar light">
+        <div class="container">
+            <ul class="pull-left">
+                <li><a href="index.html">Welcome To Our Medikal Center</a></li>
+            </ul>
+
+            <!-- SOCIAL ICONS ===========================================-->
+            <ul class="social_icons">
+                <li class="facebook"><a href="#."><i class="fa fa-facebook"></i> </a></li>
+                <li class="twitter"><a href="#."><i class="fa fa-twitter"></i> </a></li>
+                <li class="dribbble"><a href="#."><i class="fa fa-dribbble"></i> </a></li>
+                <li class="instagram"><a href="#."><i class="fa fa-instagram"></i> </a></li>
+                <li class="googleplus"><a href="#."><i class="fa fa-google-plus"></i> </a></li>
+                <li class="pinterest"><a href="#."><i class="fa fa-pinterest"></i> </a></li>
+                <li class="linkedin"><a href="#."><i class="fa fa-linkedin"></i> </a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- HEADER ===========================================-->
+    <header class="navbar-fixed-top">
+        <div class="container">
+            <!--======= LOGO =========-->
+            <div class="logo"> <a href="index.html"><img th:src="@{/medikal1/images/logo.png}" alt="" ></a> </div>
+            <!--======= NAVIGATION =========-->
+            <nav class="webimenu">
+                <!-- MENU BUTTON RESPONSIVE -->
+                <div class="menu-toggle"> <i class="fa fa-bars"> </i> </div>
+                <ul class="ownmenu">
+                    <li><a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li class="active"><a th:href="@{/home/}">Đặt khám</a>
+                        <ul class="dropdown animated-3s fadeIn">
+                            <li><a th:href="@{/home/}">Thời gian biểu</a></li>
+                            <li><a th:href="@{/appointments/all}">Đăng ký</a></li>
+                        </ul>
+                    </li>
+                    <li><a th:href="@{/shopping}">Dược phẩm</a>
+                    </li>
+                    <li><a th:href="@{/tin-tuc}">Trang tin</a> </li>
+
+
+                    <li><a href="12-contact.html">Liên hệ</a> </li>
+
+                    <li><a th:href="@{/account}">Tài khoản</a> </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <!--======= SUB BANNER =========-->
+    <section class="sub-banner" data-stellar-background-ratio="0.5">
+        <div class="overlay">
+            <div class="container">
+                <h3>Appointment</h3>
+                <p>Meet our team of highly skilled professionals</p>
+
+                <!--======= Breadcrumbs =========-->
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li class="active">Appointment</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!--======= SERVICES =========-->
+    <section id="services">
+        <div class="container-fluid">
+            <ul class="row">
+                <li class="col-md-3"> <i class="fa fa-heartbeat"></i>
+                    <h5>Heart  Rate</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+                <li class="col-md-3"> <i class="fa fa-stethoscope"></i>
+                    <h5>Medical Counseling</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+                <li class="col-md-3"> <i class="fa fa-user-md"></i>
+                    <h5>Qualified Doctors</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+                <li class="col-md-3"> <i class="fa fa-ambulance"></i>
+                    <h5>Emergency Services</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!--======= CONTENT =========-->
+    <div class="content">
+
+        <section class="make-oppient">
+            <div class="appointment">
+                <div class="container">
+                    <!-- Page Content -->
+                    <div class="row" style="margin-top: 50px">
+
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div clas="col-md-1">
+                                </div>
+                                <div th:if="${appointment.exchangeRequest !=null && appointment.exchangeRequest.getStatus().name()== 'PENDING'}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
+                                    <p>Someone requested this appointment to be exchanged.</p>
+
+                                    <form th:action="@{/exchange/reject}" method='POST'>
+                                        <input type="hidden" name="exchangeId" th:value="${appointment.exchangeRequest.id}">
+                                        <input type="submit" class="btn btn-success" value="Reject" />
+                                    </form>
+                                    <form th:action="@{/exchange/accept}" method='POST'>
+                                        <input type="hidden" name="exchangeId" th:value="${appointment.exchangeRequest.id}">
+                                        <input type="submit" class="btn btn-success" value="Accept" />
+                                    </form>
+                                </div>
+                                <div th:if="${allowedToRequestRejection}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
+                                    <p>You have <span class="font-weight-bold" th:text="${remainingTime}">3h 45m</span> to deny that
+                                        this appointment took place.</p>
+                                    <p>After that time it will be invoiced automatically.</p>
+
+                                    <form th:action="@{/appointments/reject}" method='POST'>
+                                        <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                        <input type="submit" class="btn btn-danger" value="Reject" />
+                                    </form>
+                                </div>
+                                <div th:if="${allowedToAcceptRejection}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
+                                    <p>Customer claims that this appointment didn't take place.</p>
+                                    <p>If you agree with that, click the button below:</p>
+
+                                    <form th:action="@{/appointments/acceptRejection}" method='POST'>
+                                        <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                        <input type="submit" class="btn btn-danger" value="Accept" /></form>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-4">
+
+                                    <table id="appointments" class="table">
+                                        <tr>
+                                            <td><b>status</b></td>
+                                            <td><span th:text="${appointment.status}"> scheduled </span></td>
+                                        </tr>
+                                        <tr th:if="${appointment.status.name()=='CANCELED'}">
+                                            <td><b>canceled by</b></td>
+                                            <td><span
+                                                    th:text="${appointment.canceler.firstName+' '+appointment.canceler.lastName}">Canceller
+                            name</span>
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td><b>date</b></td>
+                                            <td><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy')}">10-01-2019</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>time</b></td>
+                                            <td><span th:text="${#temporals.format(appointment.start, 'HH:mm')+' - '+ #temporals.format(appointment.end, 'HH:mm')}">14:00 - 15:00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>customer</b></td>
+                                            <td><span th:text="${appointment.customer.firstName+' '+appointment.customer.lastName}">Peter Kowalski</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>provider</b></td>
+                                            <td><span th:text="${appointment.provider.firstName+' '+appointment.provider.lastName}">Marian Nowak</span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><b>work</b></td>
+                                            <td><span th:text="${appointment.work.name}"> english </span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>description</b></td>
+                                            <td><span th:text="${appointment.work.description}">description</span></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td><b>price</b></td>
+                                            <td><span th:text="${appointment.work.price}"> 50 </span> vnd</td>
+                                        </tr>
+                                        <tr th:if="${appointment.status.name()=='INVOICED'}">
+                                            <td><b>invoice</b></td>
+                                            <td><a th:href="@{'/invoices/download/'+${appointment.invoice.id}}">download</a></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><b>exchange</b></td>
+                                            <td th:if="${allowedToExchange}">
+                                                <a th:href="@{'/exchange/'+${appointment.id}}">exchange</a>
+                                            </td>
+                                            <td th:unless="${allowedToExchange}">
+                                                <p>This appointment cannot be exchanged.</p>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><b>cancellation</b></td>
+                                            <td th:if="${allowedToCancel}">
+                                                <form th:action="@{/appointments/cancel}" method='POST'>
+                                                    <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                                    <input type="submit" class="btn btn-danger" value="Cancel" />
+                                                </form>
+                                            </td>
+                                            <td th:unless="${allowedToCancel}">
+                                                <p th:text="${cancelNotAllowedReason}">Reason why appointment cannot be cancelled.</p>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+                                <div class="col-md-5">
+
+                                    <div class="chatbody">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading top-bar">
+                                                <div class="col-md-8 col-xs-8">
+                                                    <p>
+                                                        Appointment chat with
+                                                        <span th:if="${_user.roles.contains('ROLE_PROVIDER')}" th:text="${appointment.customer.firstName}"></span>
+                                                        <span th:if="!${_user.roles.contains('ROLE_CUSTOMER')}" th:text="${appointment.provider.firstName}"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="panel-body msg_container_base">
+                                                <div th:each="chatMessage : ${appointment.chatMessages}" class="row msg_container base_receive">
+                                                    <div class="col-md-12 col-xs-12">
+                                                        <div class="messages msg_receive">
+                                                            <p th:text="${chatMessage.message}">messae</p>
+                                                            <time datetime="2009-11-13T20:00"><span
+                                                                    th:text="${chatMessage.author.firstName}">author</span> • <span
+                                                                    th:text="${#temporals.format(chatMessage.createdAt, 'dd-MM-yyyy HH:mm')}"></span></time>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <form th:action="@{/appointments/messages/new}" th:object="${chatMessage}" method='POST'>
+                                                <div class="input-group mb-3">
+                                                    <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                                    <input type="text" class="form-control" th:field="*{message}" placeholder="Write your message here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" type="submit">Send</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!--======= WHY CHOOSE US =========-->
+        <div id="why-choose" class="margin-b-40">
+            <div class="container">
+                <!-- Services Row -->
+                <ul class="row">
+
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Medical Counseling</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Professional services</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>24 Hours service</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                </ul>
+                <ul class="row">
+
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Qualified medical facilities</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Top level doctors</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Dedicated patient care</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+
+        <!--======= Contact Info =========-->
+        <section class="contact-info">
+            <div class="container">
+
+                <!--Address-->
+                <ul class="row">
+                    <li class="col-md-3"> <i class="ion-ios-location-outline"></i>
+                        <h5>Address</h5>
+                        <p>1800 Abbot Kinney Blvd. Unit D & E
+                            Venice, CA 90291</p>
+                    </li>
+
+                    <!--Hot line-->
+                    <li class="col-md-3"> <i class="ion-iphone"></i>
+                        <h5>Hotline</h5>
+                        <p>+00-0122-123-0089</p>
+                    </li>
+
+                    <!--Email Contact-->
+                    <li class="col-md-3"> <i class="ion-ios-email-outline"></i>
+                        <h5>Email contact</h5>
+                        <p>medikal@gmail.com</p>
+                        <p> contact@medikalclinic.com</p>
+                    </li>
+
+                    <!--Website-->
+                    <li class="col-md-3"> <i class="ion-earth"></i>
+                        <h5>Website</h5>
+                        <p>www.medikalclinic.com </p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!--======= FOOTER =========-->
+    <footer>
+        <div class="container">
+
+            <!-- Row -->
+            <div class="row">
+
+                <!-- Latest Tweet -->
+                <div class="col-md-3">
+                    <div class="latest-tweet">
+                        <h5>Latest tweets</h5>
+                        <ul>
+
+                            <!--Tweet 1 -->
+                            <li>
+                                <p><span>@medikal</span> Sweets and Bakers
+                                    WordPress Theme' on @EnvatoMarket by themefore<a href="#."> http://t.co/we8Kf0</a></p>
+                                <span class="date"> - Thursday April 9, 2015</span> </li>
+
+                            <!--Tweet 2 -->
+                            <li>
+                                <p><span>@medikal</span> In hendrerit in molestie consequat in <a href="#."> http://t.co/we8Kf0</a></p>
+                                <span class="date"> - Thursday April 9, 2015</span> </li>
+
+                            <!--Tweet 3 -->
+                            <li>
+                                <p><span>@medikal</span> Duis autem vel eum iriure <span>@medikal</span> dolor in hendrerit in molestie consequat <a href="#."> http://t.co/we8Kf0</a></p>
+                                <span class="date"> - Thursday April 9, 2015</span> </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- About Us -->
+                <div class="col-md-6">
+                    <div class="small-info"> <img src="images/logo-white.png" alt="">
+                        <p>We work in a friendly and efficient using the latest technologies and sharing our expertise to make a diagnosis and implement cutting-edge therapies.</p>
+                        <ul class="social_icons">
+                            <li class="facebook"><a href="#."><i class="fa fa-facebook"></i> </a></li>
+                            <li class="twitter"><a href="#."><i class="fa fa-twitter"></i> </a></li>
+                            <li class="linkedin"><a href="#."><i class="fa fa-linkedin"></i> </a></li>
+                        </ul>
+
+                        <!-- News Letter -->
+                        <h5>register newsletter</h5>
+                        <form>
+                            <input type="email" placeholder="Enter your email here" required>
+                            <button type="submit"> Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Patient Guide -->
+                <div class="col-md-3">
+                    <div class="links text-right">
+                        <h5>Patient Guide</h5>
+                        <ul>
+                            <li><a href="#.">Choosing a doctor</a></li>
+                            <li><a href="#."> Health journals</a></li>
+                            <li><a href="#."> Insurance converage</a></li>
+                            <li><a href="#."> Talking to your doctor</a></li>
+                            <li><a href="#."> Medikal error</a></li>
+                        </ul>
+
+                        <!-- Timing -->
+                        <div class="timing">
+                            <h5>opening hours</h5>
+                            <p>Mon to Fri <span> 8:00 am to 7:00pm</span></p>
+                            <p>Sun & Sat <span>9:00 am to 5:00pm</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rights -->
+        <div class="rights">
+            <p>© 2015 Medikal. Made with by M_Adnan </p>
+        </div>
+    </footer>
+</div>
+<script th:src="@{/medikal1/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/medikal1/js/bootstrap.min.js}"></script>
+<script th:src="@{/medikal1/js/own-menu.js}"></script>
+<script th:src="@{/medikal1/js/owl.carousel.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.superslides.js}"></script>
+<script th:src="@{/medikal1/js/masonry.pkgd.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.stellar.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery-ui-1.10.3.custom.js}"></script>
+<script th:src="@{/medikal1/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.isotope.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.flexslider-min.js}"></script>
+<script th:src="@{/medikal1/js/appointment.js}"></script>
+<script th:src="@{/medikal1/js/jquery.downCount.js}"></script>
+<script th:src="@{/medikal1/js/counter.js}"></script>
+<script th:src="@{/medikal1/js/main.js}"></script>
+
+</body>
+</html>

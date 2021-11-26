@@ -1,0 +1,28 @@
+.list-item li .delete-item {
+    pointer-events: none;
+    color: #00000080;
+    opacity: 0;
+    font-size: 1.5rem;
+    padding: 0 0 0 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-item li:hover .delete-item {
+    opacity: 1;
+    pointer-events: initial;
+}
+
+.list-item li .delete-item:hover {
+    color: red;
+}
+
+#modal-choose-category .category-list .category-item .item-action {
+    pointer-events: none;
+    display: none !important;
+}
+
+.modal-dialog {
+    max-width: 1300px;
+}

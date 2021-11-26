@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="assets/css/static/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+<!--<header class="header">
+    <div class="header-top">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-logo">
+                    <img src="assets/images/Logo_NK.svg" alt="">
+                </div>
+                <div class="header-search">
+                    <form method="get" class="header-search-form">
+                        <label>
+                            <input type="text" class="header-search-input">
+                        </label>
+                        <button type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="header-right">
+                    <div class="header-minicart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Giỏ hàng
+                    </div>
+                    <div class="header-customer">
+                        <i class="far fa-user-circle"></i>
+                        Tài khoản
+                    </div>
+                    <div class="header-contact">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="header-contact-text">
+                            <strong>Hotline: 1800 6800 (Miễn phí)</strong>
+                            <span>Mua hàng - Góp ý - Bảo hành</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-nav">
+        <div class="container">
+            <div class="header-nav-content">
+                <div class="header-nav-menu">
+                    <strong>
+                        <i class="fas fa-bars"></i>
+                        Danh mục sản phẩm
+                    </strong>
+                    <ul class="header-nav-menu-list">
+                        <li class="header-nav-menu-item">
+                            <img src="assets/images/gift-2x-red.png" alt="" style="width: 20px">
+                            Tổng hợp khuyến mãi
+                        </li>
+                        <li class="header-nav-menu-item">
+                            Tủ lạnh - Tủ đông - Tủ mát
+                        </li>
+                        <li class="header-nav-menu-item">Ti vi - Loa - Dàn Karaoke</li>
+                        <li class="header-nav-menu-item">Máy giặt - Máy nước nóng</li>
+                        <li class="header-nav-menu-item">Điện thoại - Tablet - Phụ kiện</li>
+                        <li class="header-nav-menu-item">Laptop - PC - Máy in - Phụ kiện</li>
+                        <li class="header-nav-menu-item">Máy lạnh - Máy lọc không khí</li>
+                        <li class="header-nav-menu-item">Đồ da dụng - Quạt</li>
+                        <li class="header-nav-menu-item">Máy ảnh - Máy quay - Phụ kiện</li>
+                        <li class="header-nav-menu-item">Công cụ - Dụng cụ</li>
+                        <li class="header-nav-menu-item">Thương hiệu nổi bật</li>
+                        <li class="header-nav-menu-item">Kinh nghiệm hay - mẹo vặt</li>
+                    </ul>
+                </div>
+                <ul class="header-nav-list">
+                    <li class="header-nav-item">
+                        <i class="fas fa-book"></i>
+                        Cảm nang khuyến mãi
+                    </li>
+                    <li class="header-nav-item">
+                        <i class="fas fa-shopping-bag"></i>
+                        Hướng dẫn mua online
+                    </li>
+                    <li class="header-nav-item">
+                            <span>
+                                <i class="fas fa-medal"></i>
+                                Thương hiệu nổi bật
+                            </span>
+                        <ul class="header-nav-list level-2">
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                            <li class="header-nav-item level-2"></li>
+                        </ul>
+                    </li>
+                    <li class="header-nav-item">
+                        <i class="fas fa-border-all"></i>
+                        Tất cả sản phẩm
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>-->
+<div class="cart">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul class="items">
+                <li class="item home">
+                    <a href="#" title="Trang chủ">
+                        Trang chủ </a>
+                    <i class="fas fa-chevron-right"></i>
+                </li>
+                <li class="item cart">
+                    <span>Giỏ hàng</span>
+                </li>
+            </ul>
+        </div>
+        <div class="page-title-wrapper">
+            <h1 class="page-title">
+                <span class="base" data-ui-id="page-title-wrapper">Giỏ mua hàng</span>
+            </h1>
+        </div>
+        <div class="cart-wrapper">
+            <div class="cart-container">
+                <form method="post" id="form-validate"
+                      class="form form-cart">
+                    <input name="form_key" type="hidden" value="">
+                    <div class="cart table-wrapper">
+                        <table id="shopping-cart-table" class="cart items data table">
+                            <thead>
+                            <tr>
+                                <th class="item"><span>Sản phẩm</span></th>
+                                <th class="price"><span>Giá</span></th>
+                                <th class="qty"><span>Số lượng</span></th>
+                                <th class="subtotal"><span>Tạm tính</span></th>
+                            </tr>
+                            </thead>
+                            <tbody class="cart item">
+                            <tr class="item-info">
+                                <td data-th="Sản phẩm" class="item" rowspan="2">
+                                    <a href="https://richs.izysync.com/toppin-pride.html"
+                                       title="KEM TRANG TRÍ BÁNH TOPPIN' PRIDE" tabindex="-1" class="product-item-photo">
+                                        <span class="product-image-container">
+                                            <span class="product-image-wrapper">
+                                                <img class="product-image-photo"
+                                                     src="https://richs.izysync.com/media/catalog/product/cache/97f8efa6f227f6817b241ab0a1d58e13/t/o/toppin_pride_-_vie.png">
+                                            </span>
+                                        </span>
+                                    </a>
+                                    <div class="product-item-details">
+                                        <strong class="product-item-name">
+                                            <a href="https://richs.izysync.com/toppin-pride.html">KEM TRANG TRÍ BÁNH TOPPIN'
+                                                PRIDE</a>
+                                        </strong>
+                                    </div>
+                                </td>
+                                <td class="price" data-th="Giá">
+                                <span class="price-excluding-tax" data-label="Chưa bao gồm thuế">
+                                    <span class="cart-price">
+                                        <span class="price">54.000đ</span>
+                                    </span>
+                                 </span>
+                                </td>
+                                <td class="qty" data-th="Số lượng">
+                                    <div class="field qty">
+                                        <div class="control qty">
+                                            <label>
+                                                <input type="number" size="4" title="Số lượng" class="input-text qty">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="subtotal" data-th="Tạm tính">
+                                <span class="price-excluding-tax" data-label="Chưa bao gồm thuế">
+                                    <span class="cart-price">
+                                        <span class="price">54.000đ</span>
+                                    </span>
+                                </span>
+                                </td>
+                            </tr>
+                            <tr class="item-actions">
+                                <td colspan="3">
+                                    <div class="actions-toolbar">
+                                        <div id="gift-options-cart-item-3929" data-bind="scope:'giftOptionsCartItem-3929'"
+                                             class="gift-options-cart-item">
+                                        </div>
+                                        <a class="action action-edit"
+                                           href="https://richs.izysync.com/checkout/cart/configure/id/3929/product_id/158/"
+                                           title="Sửa thông số sản phẩm">
+                                            <span>Chỉnh sửa</span>
+                                        </a>
+                                        <a href="#" title="Xóa sản phẩm" class="action action-delete">
+                                            <span>Xóa sản phẩm</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart actions">
+                        <a class="action continue" href="https://richs.izysync.com/" title="Tiếp tục mua sắm">
+                            <span>Tiếp tục mua sắm</span>
+                        </a>
+                        <button type="submit" name="update_cart_action" value="update_qty"
+                                title="Cập nhật giỏ hàng" class="action update">
+                            <span>Cập nhật giỏ hàng</span>
+                        </button>
+                        <input type="hidden" value="" id="update_cart_action_container" data-cart-item-update="">
+                    </div>
+                </form>
+            </div>
+            <div class="cart-summary">
+                <div id="cart-totals" class="cart-totals">
+                    <div class="table-wrapper">
+                        <table class="data table totals">
+                            <tbody>
+                            <tr class="totals sub">
+                                <th class="mark">Tạm tính</th>
+                                <td class="amount">
+                                <span class="price"
+                                      data-th="Tạm tính">54.000đ</span>
+                                </td>
+                            </tr>
+                            <tr class="totals">
+                                <th style="" class="mark">
+                                    <span class="title">Chiết khấu</span>
+                                    <span class="discount coupon"></span>
+                                </th>
+                                <td class="amount" data-th="Chiết khấu">
+                                    <span class="price">-10.800đ</span>
+                                </td>
+                            </tr>
+                            <tr class="grand totals sub">
+                                <th class="mark">
+                                    <strong>Tổng đơn hàng</strong>
+                                </th>
+                                <td class="amount" data-th="Tổng đơn hàng">
+                                    <strong class="price">
+                                        43.200đ
+                                    </strong>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button type="button" title="Thanh toán ngay"
+                        class="action primary checkout">
+                    <span>Thanh toán ngay</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="footer-child">
+        <div class="container">
+            <div class="footer-newsletter">
+                <ul class="footer-newsletter-item">
+                    <li class="social-item">
+                        <a href="#" class="facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="social-item">
+                        <a href="#" class="youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </li>
+                    <li class="social-item">
+                        <a href="#" class="instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="footer-newsletter-item">
+                    <div class="social-item">
+                        <a class="message" href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                    <p>Bạn muốn là người sớm nhất nhận khuyến mãi đặc biệt?<br/>
+                        Đăng ký ngay.</p>
+                </div>
+                <div class="footer-newsletter-item">
+                    <form class="form-submit">
+                        <label>
+                            <input placeholder="Thả email nhận ưu đãi" type="email" class="input-email">
+                        </label>
+                        <button type="submit" class="submit-email">
+                            Đăng ký
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-child">
+        <div class="container">
+            <div class="footer-link">
+                <div class="footer-link-item">
+                    <h3 class="footer-link-title">Thông tin công ty</h3>
+                    <ul>
+                        <li>Giới thiệu công ty</li>
+                        <li>Quy chế hoạt động sàn TMĐT</li>
+                        <li>Hệ thống cửa hàng</li>
+                        <li>Mua hàng doanh nghiệp</li>
+                        <li>Tuyển dụng</li>
+                        <li>Liên hệ</li>
+                    </ul>
+                </div>
+                <div class="footer-link-item">
+                    <h3 class="footer-link-title">Danh mục hàng đầu</h3>
+                    <ul>
+                        <li>Máy lạnh</li>
+                        <li>Máy giặt</li>
+                        <li>Tủ lạnh</li>
+                        <li>Tivi</li>
+                        <li>Gia dụng</li>
+                    </ul>
+                </div>
+                <div class="footer-link-item">
+                    <h3 class="footer-link-title">Chính sách</h3>
+                    <ul>
+                        <li>Trả góp</li>
+                        <li>Ưu đãi đối tác</li>
+                        <li>Điều kiện giao dịch</li>
+                        <li>Bảo vệ thông tin người dùng</li>
+                        <li>Bảo mật giao dịch của khách hàng</li>
+                        <li>Chính sách bảo hành</li>
+                        <li>Chính sách và quy định thanh toán</li>
+                        <li>Chính sách 30 ngày đổi mới</li>
+                    </ul>
+                </div>
+                <div class="footer-link-item">
+                    <h3 class="footer-link-title">Hỗ trợ khách hàng</h3>
+                    <ul>
+                        <li>Hướng dẫn mua hàng</li>
+                        <li>Hóa đơn điện tử</li>
+                        <li>Câu hỏi thường gặp</li>
+                        <li>Vận chuyển và giao nhận</li>
+                        <li>Phương thức thanh toán</li>
+                        <li>Tra cứu đơn hàng</li>
+                        <li>Bảng giá dịch vụ lắp đặt</li>
+                    </ul>
+                </div>
+                <div class="footer-link-item">
+                    <h3 class="footer-link-title">Thông tin khác</h3>
+                    <ul>
+                        <li>Email: <a href="#" type="email">ninhbq@magenest.com</a></li>
+                        <li>Mua hàng - Góp ý - Bảo hành</li>
+                        <li>Gọi: <a href="tel: 0943563112">0943563112</a> Miễn phí</li>
+                        <li>Sơ đồ trang web</li>
+                        <li>Cảnh báo giả mạo</li>
+                        <li>Kênh tiếp nhận phản ánh về hối lộ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-child">
+        <p>Copyright © 1999 - 2021 Công ty Cổ phần Thương mại Nguyễn Kim.</p>
+        <p>Giấy chứng nhận đăng ký kinh doanh số 0302286281, cấp ngày 22/06/2006 bởi Sở Kế hoạch và Đầu tư TP. Hồ Chí
+            Minh.</p>
+        <p>Địa chỉ đăng ký trụ sở chính: 63-65-67 Trần Hưng Đạo, P. Cầu Ông Lãnh, TP. Hồ Chí Minh.</p>
+    </div>
+</footer>
+
+<script src="assets/js/static/bootstrap.min.js"></script>
+<script src="assets/js/static/popper.min.js"></script>
+</body>
+</html>

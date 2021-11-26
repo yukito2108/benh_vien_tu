@@ -1,0 +1,139 @@
+<th:block th:fragment="full-header">
+    <header>
+
+        <div class="container">
+            <style scoped>
+                @import "/medikal1/css/bootstrap.min.css";
+                @import "/medikal1/css/main.css";
+                @import "/medikal1/css/style.css";
+                @import "/medikal1/css/responsive.css";
+                @import "/medikal1/css/animate.css";
+                @import "/medikal1/css/font-awesome.min.css";
+            </style>
+            <!--======= LOGO =========-->
+            <div class="logo"> <a th:href="@{/}"><img th:src="@{/medikal1/images/logo.png}" alt="" ></a> </div>
+            <!--======= NAVIGATION =========-->
+            <nav class="webimenu">
+                <!-- MENU BUTTON RESPONSIVE -->
+                <div class="menu-toggle"> <i class="fa fa-bars"> </i> </div>
+                <ul class="ownmenu">
+                    <li ><a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li><a th:href="@{/home/}">Đặt khám</a>
+                        <ul class="dropdown animated-3s fadeIn">
+                            <li><a th:href="@{/home/}">Thời gian biểu</a></li>
+                            <li><a th:href="@{/appointments/all}">Đăng ký</a></li>
+                        </ul>
+                    </li>
+                    <li class="active"><a th:href="@{/shopping}">Dược phẩm</a>
+                    </li>
+                    <li><a th:href="@{/tin-tuc}">Trang tin</a> </li>
+
+
+                    <li><a href="12-contact.html">Liên hệ</a> </li>
+
+                    <li><a  th:href="@{/account}">Tài khoản</a> </li>
+                </ul>
+            </nav>
+        </div>
+        <!--======= SUB BANNER =========-->
+        <section class="sub-banner" data-stellar-background-ratio="0.5">
+            <div class="overlay">
+                <div class="container">
+                    <h3>Quầy bán dược phẩm</h3>
+                    <p>Mua ngay các dược phẩm uy tín trực tuyến</p>
+
+                    <!--======= Breadcrumbs =========-->
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/}">Trang chủ</a></li>
+                        <li class="active"><a th:href="@{/shopping}">Dược phẩm</a></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </header>
+</th:block>
+
+<th:block th:fragment="blog-header">
+    <header>
+
+        <div class="container">
+            <style scoped>
+                @import "/medikal1/css/bootstrap.min.css";
+                @import "/medikal1/css/main.css";
+                @import "/medikal1/css/style.css";
+                @import "/medikal1/css/responsive.css";
+                @import "/medikal1/css/animate.css";
+                @import "/medikal1/css/font-awesome.min.css";
+            </style>
+            <!--======= LOGO =========-->
+            <div class="logo"> <a th:href="@{/}"><img th:src="@{/medikal1/images/logo.png}" alt="" ></a> </div>
+            <!--======= NAVIGATION =========-->
+            <nav class="webimenu">
+                <!-- MENU BUTTON RESPONSIVE -->
+                <div class="menu-toggle"> <i class="fa fa-bars"> </i> </div>
+                <ul class="ownmenu">
+                    <li ><a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li><a th:href="@{/home/}">Đặt khám</a>
+                        <ul class="dropdown animated-3s fadeIn">
+                            <li><a th:href="@{/home/}">Thời gian biểu</a></li>
+                            <li><a th:href="@{/appointments/all}">Đăng ký</a></li>
+                        </ul>
+                    </li>
+                    <li ><a th:href="@{/shopping}">Dược phẩm</a>
+                    </li>
+                    <li class="active"><a th:href="@{/tin-tuc}">Trang tin </a> </li>
+
+
+                    <li><a href="12-contact.html">Liên hệ</a> </li>
+
+                    <li><a  th:href="@{/account}">Tài khoản</a> </li>
+                </ul>
+            </nav>
+        </div>
+        <!--======= SUB BANNER =========-->
+        <section class="sub-banner" data-stellar-background-ratio="0.5">
+            <div class="overlay">
+                <div class="container">
+                    <h3>Trang thông tin y tế</h3>
+                    <p>Cập nhật ngay các thông tin y tế mới nhất</p>
+
+                    <!--======= Breadcrumbs =========-->
+                    <ol class="breadcrumb">
+                        <li><a th:href="@{/}">Trang chủ</a></li>
+                        <li class="active"><a th:href="@{/tin-tuc}">Trang tin</a></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </header>
+</th:block>
+
+<th:block th:fragment="short-header">
+    <header style="min-height: 63px">
+        <div class="container-fluid bg-light"
+             style="position: fixed;
+                box-shadow: rgb(0 0 0 / 12%) 0 1px 4px 1px;
+                top: 0;
+                z-index: 1040;">
+            <nav class="navbar py-2 d-flex flex-row-reverse m-0">
+                <div class="logo-wrap flex-row-reverse d-flex" style="width: 300px;">
+                    <a class="navbar-brand text-right" href="/">
+                        <span class="h3" style="color: #3DC5DF;">LOGO</span>
+                    </a>
+                </div>
+                <div class="nav-actions">
+                    <div class="nav-item btn-back">
+                        <div class="nav-icon">
+                            <i class="fas fa-chevron-left h3 m-0" style="color: #3DC5DF;"></i>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+    </header>
+</th:block>

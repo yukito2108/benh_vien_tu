@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'short-header',
+                                                'short-footer',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Giỏ hàng</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/header.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/sidebar.css}"/>
+        <style>
+            .list-order-item tr td {
+                vertical-align: middle;
+            }
+
+            .list-order-item .product-info {
+                display: flex;
+                align-items: center;
+                color: #484848;
+                padding: 0.3rem 0;
+                justify-content: space-between;
+            }
+
+            .list-order-item .amount {
+                text-align: right;
+                color: #f86666;
+            }
+
+            .list-order-item .quantity {
+                width: 9rem;
+            }
+
+            .list-order-item .quantity input {
+                text-align: center;
+            }
+
+            .list-order-item .quantity input::-webkit-outer-spin-button,
+            .list-order-item .quantity input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+
+            .list-order-item .product-info .product-img {
+                width: 65px;
+                height: 65px;
+                display: flex;
+                align-items: center;
+            }
+
+            .list-order-item .price {
+                text-align: right;
+                display: flex;
+                justify-content: end;
+            }
+
+            .list-order-item .price .price-old {
+                max-width: 50%;
+                font-size: 90%;
+                color: #a6a6a6;
+                text-decoration: line-through;
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+            }
+
+            .total-amount .text-price {
+                font-size: 1.5rem;
+                color: #f86666;
+            }
+
+            .minus, .plus {
+                cursor: pointer;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+    <!-- Main Sidebar Container -->
+    <th:block th:replace="~{fragment/sidebar :: sidebar}"></th:block>
+    <div class="content-wrap">
+        <div class="row mb-4">
+            <div class="col-12">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a th:href="@{/account}">Tài khoản</a></li>
+                    <li class="breadcrumb-item active">Danh sách đơn hàng</li>
+                </ol>
+            </div>
+        </div>
+        <!-- Main content -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">
+                        <ul class="nav nav-tabs" id="custom-tabs-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link px-3 active" id="custom-tabs__tat-ca" data-toggle="pill"
+                                   href="#custom-tabs-all" role="tab" aria-controls="custom-tabs-all"
+                                   aria-selected="true">Tất cả đơn hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3" id="custom-tabs_cho-xac-nhan" data-toggle="pill"
+                                   href="#custom-tabs-pending" role="tab" aria-controls="custom-tabs-pending"
+                                   aria-selected="false">Chờ xác nhận</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3" id="custom-tabs_dang-giao" data-toggle="pill"
+                                   href="#custom-tabs-inprogress" role="tab" aria-controls="custom-tabs-inprogress"
+                                   aria-selected="false">Đang giao</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3" id="custom-tabs_da-giao" data-toggle="pill"
+                                   href="#custom-tabs-complete" role="tab" aria-controls="custom-tabs-complete"
+                                   aria-selected="false">Đã giao</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-3" id="custom-tabs_da-huy" data-toggle="pill"
+                                   href="#custom-tabs-cancel" role="tab" aria-controls="custom-tabs-cancel"
+                                   aria-selected="false">Đã hủy</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-tabContent">
+                            <!-- Tab info -->
+                            <div class="tab-pane fade show active" id="custom-tabs-all" role="tabpanel"
+                                 aria-labelledby="custom-tabs__tat-ca">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Tất cả đơn hàng-->
+                                        <th:block th:each="items : ${order_all}">
+                                            <div class="card m-4">
+                                                <div class="card-body">
+                                                    <div class="pb-4">
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <h5 style="  font-weight:bold;  color:#35a84d;  text-transform:uppercase;  margin: 0;  border-bottom:1px solid #ddd">
+                                                                        <span>Thông tin đơn hàng</span> <span
+                                                                            style="text-transform: initial;"
+                                                                            th:text="${'#' + items.getCode()}"></span>
+                                                                        <span style="font-size: 80%; color:#777; text-transform:none; font-weight:normal"
+                                                                              th:text="${items.getCreatedAt()}">2019-10-06</span>
+                                                                    </h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h5 style="margin: 0; text-align: end; border-bottom:1px solid #ddd">
+                                                                        <strong>Trạng thái:</strong>
+                                                                        <span style="color: #35a84d"
+                                                                              th:text="${converterUtils.getStatusByCustomer(items.getStatus())}"></span>
+                                                                    </h5>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px">
+                                                                    <table cellspacing="0" cellpadding="0" border="0"
+                                                                           width="100%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Thông tin thanh toán</span>
+                                                                            </th>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Địa chỉ giao hàng</span>
+                                                                            </th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span style="text-transform:capitalize">
+                                                                                    <span>Tên:</span><span
+                                                                                        th:text="${(items.getReceiverName() != null) ? items.getReceiverName() :items.getCustomer().getFirstName()}"></span>
+                                                                                </span>
+                                                                                <br>
+                                                                                <span>Email:</span>
+                                                                                <a th:href="${'mailto:' + items.getCustomer().getEmail()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${items.getCustomer().getEmail()}">linhsk4@gmail.com </a>
+                                                                                <br>
+                                                                                <span>SĐT:</span>
+                                                                                <a th:href="${'tel:' + items.getReceiverPhone()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${(items.receiverPhone != null) ? items.receiverPhone : items.customer.phone }">0123456789</a>
+                                                                            </td>
+
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; border-left:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span th:if="${items.getIsBuyAtStore()}">Nhận hàng tại cửa hàng</span>
+                                                                                <span th:unless="${items.getIsBuyAtStore()}"
+                                                                                      th:text="${items.getReceiverAddress()}"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:7px 9px 0px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Phương thức thanh
+                                                                                        toán: </strong>
+                                                                                    <span th:if="${items.getPaymentMethod() == 'momo'}">
+                                                                                        Thanh toán bằng momo
+                                                                                        <a th:unless="${items.alreadyPaid == true}" style="color: red" th:href="@{/thank-you/{code}(code=${items.code})}">(Chưa thanh toán)</a>
+                                                                                    </span>
+                                                                                    <span th:unless="${items.getPaymentMethod() == 'momo'}">Thanh toán khi nhận hàng (C.O.D)</span>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="padding: 3px 9px 9px 9px;">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Ghi chú: </strong>
+                                                                                    <br/>
+                                                                                    <span th:text="${items.getNote()}"></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr class="heading">
+                                                            <th style="width: 50px;">#</th>
+                                                            <th class="text-capitalize text-nowrap">Sản phẩm</th>
+                                                            <th class="text-capitalize text-nowrap text-right">Đơn giá
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số
+                                                                Lượng
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số Tiền
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="list-order-item">
+                                                        <th:block th:each="item, state : ${items.getOrderItems()}">
+                                                            <tr th:data-id="${item.getId()}">
+                                                                <td>
+                                                                    <span th:text="${state.count}"></span>
+                                                                </td>
+                                                                <td class="product-info">
+                                                                    <div class="product-img">
+                                                                        <div class="img-container"
+                                                                             style="padding-top: 100%;">
+                                                                            <div class="div-img">
+                                                                                <img th:src="${item.getProduct().getCoverImage()}"
+                                                                                     th:alt="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-name">
+                                                                        <a class="px-2" th:href="@{/product/{slug}/{id}(id=${item.product.id}, slug=${item.product.slug})}">
+                                                                            <div class="name"
+                                                                                 th:text="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                     <span class="text-price"
+                                                                           th:text="${item.getPrice()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                                <td class="quantity text-right">
+                                                                    <span class="text-price"
+                                                                          th:text="${item.getQuantity()}"></span>
+                                                                </td>
+                                                                <td class="amount">
+                                                                     <span class="text-price"
+                                                                           th:data-amount="${item.getAmount()}"
+                                                                           th:text="${item.getAmount()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                            </tr>
+                                                        </th:block>
+                                                         <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng tiền hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.getTotalAmount() + items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Khuyến mãi </big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng giá trị đơn hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalAmount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab -->
+                            <div class="tab-pane fade" id="custom-tabs-pending" role="tabpanel"
+                                 aria-labelledby="custom-tabs_cho-xac-nhan">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Table data -->
+                                        <th:block th:each="items : ${order_new}">
+                                            <div class="card m-4">
+                                                <div class="card-body">
+                                                    <div class="pb-4">
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <h5 style="  font-weight:bold;  color:#35a84d;  text-transform:uppercase;  margin: 0;  border-bottom:1px solid #ddd">
+                                                                        <span>Thông tin đơn hàng</span> <span
+                                                                            style="text-transform: initial;"
+                                                                            th:text="${'#' + items.getCode()}"></span>
+                                                                        <span style="font-size: 80%; color:#777; text-transform:none; font-weight:normal"
+                                                                              th:text="${items.getCreatedAt()}">2019-10-06</span>
+                                                                    </h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h5 style="margin: 0; text-align: end; border-bottom:1px solid #ddd">
+                                                                        <strong>Trạng thái:</strong>
+                                                                        <span style="color: #35a84d"
+                                                                              th:text="${converterUtils.getStatusByCustomer(items.getStatus())}"></span>
+                                                                    </h5>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px">
+                                                                    <table cellspacing="0" cellpadding="0" border="0"
+                                                                           width="100%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Thông tin thanh toán</span>
+                                                                            </th>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Địa chỉ giao hàng</span>
+                                                                            </th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span style="text-transform:capitalize">
+                                                                                    <span>Tên:</span><span
+                                                                                        th:text="${(items.getReceiverName() != null) ? items.getReceiverName() :items.getCustomer().getFirstName()}"></span>
+                                                                                </span>
+                                                                                <br>
+                                                                                <span>Email:</span>
+                                                                                <a th:href="${'mailto:' + items.getCustomer().getEmail()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${items.getCustomer().getEmail()}">linhsk4@gmail.com </a>
+                                                                                <br>
+                                                                                <span>SĐT:</span>
+                                                                                <a th:href="${'tel:' + items.getReceiverPhone()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${(items.receiverPhone != null) ? items.receiverPhone : items.customer.phone }">0123456789</a>
+                                                                            </td>
+
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; border-left:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span th:if="${items.getIsBuyAtStore()}">Nhận hàng tại cửa hàng</span>
+                                                                                <span th:unless="${items.getIsBuyAtStore()}"
+                                                                                      th:text="${items.getReceiverAddress()}"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:7px 9px 0px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Phương thức thanh
+                                                                                        toán: </strong>
+                                                                                    <span th:if="${items.getPaymentMethod() == 'momo'}">
+                                                                                        Thanh toán bằng momo
+                                                                                        <a th:unless="${items.alreadyPaid == true}" style="color: red" th:href="@{/thank-you/{code}(code=${items.code})}">(Chưa thanh toán)</a>
+                                                                                    </span>
+                                                                                    <span th:unless="${items.getPaymentMethod() == 'momo'}">Thanh toán khi nhận hàng (C.O.D)</span>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="padding: 3px 9px 9px 9px;">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Ghi chú: </strong>
+                                                                                    <br/>
+                                                                                    <span th:text="${items.getNote()}"></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr class="heading">
+                                                            <th style="width: 50px;">#</th>
+                                                            <th class="text-capitalize text-nowrap">Sản phẩm</th>
+                                                            <th class="text-capitalize text-nowrap text-right">Đơn giá
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số
+                                                                Lượng
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số Tiền
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="list-order-item">
+                                                        <th:block th:each="item, state : ${items.getOrderItems()}">
+                                                            <tr th:data-id="${item.getId()}">
+                                                                <td>
+                                                                    <span th:text="${state.count}"></span>
+                                                                </td>
+                                                                <td class="product-info">
+                                                                    <div class="product-img">
+                                                                        <div class="img-container"
+                                                                             style="padding-top: 100%;">
+                                                                            <div class="div-img">
+                                                                                <img th:src="${item.getProduct().getCoverImage()}"
+                                                                                     th:alt="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-name">
+                                                                        <a class="px-2" th:href="@{/product/{slug}/{id}(id=${item.product.id}, slug=${item.product.slug})}">
+                                                                            <div class="name"
+                                                                                 th:text="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                     <span class="text-price"
+                                                                           th:text="${item.getPrice()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                                <td class="quantity text-right">
+                                                                    <span class="text-price"
+                                                                          th:text="${item.getQuantity()}"></span>
+                                                                </td>
+                                                                <td class="amount">
+                                                                     <span class="text-price"
+                                                                           th:data-amount="${item.getAmount()}"
+                                                                           th:text="${item.getAmount()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                            </tr>
+                                                        </th:block>
+                                                         <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng tiền hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.getTotalAmount() + items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Khuyến mãi </big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng giá trị đơn hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalAmount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab -->
+                            <div class="tab-pane fade" id="custom-tabs-inprogress" role="tabpanel"
+                                 aria-labelledby="custom-tabs_dang-giao">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Table data -->
+                                        <th:block th:each="items : ${order_in_progress}">
+                                                 <div class="card m-4">
+                                                <div class="card-body">
+                                                    <div class="pb-4">
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <h5 style="  font-weight:bold;  color:#35a84d;  text-transform:uppercase;  margin: 0;  border-bottom:1px solid #ddd">
+                                                                        <span>Thông tin đơn hàng</span> <span
+                                                                            style="text-transform: initial;"
+                                                                            th:text="${'#' + items.getCode()}"></span>
+                                                                        <span style="font-size: 80%; color:#777; text-transform:none; font-weight:normal"
+                                                                              th:text="${items.getCreatedAt()}">2019-10-06</span>
+                                                                    </h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h5 style="margin: 0; text-align: end; border-bottom:1px solid #ddd">
+                                                                        <strong>Trạng thái:</strong>
+                                                                        <span style="color: #35a84d"
+                                                                              th:text="${converterUtils.getStatusByCustomer(items.getStatus())}"></span>
+                                                                    </h5>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px">
+                                                                    <table cellspacing="0" cellpadding="0" border="0"
+                                                                           width="100%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Thông tin thanh toán</span>
+                                                                            </th>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Địa chỉ giao hàng</span>
+                                                                            </th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span style="text-transform:capitalize">
+                                                                                    <span>Tên:</span><span
+                                                                                        th:text="${(items.getReceiverName() != null) ? items.getReceiverName() :items.getCustomer().getFirstName()}"></span>
+                                                                                </span>
+                                                                                <br>
+                                                                                <span>Email:</span>
+                                                                                <a th:href="${'mailto:' + items.getCustomer().getEmail()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${items.getCustomer().getEmail()}">linhsk4@gmail.com </a>
+                                                                                <br>
+                                                                                <span>SĐT:</span>
+                                                                                <a th:href="${'tel:' + items.getReceiverPhone()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${(items.receiverPhone != null) ? items.receiverPhone : items.customer.phone }">0123456789</a>
+                                                                            </td>
+
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; border-left:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span th:if="${items.getIsBuyAtStore()}">Nhận hàng tại cửa hàng</span>
+                                                                                <span th:unless="${items.getIsBuyAtStore()}"
+                                                                                      th:text="${items.getReceiverAddress()}"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:7px 9px 0px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Phương thức thanh
+                                                                                        toán: </strong>
+                                                                                    <span th:if="${items.getPaymentMethod() == 'momo'}">
+                                                                                        Thanh toán bằng momo
+                                                                                        <a th:unless="${items.alreadyPaid == true}" style="color: red" th:href="@{/thank-you/{code}(code=${items.code})}">(Chưa thanh toán)</a>
+                                                                                    </span>
+                                                                                    <span th:unless="${items.getPaymentMethod() == 'momo'}">Thanh toán khi nhận hàng (C.O.D)</span>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="padding: 3px 9px 9px 9px;">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Ghi chú: </strong>
+                                                                                    <br/>
+                                                                                    <span th:text="${items.getNote()}"></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr class="heading">
+                                                            <th style="width: 50px;">#</th>
+                                                            <th class="text-capitalize text-nowrap">Sản phẩm</th>
+                                                            <th class="text-capitalize text-nowrap text-right">Đơn giá
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số
+                                                                Lượng
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số Tiền
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="list-order-item">
+                                                        <th:block th:each="item, state : ${items.getOrderItems()}">
+                                                            <tr th:data-id="${item.getId()}">
+                                                                <td>
+                                                                    <span th:text="${state.count}"></span>
+                                                                </td>
+                                                                <td class="product-info">
+                                                                    <div class="product-img">
+                                                                        <div class="img-container"
+                                                                             style="padding-top: 100%;">
+                                                                            <div class="div-img">
+                                                                                <img th:src="${item.getProduct().getCoverImage()}"
+                                                                                     th:alt="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-name">
+                                                                        <a class="px-2" th:href="@{/product/{slug}/{id}(id=${item.product.id}, slug=${item.product.slug})}">
+                                                                            <div class="name"
+                                                                                 th:text="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                     <span class="text-price"
+                                                                           th:text="${item.getPrice()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                                <td class="quantity text-right">
+                                                                    <span class="text-price"
+                                                                          th:text="${item.getQuantity()}"></span>
+                                                                </td>
+                                                                <td class="amount">
+                                                                     <span class="text-price"
+                                                                           th:data-amount="${item.getAmount()}"
+                                                                           th:text="${item.getAmount()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                            </tr>
+                                                        </th:block>
+                                                         <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng tiền hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.getTotalAmount() + items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Khuyến mãi </big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng giá trị đơn hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalAmount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab -->
+                            <div class="tab-pane fade" id="custom-tabs-complete" role="tabpanel"
+                                 aria-labelledby="custom-tabs_da-giao">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Table data -->
+                                        <th:block th:each="items : ${order_complete}">
+                                                 <div class="card m-4">
+                                                <div class="card-body">
+                                                    <div class="pb-4">
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <h5 style="  font-weight:bold;  color:#35a84d;  text-transform:uppercase;  margin: 0;  border-bottom:1px solid #ddd">
+                                                                        <span>Thông tin đơn hàng</span> <span
+                                                                            style="text-transform: initial;"
+                                                                            th:text="${'#' + items.getCode()}"></span>
+                                                                        <span style="font-size: 80%; color:#777; text-transform:none; font-weight:normal"
+                                                                              th:text="${items.getCreatedAt()}">2019-10-06</span>
+                                                                    </h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h5 style="margin: 0; text-align: end; border-bottom:1px solid #ddd">
+                                                                        <strong>Trạng thái:</strong>
+                                                                        <span style="color: #35a84d"
+                                                                              th:text="${converterUtils.getStatusByCustomer(items.getStatus())}"></span>
+                                                                    </h5>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px">
+                                                                    <table cellspacing="0" cellpadding="0" border="0"
+                                                                           width="100%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Thông tin thanh toán</span>
+                                                                            </th>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Địa chỉ giao hàng</span>
+                                                                            </th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span style="text-transform:capitalize">
+                                                                                    <span>Tên:</span><span
+                                                                                        th:text="${(items.getReceiverName() != null) ? items.getReceiverName() :items.getCustomer().getFirstName()}"></span>
+                                                                                </span>
+                                                                                <br>
+                                                                                <span>Email:</span>
+                                                                                <a th:href="${'mailto:' + items.getCustomer().getEmail()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${items.getCustomer().getEmail()}">linhsk4@gmail.com </a>
+                                                                                <br>
+                                                                                <span>SĐT:</span>
+                                                                                <a th:href="${'tel:' + items.getReceiverPhone()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${(items.receiverPhone != null) ? items.receiverPhone : items.customer.phone }">0123456789</a>
+                                                                            </td>
+
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; border-left:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span th:if="${items.getIsBuyAtStore()}">Nhận hàng tại cửa hàng</span>
+                                                                                <span th:unless="${items.getIsBuyAtStore()}"
+                                                                                      th:text="${items.getReceiverAddress()}"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:7px 9px 0px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Phương thức thanh
+                                                                                        toán: </strong>
+                                                                                    <span th:if="${items.getPaymentMethod() == 'momo'}">
+                                                                                        Thanh toán bằng momo
+                                                                                        <a th:unless="${items.alreadyPaid == true}" style="color: red" th:href="@{/thank-you/{code}(code=${items.code})}">(Chưa thanh toán)</a>
+                                                                                    </span>
+                                                                                    <span th:unless="${items.getPaymentMethod() == 'momo'}">Thanh toán khi nhận hàng (C.O.D)</span>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="padding: 3px 9px 9px 9px;">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Ghi chú: </strong>
+                                                                                    <br/>
+                                                                                    <span th:text="${items.getNote()}"></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr class="heading">
+                                                            <th style="width: 50px;">#</th>
+                                                            <th class="text-capitalize text-nowrap">Sản phẩm</th>
+                                                            <th class="text-capitalize text-nowrap text-right">Đơn giá
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số
+                                                                Lượng
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số Tiền
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="list-order-item">
+                                                        <th:block th:each="item, state : ${items.getOrderItems()}">
+                                                            <tr th:data-id="${item.getId()}">
+                                                                <td>
+                                                                    <span th:text="${state.count}"></span>
+                                                                </td>
+                                                                <td class="product-info">
+                                                                    <div class="product-img">
+                                                                        <div class="img-container"
+                                                                             style="padding-top: 100%;">
+                                                                            <div class="div-img">
+                                                                                <img th:src="${item.getProduct().getCoverImage()}"
+                                                                                     th:alt="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-name">
+                                                                        <a class="px-2" th:href="@{/product/{slug}/{id}(id=${item.product.id}, slug=${item.product.slug})}">
+                                                                            <div class="name"
+                                                                                 th:text="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                     <span class="text-price"
+                                                                           th:text="${item.getPrice()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                                <td class="quantity text-right">
+                                                                    <span class="text-price"
+                                                                          th:text="${item.getQuantity()}"></span>
+                                                                </td>
+                                                                <td class="amount">
+                                                                     <span class="text-price"
+                                                                           th:data-amount="${item.getAmount()}"
+                                                                           th:text="${item.getAmount()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                            </tr>
+                                                        </th:block>
+                                                         <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng tiền hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.getTotalAmount() + items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Khuyến mãi </big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng giá trị đơn hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalAmount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab -->
+                            <div class="tab-pane fade" id="custom-tabs-cancel" role="tabpanel"
+                                 aria-labelledby="custom-tabs_da-huy">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <!-- Table data -->
+                                        <th:block th:each="items : ${order_cancel}">
+                                                 <div class="card m-4">
+                                                <div class="card-body">
+                                                    <div class="pb-4">
+                                                        <table style="width: 100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <h5 style="  font-weight:bold;  color:#35a84d;  text-transform:uppercase;  margin: 0;  border-bottom:1px solid #ddd">
+                                                                        <span>Thông tin đơn hàng</span> <span
+                                                                            style="text-transform: initial;"
+                                                                            th:text="${'#' + items.getCode()}"></span>
+                                                                        <span style="font-size: 80%; color:#777; text-transform:none; font-weight:normal"
+                                                                              th:text="${items.getCreatedAt()}">2019-10-06</span>
+                                                                    </h5>
+                                                                </td>
+                                                                <td>
+                                                                    <h5 style="margin: 0; text-align: end; border-bottom:1px solid #ddd">
+                                                                        <strong>Trạng thái:</strong>
+                                                                        <span style="color: #35a84d"
+                                                                              th:text="${converterUtils.getStatusByCustomer(items.getStatus())}"></span>
+                                                                    </h5>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px">
+                                                                    <table cellspacing="0" cellpadding="0" border="0"
+                                                                           width="100%">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Thông tin thanh toán</span>
+                                                                            </th>
+                                                                            <th align="left" width="50%"
+                                                                                style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                                                <span>Địa chỉ giao hàng</span>
+                                                                            </th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span style="text-transform:capitalize">
+                                                                                    <span>Tên:</span><span
+                                                                                        th:text="${(items.getReceiverName() != null) ? items.getReceiverName() :items.getCustomer().getFirstName()}"></span>
+                                                                                </span>
+                                                                                <br>
+                                                                                <span>Email:</span>
+                                                                                <a th:href="${'mailto:' + items.getCustomer().getEmail()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${items.getCustomer().getEmail()}">linhsk4@gmail.com </a>
+                                                                                <br>
+                                                                                <span>SĐT:</span>
+                                                                                <a th:href="${'tel:' + items.getReceiverPhone()}"
+                                                                                   target="_blank"
+                                                                                   th:text="${(items.receiverPhone != null) ? items.receiverPhone : items.customer.phone }">0123456789</a>
+                                                                            </td>
+
+                                                                            <td valign="top"
+                                                                                style="padding:3px 9px 9px 9px; border-top:0; border-left:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span th:if="${items.getIsBuyAtStore()}">Nhận hàng tại cửa hàng</span>
+                                                                                <span th:unless="${items.getIsBuyAtStore()}"
+                                                                                      th:text="${items.getReceiverAddress()}"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td valign="top"
+                                                                                style="padding:7px 9px 0px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Phương thức thanh
+                                                                                        toán: </strong>
+                                                                                    <span th:if="${items.getPaymentMethod() == 'momo'}">
+                                                                                        Thanh toán bằng momo
+                                                                                        <a th:unless="${items.alreadyPaid == true}" style="color: red" th:href="@{/thank-you/{code}(code=${items.code})}">(Chưa thanh toán)</a>
+                                                                                    </span>
+                                                                                    <span th:unless="${items.getPaymentMethod() == 'momo'}">Thanh toán khi nhận hàng (C.O.D)</span>
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="padding: 3px 9px 9px 9px;">
+                                                                                <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                    <strong>Ghi chú: </strong>
+                                                                                    <br/>
+                                                                                    <span th:text="${items.getNote()}"></span>
+                                                                                </p>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                        <tr class="heading">
+                                                            <th style="width: 50px;">#</th>
+                                                            <th class="text-capitalize text-nowrap">Sản phẩm</th>
+                                                            <th class="text-capitalize text-nowrap text-right">Đơn giá
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số
+                                                                Lượng
+                                                            </th>
+                                                            <th class="text-capitalize text-nowrap text-right">Số Tiền
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="list-order-item">
+                                                        <th:block th:each="item, state : ${items.getOrderItems()}">
+                                                            <tr th:data-id="${item.getId()}">
+                                                                <td>
+                                                                    <span th:text="${state.count}"></span>
+                                                                </td>
+                                                                <td class="product-info">
+                                                                    <div class="product-img">
+                                                                        <div class="img-container"
+                                                                             style="padding-top: 100%;">
+                                                                            <div class="div-img">
+                                                                                <img th:src="${item.getProduct().getCoverImage()}"
+                                                                                     th:alt="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-name">
+                                                                        <a class="px-2" th:href="@{/product/{slug}/{id}(id=${item.product.id}, slug=${item.product.slug})}">
+                                                                            <div class="name"
+                                                                                 th:text="${item.getProduct().getName()}">
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-right">
+                                                                     <span class="text-price"
+                                                                           th:text="${item.getPrice()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                                <td class="quantity text-right">
+                                                                    <span class="text-price"
+                                                                          th:text="${item.getQuantity()}"></span>
+                                                                </td>
+                                                                <td class="amount">
+                                                                     <span class="text-price"
+                                                                           th:data-amount="${item.getAmount()}"
+                                                                           th:text="${item.getAmount()}"></span>
+                                                                    &#x20AB;
+                                                                </td>
+                                                            </tr>
+                                                        </th:block>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng tiền hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.getTotalAmount() + items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Khuyến mãi </big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalDiscount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr bgcolor="#eee">
+                                                            <td colspan="4" align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>Tổng giá trị đơn hàng</big>
+                                                                </strong>
+                                                            </td>
+                                                            <td align="right" style="padding:7px 9px">
+                                                                <strong>
+                                                                    <big>
+                                                                        <span class="text-price"
+                                                                              th:text="${items.totalAmount}"></span>
+                                                                        &#x20AB;
+                                                                    </big>
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+<th:block id="js-resources">
+    <!-- AdminLTE App -->
+    <script th:src="@{/adminlte/dist/js/adminlte.js}"></script>
+</th:block>
+</body>
+</html>

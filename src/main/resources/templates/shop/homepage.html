@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'full-header',
+                                                'full-footer',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/homepage.css}"/>
+    </th:block>
+</head>
+<body>
+<main id="main-content" class="home">
+    <div class="header-top">
+        <nav class="navbar container py-2">
+            <div class="header-content">
+
+                <div class="header-search">
+                    <form class="header-search-form" method="get" th:action="@{/search}">
+                        <label class="search-input-wrapper">
+                            <input class="header-search-input"
+                                   type="text"
+                                   name="keyword"
+                                   th:value="${keyword}"
+                                   aria-label="Bạn cần tìm gì..."
+                                   placeholder="Bạn cần tìm gì..."/>
+                        </label>
+                        <button class="search-button" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="header-right">
+                    <div class="nav-item cart">
+                        <a href="/cart" class="header-minicart" style="color: #fff">
+                            <i class="fas fa-shopping-cart"></i>
+                            Giỏ hàng
+                        </a>
+                        <span th:if="${cart.size() != 0}" th:text="${cart.size()}"
+                              class="notification-badge notification-badge-number bg-warning text-black-50">0</span>
+                        <div class="cart-content-wrap">
+                            <i class="icon-up"></i>
+                            <div th:if="${cart.size() != 0}" class="cart-content">
+                                <ul>
+                                    <th:block th:each="item : ${cart}">
+                                        <li th:id="${'cart-item_' + item.id}" th:data-id="${item.getId()}">
+                                            <div class="product-img">
+                                                <div class="img-container" style="padding-top: 100%;">
+                                                    <div class="div-img">
+                                                        <img th:src="${item.getProduct().getCoverImage()}"
+                                                             th:alt="${item.getProduct().getName()}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-info">
+                                                <a class="px-2" href="#">
+                                                    <div class="name" th:text="${item.getProduct().getName()}">
+                                                        Tủ lạnh LG Inverter 626 Lít Side by side GR-B247JS
+                                                    </div>
+                                                    <div class="price">
+                                                        <div th:if="${item.getProduct().getPriceFirst() != null}"
+                                                             class="price-old">
+                                                                    <span class="text-price"
+                                                                          th:text="${item.getProduct().getPriceFirst()}"></span>
+                                                            &#x20AB;
+                                                        </div>
+                                                        <div class="price-new">
+                                                                    <span class="text-price"
+                                                                          th:text="${item.getProduct().getPriceFinal()}"></span>
+                                                            &#x20AB;
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </th:block>
+                                </ul>
+                                <div class="cart-footer">
+                                    <a th:href="@{/cart}"
+                                       class="btn btn-danger btn-block red-btn">Xem giỏ hàng</a>
+                                </div>
+                            </div>
+                            <div th:if="${cart.size() == 0}" class="cart-content">
+                                <h3>Chưa có sản phẩm</h3>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <a class="header-customer" style="color: #fff" th:href="@{/account}">-->
+<!--                        <div class="nav-icon">-->
+<!--                            <i class="far fa-user-circle"></i>-->
+<!--                        </div>-->
+<!--                        Tài khoản-->
+<!--                    </a>-->
+                    <div class="header-contact">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="header-contact-text">
+                            <strong>Hotline: 1800 6800 (Miễn phí)</strong>
+                            <span>Mua hàng - Góp ý - Bảo hành</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="home">
+        <div class="header">
+            <div class="header-nav">
+                <div class="container">
+                    <div class="header-nav-content">
+                        <div class="header-nav-menu">
+                            <strong style="    width: 235px;">
+                                <i class="fas fa-bars"></i>
+                                Danh mục sản phẩm
+                            </strong>
+                            <ul class="header-nav-menu-list"style="    width: 235px;">
+                                <th:block th:each="category : ${header_categories}">
+                                    <li class="header-nav-menu-item" style="    width: 235px;">
+                                        <a th:href="@{/danh-muc/{slug}(slug=${category.slug})}"
+                                           th:text="${category.name}"></a>
+                                    </li>
+                                </th:block>
+                                <li class="header-nav-menu-item"style="    width: 235px;">
+                                    <a href="#">Máy ảnh</a>
+                                </li>
+                                <li class="header-nav-menu-item"style="    width: 235px;">
+                                    <a href="#">Máy lạnh</a>
+                                </li>
+                                <li class="header-nav-menu-item"style="    width: 235px;">
+                                    <a href="#">Máy lọc không khí</a>
+                                </li>
+                                <li class="header-nav-menu-item"style="    width: 235px;">
+                                    <a href="#">Đồ gia dụng</a>
+                                </li>
+                                <li class="header-nav-menu-item"style="    width: 235px;">
+                                    <a href="#">Thương hiệu nổi bật</a>
+                                </li>
+                                <li class="header-nav-menu-item"style="    width: 235px;">
+                                    <a href="#">Kinh nghiệm hay, mẹo vặt</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="header-nav-list">
+                            <!--                                <li class="header-nav-item">-->
+                            <!--                                    <i class="fas fa-book"></i>-->
+                            <!--                                    Cảm nang khuyến mãi-->
+                            <!--                                </li>-->
+                            <li class="header-nav-item">
+                                <a th:href="@{/tin-tuc}">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    Hướng dẫn mua online
+                                </a>
+                            </li>
+<!--                            <li class="header-nav-item">-->
+<!--                                <a th:href="@{/tin-tuc}">-->
+<!--                                    <i class="fas fa-cube"></i>-->
+<!--                                    Blog-->
+<!--                                </a>-->
+<!--                            </li>-->
+                            <li class="header-nav-item">
+                                <a th:href="@{/search}">
+                                    <i class="fas fa-border-all"></i>
+                                    Tất cả sản phẩm
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="container">
+            <div class="home-banner">
+                <img th:src="@{/image/banner/banner-1.jpg}" alt="banner-1.jpg" style="height: 370px">
+                <img th:src="@{/image/banner/banner-2.jpg}" alt="banner-2.jpg"style="height: 370px">
+                <img th:src="@{/image/banner/banner-3.jpg}" alt="banner-3.jpg"style="height: 370px">
+            </div>
+
+            <div class="product-list">
+                <h2 class="product-list-title">Deal sốc online - Cùng gia đình bạn vượt qua Covid-19</h2>
+                <div class="product-list-items ">
+                    <th:block th:each="product : ${discountProducts}">
+                         <div class="product-list-item product-item">
+                                <div class="product-item-photo">
+                                    <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}"
+                                       class="product-item-img">
+                                        <img th:src="${product.getCoverImage()}"
+                                             th:alt="${product.name}"/>
+                                    </a>
+                                    <span th:if="${product.discount != null}" class="discount">
+                                        <strong class="text-price" th:text="${product.discount}"></strong>%
+                                    </span>
+                                </div>
+                                <div class="product-item-inner">
+                                    <!--                            <div class="product-item-badge">Trả góp 0%</div>-->
+                                    <div class="product-item-name">
+                                        <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
+                                            <span th:text="${product.name}"></span>
+                                        </a>
+                                    </div>
+                                    <div class="product-item-price">
+                                        <div class="price-new">
+                                            <span class="text-price" th:text="${product.getPriceFinal()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                        <div class="price-old" th:if="${product.discount != null}">
+                                            <span class="text-price" th:text="${product.getPriceFirst()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                    </div>
+                                    <div class="product-item-des" th:if="${product.discount != null}">
+                                        <span> Tiết kiệm </span>
+                                        <strong class="text-price"
+                                              th:text="${product.getPriceFirst() - product.getPriceFinal()}"></strong>
+                                        &#x20AB;
+                                    </div>
+                                    <!--                            <div class="product-item-gift">-->
+                                    <!--                                Mua online giảm đến 500.000đ-->
+                                    <!--                            </div>-->
+                                </div>
+                            </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="product-list">
+                <h2 class="product-list-title">Top bán chạy</h2>
+                <div class="product-list-items ">
+                    <th:block th:each="product : ${bestSellingProduct}">
+                         <div class="product-list-item product-item">
+                                <div class="product-item-photo">
+                                    <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}"
+                                       class="product-item-img">
+                                        <img th:src="${product.getCoverImage()}"
+                                             th:alt="${product.name}"/>
+                                    </a>
+                                    <span th:if="${product.discount != null}" class="discount">
+                                        <strong class="text-price" th:text="${product.discount}"></strong>%
+                                    </span>
+                                </div>
+                                <div class="product-item-inner">
+                                    <!--                            <div class="product-item-badge">Trả góp 0%</div>-->
+                                    <div class="product-item-name">
+                                        <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
+                                            <span th:text="${product.name}"></span>
+                                        </a>
+                                    </div>
+                                    <div class="product-item-price">
+                                        <div class="price-new">
+                                            <span class="text-price" th:text="${product.getPriceFinal()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                        <div class="price-old" th:if="${product.discount != null}">
+                                            <span class="text-price" th:text="${product.getPriceFirst()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                    </div>
+                                    <div class="product-item-des" th:if="${product.discount != null}">
+                                        <span> Tiết kiệm </span>
+                                        <strong class="text-price"
+                                              th:text="${product.getPriceFirst() - product.getPriceFinal()}"></strong>
+                                        &#x20AB;
+                                    </div>
+                                    <!--                            <div class="product-item-gift">-->
+                                    <!--                                Mua online giảm đến 500.000đ-->
+                                    <!--                            </div>-->
+                                </div>
+                            </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="product-list">
+                <h2 class="product-list-title">Sản phẩm mới</h2>
+                <div class="product-list-items ">
+                    <th:block th:each="product : ${newProduct}">
+                         <div class="product-list-item product-item">
+                                <div class="product-item-photo">
+                                    <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}"
+                                       class="product-item-img">
+                                        <img th:src="${product.getCoverImage()}"
+                                             th:alt="${product.name}"/>
+                                    </a>
+                                    <span th:if="${product.discount != null}" class="discount">
+                                        <strong class="text-price" th:text="${product.discount}"></strong>%
+                                    </span>
+                                </div>
+                                <div class="product-item-inner">
+                                    <!--                            <div class="product-item-badge">Trả góp 0%</div>-->
+                                    <div class="product-item-name">
+                                        <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
+                                            <span th:text="${product.name}"></span>
+                                        </a>
+                                    </div>
+                                    <div class="product-item-price">
+                                        <div class="price-new">
+                                            <span class="text-price" th:text="${product.getPriceFinal()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                        <div class="price-old" th:if="${product.discount != null}">
+                                            <span class="text-price" th:text="${product.getPriceFirst()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                    </div>
+                                    <div class="product-item-des" th:if="${product.discount != null}">
+                                        <span> Tiết kiệm </span>
+                                        <strong class="text-price"
+                                              th:text="${product.getPriceFirst() - product.getPriceFinal()}"></strong>
+                                        &#x20AB;
+                                    </div>
+                                    <!--                            <div class="product-item-gift">-->
+                                    <!--                                Mua online giảm đến 500.000đ-->
+                                    <!--                            </div>-->
+                                </div>
+                            </div>
+                    </th:block>
+                </div>
+            </div>
+
+            <!--            <div class="flash-sale">-->
+            <!--                <img src="assets/images/flash-sale-img.png" alt="">-->
+            <!--                <img src="assets/images/flash-sale-img.png" alt="">-->
+            <!--                <img src="assets/images/flash-sale-img.png" alt="">-->
+            <!--                <img src="assets/images/flash-sale-img.png" alt="">-->
+            <!--                <img src="assets/images/flash-sale-img.png" alt="">-->
+            <!--                <img src="assets/images/flash-sale-img.png" alt="">-->
+            <!--                <img src="assets/images/flash-sale-img.png" alt="">-->
+            <!--            </div>-->
+
+            <!--            <div class="partner-list">-->
+            <!--                <h2 class="partner-list-title">Chuyên trang đối tác</h2>-->
+            <!--                <div class="partner-list-items">-->
+            <!--                    <img src="assets/images/partner-1.jpg" alt="">-->
+            <!--                    <img src="assets/images/partner-2.jpg" alt="">-->
+            <!--                    <img src="assets/images/partner-3.jpg" alt="">-->
+            <!--                    <img src="assets/images/partner-4.jpg" alt="">-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <!--            <div class="home-blog block-title-animation">-->
+            <!--                <h3 class="animation-title">Kinh nghiệm hay - Mẹo vặt</h3>-->
+            <!--                <div class="home-blog-content">-->
+            <!--                    <div class="home-blog-left">-->
+            <!--                        <img src="assets/images/cach-khoi-dong-xe-may-de-lau-1.jpg" alt="">-->
+            <!--                        <p class="home-blog-name">4 Cách Khởi Động Xe Máy Để Lâu Không Sử Dụng Đơn Giản, Nhanh Chóng-->
+            <!--                            Nhất</p>-->
+            <!--                        <p class="home-blog-author">Như Quỳnh</p>-->
+            <!--                    </div>-->
+            <!--                    <div class="home-blog-right">-->
+            <!--                        <div class="home-blog-child">-->
+            <!--                            <img src="assets/images/tien-ich-tu-ngan-rau-cu-lon-tren-tu-lanh-panasonic-inverter-thumbnail.jpg"-->
+            <!--                                 alt="">-->
+            <!--                            <div class="home-blog-text">-->
+            <!--                                <p class="home-blog-name">Tiện Ích Từ Ngăn Rau Củ Lớn Trên Tủ Lạnh Panasonic-->
+            <!--                                    Inverter</p>-->
+            <!--                                <p class="home-blog-author">Huyen.NguyenDieu </p>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                        <div class="home-blog-child">-->
+            <!--                            <img src="assets/images/top-phim-hay-tren-netflix-hay-khong-the-bo-qua-thumbnail.jpg"-->
+            <!--                                 alt="">-->
+            <!--                            <div class="home-blog-text">-->
+            <!--                                <p class="home-blog-name">Top 45 Phim Hay: Âu Mỹ, Trung, Hàn Siêu Hot, Mới Nhất 2021-->
+            <!--                                    Trên-->
+            <!--                                    Netflix</p>-->
+            <!--                                <p class="home-blog-author">Nguyễn Xuân Đức</p>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                        <div class="home-blog-child">-->
+            <!--                            <img src="assets/images/luong-da-ve-nguyen-kim-sale-manh-thich-me-thumbnail.jfif" alt="">-->
+            <!--                            <div class="home-blog-text">-->
+            <!--                                <p class="home-blog-name">Lương Đã Về - Nguyễn Kim Sale Mạnh Thích Mê</p>-->
+            <!--                                <p class="home-blog-author">Huyen.NguyenDieu</p>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <!--            <div class="product-list product-list-bottom block-title-animation">-->
+            <!--                <h3 class="animation-title">Sản phẩm dành riêng cho bạn</h3>-->
+            <!--                <div class="product-list-items ">-->
+            <!--                    <th:block th:each="product : ${bestSellingProduct}">-->
+            <!--                        <div class="product-list-item product-item">-->
+            <!--                            <div class="product-item-photo">-->
+            <!--                                <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}"-->
+            <!--                                   class="product-item-img">-->
+            <!--                                    <img th:src="${product.getCoverImage()}"-->
+            <!--                                         th:alt="${product.name}"/>-->
+            <!--                                </a>-->
+            <!--                                <span th:if="${product.getPriceFirst() != null}" class="discount">-->
+            <!--                                <strong class="text-price"-->
+            <!--                                        th:text="${converterUtils.formatDecimalToString(((product.getPriceFirst() - product.getPriceFinal()) * 100.0)/ product.getPriceFirst() )}"></strong>%</span>-->
+            <!--                            </div>-->
+            <!--                            <div class="product-item-inner">-->
+            <!--                                &lt;!&ndash;                            <div class="product-item-badge">Trả góp 0%</div>&ndash;&gt;-->
+            <!--                                <div class="product-item-name">-->
+            <!--                                    <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}">-->
+            <!--                                        <span th:text="${product.name}"></span>-->
+            <!--                                    </a>-->
+            <!--                                </div>-->
+            <!--                                <div class="product-item-price">-->
+            <!--                                    <div class="price-new">-->
+            <!--                                    <span class="text-price"-->
+            <!--                                          th:text="${product.getPriceFinal()}"></span>-->
+            <!--                                        &#x20AB;-->
+            <!--                                    </div>-->
+            <!--                                    <div class="price-old">-->
+            <!--                                    <span class="text-price"-->
+            <!--                                          th:text="${product.getPriceFirst()}"></span>-->
+            <!--                                        &#x20AB;-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                                <div class="product-item-des" th:if="${product.getPriceFirst() != null}">-->
+            <!--                                    Tiết kiệm <strong class="text-price"-->
+            <!--                                                      th:text="${product.getPriceFirst() - product.getPriceFinal()}"></strong>-->
+            <!--                                    &#x20AB;-->
+            <!--                                </div>-->
+            <!--                                &lt;!&ndash;                            <div class="product-item-gift">&ndash;&gt;-->
+            <!--                                &lt;!&ndash;                                Mua online giảm đến 500.000đ&ndash;&gt;-->
+            <!--                                &lt;!&ndash;                            </div>&ndash;&gt;-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </th:block>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <div class="product-list product-list-bottom block-title-animation">
+                <h3 class="animation-title">Sản phẩm dành riêng cho bạn</h3>
+                <div class="product-list mt-3">
+                    <div class="product-list-items ">
+                        <th:block th:each="product : ${randomProduct}">
+                            <div class="product-list-item product-item">
+                                <div class="product-item-photo">
+                                    <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}"
+                                       class="product-item-img">
+                                        <img th:src="${product.getCoverImage()}"
+                                             th:alt="${product.name}"/>
+                                    </a>
+                                    <span th:if="${product.discount != null}" class="discount">
+                                        <strong class="text-price" th:text="${product.discount}"></strong>%
+                                    </span>
+                                </div>
+                                <div class="product-item-inner">
+                                    <!--                            <div class="product-item-badge">Trả góp 0%</div>-->
+                                    <div class="product-item-name">
+                                        <a th:href="@{/product/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
+                                            <span th:text="${product.name}"></span>
+                                        </a>
+                                    </div>
+                                    <div class="product-item-price">
+                                        <div class="price-new">
+                                            <span class="text-price" th:text="${product.getPriceFinal()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                        <div class="price-old" th:if="${product.discount != null}">
+                                            <span class="text-price" th:text="${product.getPriceFirst()}"></span>
+                                            &#x20AB;
+                                        </div>
+                                    </div>
+                                    <div class="product-item-des" th:if="${product.discount != null}">
+                                        <span> Tiết kiệm </span>
+                                        <strong class="text-price"
+                                              th:text="${product.getPriceFirst() - product.getPriceFinal()}"></strong>
+                                        &#x20AB;
+                                    </div>
+                                    <!--                            <div class="product-item-gift">-->
+                                    <!--                                Mua online giảm đến 500.000đ-->
+                                    <!--                            </div>-->
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <div class="most-searched block-title-animation">
+                <h3 class="animation-title">Sản phẩm dành riêng cho bạn</h3>
+                <ul class="most-searched-list">
+                    <li class="most-searched-item">Máy lạnh</li>
+                    <li class="most-searched-item">Máy lọc không khí</li>
+                    <li class="most-searched-item">Máy sấy quần áo</li>
+                    <li class="most-searched-item">Quạt điều hòa</li>
+                    <li class="most-searched-item">Tủ lạnh mini</li>
+                    <li class="most-searched-item">Laptop</li>
+                    <li class="most-searched-item">Điện thoại</li>
+                    <li class="most-searched-item">Tivi 4K</li>
+                    <li class="most-searched-item">Máy giặt cửa trước</li>
+                    <li class="most-searched-item">Máy lọc nước</li>
+                    <li class="most-searched-item">Máy say sinh tố</li>
+                    <li class="most-searched-item">Nồi cơm điện</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <!--    <script type="text/javascript" th:src="@{/script/index.js}"></script>-->
+    <script>
+        $(document).ready(function () {
+            $('.product-media-list').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                fade: true,
+                asNavFor: '.product-media-nav'
+            });
+
+            $('.product-media-nav').slick({
+                slidesToShow: 3,
+                asNavFor: '.product-media-list',
+                dots: false,
+                arrows: false,
+                centerMode: true,
+                focusOnSelect: true
+            });
+
+            $('.product-info-options-list').slick({
+                dots: false,
+                arrows: false,
+                infinite: false,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                margin: 30,
+                centerPadding: '10px',
+                loop: false,
+            });
+
+            $('.home-banner').slick({
+                dots: false,
+                arrows: true,
+                infinite: false,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                loop: false,
+                prevArrow: '<button class="slick-prev fas fa-chevron-left"></button>',
+                nextArrow: '<button class="slick-next fas fa-chevron-right"></button>'
+            });
+
+            $('.product-list-items').slick({
+                dots: false,
+                arrows: true,
+                infinite: true,
+                slidesToShow: 5,
+                slidesToScroll: 5,
+                loop: true,
+                prevArrow: '<button class="slick-prev fas fa-chevron-left"></button>',
+                nextArrow: '<button class="slick-next fas fa-chevron-right"></button>',
+                responsive: [
+                    {
+                        breakpoint: 991,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 4,
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                        }
+                    },
+                    {
+                        breakpoint: 574,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    }
+                ]
+            })
+
+            $('.flash-sale').slick({
+                dots: false,
+                arrows: false,
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                loop: true,
+            })
+
+            $('.partner-list-items').slick({
+                dots: false,
+                arrows: true,
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                loop: true,
+                prevArrow: '<button class="slick-prev fas fa-chevron-left"></button>',
+                nextArrow: '<button class="slick-next fas fa-chevron-right"></button>'
+            })
+        })
+    </script>
+    <!-- Wrap End -->
+
+    <script th:src="@{/medikal1/js/own-menu.js}"></script>
+
+</th:block>
+</body>
+</html>

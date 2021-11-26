@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="assets/css/static/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/static/slick.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+<header class="header-checkout">
+    <div class="action-back">
+        <i class="fas fa-chevron-left"></i>
+        <span>Trở về</span>
+    </div>
+    <img class="logo" alt="logo" src="">
+</header>
+<div class="main checkout">
+    <form class="checkout-wrapper">
+        <h3 class="checkout-title">Chọn địa chỉ nhận hàng</h3>
+        <div class="checkout-receive active-home">
+            <div class="checkout-receive-title">
+                <div class="checkout-receive-item checked" data-location="home">
+                    <i class="fas fa-truck"></i>
+                    <span>Nhận hàng tại nhà</span>
+                </div>
+                <div class="checkout-receive-item" data-location="store">
+                    <img class="icon" src="assets/images/house.svg" alt="">
+                    <img class="icon-checked" src="assets/images/house-checked.svg" alt="">
+                    <span>Nhận hàng tại trung tâm</span>
+                </div>
+            </div>
+            <button data-toggle="modal" type="button" data-target="#addAddressModal" class="add-address checkout-receive-content">
+                <span class="add-address-text">Thêm địa chỉ nhận hàng</span>
+                <span class="add-address-icon">
+                            <i class="fas fa-plus"></i>
+                        </span>
+            </button>
+            <div class="receive-location checkout-receive-content">
+                <div class="receive-location-city">
+                    <span class="select-title">Chọn Tỉnh/Thành phố</span>
+                    <select>
+                        <option value="Hà Nội">Hà Nội</option>
+                        <option value="Sài Gòn">Sài Gòn</option>
+                    </select>
+                    <label class="city-option">
+                        <input type="radio" name="city-option">
+                        <p>
+                            <span class="checkbox-radio"></span>
+                            <strong>Quận Hoàn Kiếm. </strong><span>10B Tràng Thi</span>
+                        </p>
+                    </label>
+                    <label class="city-option">
+                        <input type="radio" name="city-option">
+                        <p>
+                            <span class="checkbox-radio"></span>
+                            <strong>Quận Hà Đông. </strong><span>135 Trần Phú</span>
+                        </p>
+                    </label>
+                </div>
+                <div class="receive-location-district">
+                    <span class="select-title">Chọn Tỉnh/Thành phố</span>
+                    <select>
+                        <option value="Tất cả Quận, Huyện">Tất cả Quận, Huyện</option>
+                        <option value="Sài Gòn">Sài Gòn</option>
+                    </select>
+                    <label class="city-option">
+                        <input type="radio" name="city-option">
+                        <p>
+                            <span class="checkbox-radio"></span>
+                            <strong>Quận Hoàn Kiếm. </strong><span>10B Tràng Thi</span>
+                        </p>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="payment-methods">
+            <h3 class="checkout-title">Chọn hình thức thanh toán</h3>
+            <div class="payment-options">
+                <label class="payment-option">
+                    <input type="radio" name="payment-method">
+                    <p>
+                        <span class="icon"><img src="assets/images/icon-payment-cod.svg" alt=""></span>
+                        <span class="checkbox-radio"></span>
+                        <span>Thanh toán khi nhận hàng</span>
+                    </p>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="payment-method">
+                    <p>
+                        <span class="icon"><img src="assets/images/icon-payment-atm.svg" alt=""></span>
+                        <span class="checkbox-radio"></span>
+                        <span>Thanh toán bằng MoMo</span>
+                    </p>
+                </label>
+            </div>
+        </div>
+        <div class="checkout-confirm">
+            <input type="checkbox" id="confirm">
+            <label for="confirm">
+                <i class="fas fa-check"></i>
+                Tôi đồng ý với <a href="#">Chính sách mua hàng</a> của <a href="#">Nguyễn Kim</a>
+            </label>
+        </div>
+        <div class="checkout-confirm">
+            <input type="checkbox" id="use-service">
+            <label for="use-service">
+                <i class="fas fa-check"></i>
+                Bạn có muốn sử dụng dịch vụ lắp đặt của <a href="#">Nguyễn Kim</a> (Tham khảo bảng giá) <a href="#">tại đây</a>
+            </label>
+        </div>
+        <button type="submit" class="button-submit">Thanh toán</button>
+    </form>
+    <div class="support-message">
+        Bạn gặp khó khăn khi đăng nhập, đăng ký? Gọi <a href="tel: 19001081">19001081</a> để được hỗ trợ tốt nhất.
+    </div>
+    <div class="checkout-cart">
+        <h3 class="checkout-title">Giỏ hàng của bạn</h3>
+        <div class="checkout-cart-box">
+            <div class="checkout-cart-list">
+                <div class="checkout-cart-item">
+                    <span class="close-item"><i class="fas fa-times"></i></span>
+                    <a href="#" class="product-thumb">
+                            <span class="product-image">
+                            <img class="product-photo" src="assets/images/product-2.jpg" alt="">
+                        </span>
+                    </a>
+                    <div class="product-inner">
+                        <div class="product-info">
+                            <a href="#" class="product-name">Laptop HP abcasdas dasdas dasdsadas</a>
+                            <span class="product-sale">Chọn ưu đãi</span>
+                            <a href="#" class="sale-item">Tai nghe có dây</a>
+                            <div class="product-qty">
+                                <span class="decrease">-</span>
+                                <label>
+                                    <input type="number" class="input-text">
+                                </label>
+                                <span class="increase">+</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <p class="price-old">17.000.000</p>
+                            <p class="price-new">16.000.000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-cart-item">
+                    <span class="close-item"><i class="fas fa-times"></i></span>
+                    <a href="#" class="product-thumb">
+                            <span class="product-image">
+                            <img class="product-photo" src="assets/images/product-2.jpg" alt="">
+                        </span>
+                    </a>
+                    <div class="product-inner">
+                        <div class="product-info">
+                            <a href="#" class="product-name">Laptop HP abcasdas dasdas dasdsadas</a>
+                            <span class="product-sale">Chọn ưu đãi</span>
+                            <a href="#" class="sale-item">Tai nghe có dây</a>
+                            <div class="product-qty">
+                                <span class="decrease">-</span>
+                                <label>
+                                    <input type="number" class="input-text">
+                                </label>
+                                <span class="increase">+</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <p class="price-old">17.000.000</p>
+                            <p class="price-new">16.000.000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-cart-item">
+                    <span class="close-item"><i class="fas fa-times"></i></span>
+                    <a href="#" class="product-thumb">
+                            <span class="product-image">
+                            <img class="product-photo" src="assets/images/product-2.jpg" alt="">
+                        </span>
+                    </a>
+                    <div class="product-inner">
+                        <div class="product-info">
+                            <a href="#" class="product-name">Laptop HP abcasdas dasdas dasdsadas</a>
+                            <span class="product-sale">Chọn ưu đãi</span>
+                            <a href="#" class="sale-item">Tai nghe có dây</a>
+                            <div class="product-qty">
+                                <span class="decrease">-</span>
+                                <label>
+                                    <input type="number" class="input-text">
+                                </label>
+                                <span class="increase">+</span>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <p class="price-old">17.000.000</p>
+                            <p class="price-new">16.000.000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="checkout-cart-total">
+                <div class="cart__total-box">
+                    <div class="cart__total-sub">
+                        <div class="label">Tạm tính</div>
+                        <div class="content">34.180.000đ</div>
+                    </div>
+                    <div class="cart__total-promotion">
+                        <div class="label">Khuyến mãi</div>
+                        <div class="content">0đ</div>
+                    </div>
+                    <div class="cart__total-delivery">
+                        <div class="label">Phí vận chuyển</div>
+                        <div class="content">0đ</div>
+                    </div>
+                </div>
+                <div class="cart__total-content">
+                    <div class="label">Tổng tiền</div>
+                    <div class="content">34.180.000đ</div>
+                </div>
+                <div class="price-include-vat">
+                    <sup>*</sup>
+                    Giá trên đã bao gồm VAT và phí vận chuyển.
+                </div>
+                <form class="coupon-form">
+                    <label>
+                        <input class="coupon-text" type="text" placeholder="Mã giảm giá">
+                    </label>
+                    <button type="submit" class="coupon-submit">Áp dụng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-add-address" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Thêm địa chỉ giao hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="modal-form">
+                <div class="modal-body">
+                    <label>
+                        <input class="modal-input-text" placeholder="Họ và tên" type="text">
+                    </label>
+                    <label>
+                        <input class="modal-input-text" placeholder="Số điện thoại" type="number">
+                    </label>
+                    <label>
+                        <select>
+                            <option value="Chọn tỉnh/Thành phố của bạn">Chọn tỉnh/Thành phố của bạn</option>
+                            <option value="Hà Nội">Hà Nội</option>
+                            <option value="Sài Gòn">Sài Gòn</option>
+                            <option value="Đà Nẵng">Đà Nẵng</option>
+                        </select>
+                    </label>
+                    <label>
+                        <select>
+                            <option value="Chọn Quận/Huyện của bạn">Chọn Quận/Huyện của bạn</option>
+                            <option value="Hà Nội">Hà Nội</option>
+                            <option value="Sài Gòn">Sài Gòn</option>
+                            <option value="Đà Nẵng">Đà Nẵng</option>
+                        </select>
+                    </label>
+                    <label>
+                        <select>
+                            <option value="Chọn phường/xã của bạn">Chọn phường/xã của bạn</option>
+                            <option value="Hà Nội">Hà Nội</option>
+                            <option value="Sài Gòn">Sài Gòn</option>
+                            <option value="Đà Nẵng">Đà Nẵng</option>
+                        </select>
+                    </label>
+                    <label>
+                        <input class="modal-input-text" placeholder="Số nhà, tên đường" type="text">
+                    </label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn button-back" data-dismiss="modal">Quay lại</button>
+                    <button type="button" class="btn button-save">Lưu địa chỉ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/static/jquery.min.js"></script>
+<script src="assets/js/static/bootstrap.min.js"></script>
+<script src="assets/js/static/popper.min.js"></script>
+<script src="assets/js/static/slick.min.js"></script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

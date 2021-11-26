@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}" lang="vi">
+
+<head>
+    <title>Danh sách tài khoản người dùng</title>
+
+    <th:block id="css-resources">
+
+        <!-- Fullcalendar CSS -->
+        <link rel="stylesheet" th:href="@{/css/vendor/fullcalendar.css}"/>
+        <!-- Site CSS -->
+        <link rel="stylesheet" th:href="@{/css/style.css}"/>
+        <!--DataTables CSS-->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+        <link rel="stylesheet" th:href="@{/css/vendor/bootstrap-notifications.css}"/>
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item active">Danh sách user</li>
+            </ol>
+        </div>
+    </div>
+
+
+    <div class="row mt-3">
+    <div class="col-3">
+
+    </div>
+    <div class="col-6">
+        <div id='calendar'></div>
+    </div>
+    <div class="col-3">
+
+    </div>
+</div>
+</div>
+
+
+</main>
+
+<th:block id="js-resources">
+    <!-- List js -->
+    <script th:src="@{/adminlte/plugins/list/list.min.js}"></script>
+    <!-- main js -->
+    <script th:src="@{/script/admin/manage-user.js}"></script>
+    <!--jQuery-->
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!--Moment-->
+    <script type="text/javascript" th:src="@{/js/vendor/moment.js}"></script>
+    <!--FullCalendar-->
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar.js}"></script>
+    <!--DataTables-->
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+
+
+    <script th:inline="javascript">
+
+
+        $(function () {
+            $('#calendar').fullCalendar({
+                defaultView: 'listDay',
+                contentHeight: "auto",
+                noEventsMessage: 'Unavailable',
+                validRange: function (nowDate) {
+                    return {
+                        start: nowDate.clone().add(1, 'days')
+                    };
+                },
+                header: {
+                    left: 'title',
+                    center: '',
+                    right: 'today prev,next'
+                },
+                allDaySlot: false,
+                minTime: "06:00:00",
+                maxTime: "21:00:00",
+                firstDay: 2,
+                timeFormat: 'H:mm', // uppercase H for 24-hour clock
+                eventSources: [
+
+                    // your event source
+                    {
+                        events: function (start, end, timezone, callback) {
+                            var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + start.format('YYYY-MM-DD').toString();
+                            console.log(url);
+                            $.ajax({
+                                type:"GET",
+                                url: url,
+                                data: {},
+                                success: function (doc) {
+                                    console.log(doc);
+
+                                    var x = doc.map(function (entry) {
+                                        console.log(entry);
+                                        const stringStart = `${entry.start[0]}-${entry.start[1]}-${entry.start[2]}`
+                                        const date = new Date(stringStart)
+                                        date.setHours(entry.start[3])
+                                        date.setMinutes(entry.start[4])
+                                        const test = new Date(date.getTime() + 7*60*60*1000)
+                                        const date2 = test.toISOString().split('.000Z', 1).join('');
+                                        entry.start = date2;
+                                        console.log(entry.start);
+                                        const stringEnd = `${entry.end[0]}-${entry.end[1]}-${entry.end[2]}`
+                                        const date3 = new Date(stringEnd)
+                                        date3.setHours(entry.end[3])
+                                        date3.setMinutes(entry.end[4])
+                                        const test2 = new Date(date3.getTime() + 7*60*60*1000)
+                                        const date4 = test2.toISOString().split('.000Z', 1).join('');
+                                        entry.end = date4;
+                                        console.log(entry.end);
+                                        var URL = [[${ '/appointments/new/'+providerId + '/' + workId + '/' }]] + date2;
+                                        console.log(URL);
+                                        entry.url = URL;
+                                        return entry;
+                                    });
+                                    callback(x);
+                                }
+                            });
+                        },
+                        color: 'white',   // an option!
+                        textColor: 'black' // an option!
+                    }
+                ]
+
+            })
+
+        });
+
+
+    </script>
+</th:block>
+</body>
+</html>

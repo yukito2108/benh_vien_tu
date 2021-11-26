@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Hóa đơn mua hàng</title>
+</head>
+<body>
+<div style="margin-top: 50px;">
+    <div class="card-body" style="  font-size: 16px;">
+        <div style="padding-bottom: 10px">
+            <div style="margin-bottom: 20px;">Trong cuộc sống có rất nhiều sự lựa chọn cám ơn <strong th:text="${(order.getReceiverName() != null) ? order.getReceiverName() :order.getCustomer().getFirstName()}"></strong> đã chọn Điện máy Mười Thoa. Điện máy
+                Mười Thoa rất vui thông báo đơn hàng <strong th:text="${'#' + order.code}"></strong> của quý khách đã được tiếp nhận và đang trong quá trình
+                xử lý. Điện máy Mười Thoa sẽ gửi email thông báo đến quý khách khi đơn hàng được đóng gói và chuyển sang
+                đơn vị vận chuyển.
+            </div>
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <h3 style="  font-weight:bold;  color:#35a84d;  text-transform:uppercase;  margin: 0;  border-bottom:1px solid #ddd">
+                            <span>Thông tin đơn hàng</span> <span
+                                style="text-transform: initial;"
+                                th:text="${'#' + order.code}"></span>
+                            <span style="font-size: 80%; color:#777; text-transform:none; font-weight:normal"
+                                  th:text="${order.getCreatedAt()}">2019-10-06</span>
+                        </h3>
+                    </td>
+                    <td>
+                        <h3 style="margin: 0; text-align: end; border-bottom:1px solid #ddd">
+                            <strong>Trạng thái:</strong>
+                            <span style="color: #35a84d"
+                                  th:text="${converterUtils.getStatusByCustomer(order.getStatus())}"></span>
+                        </h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px">
+                        <table cellspacing="0" cellpadding="0" border="0"
+                               width="100%">
+                            <thead>
+                            <tr>
+                                <th align="left" width="50%"
+                                    style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                    <span>Thông tin thanh toán</span>
+                                </th>
+                                <th align="left" width="50%"
+                                    style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                    <span>Địa chỉ giao hàng</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td valign="top"
+                                    style="padding:3px 9px 9px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                                                <span style="text-transform:capitalize">
+                                                                                    <span>Tên:</span><span
+                                                                                        th:text="${(order.getReceiverName() != null) ? order.getReceiverName() :order.getCustomer().getFirstName()}"></span>
+                                                                                </span>
+                                    <br>
+                                    <span>Email:</span>
+                                    <a th:href="${'mailto:' + order.getCustomer().getEmail()}"
+                                       target="_blank"
+                                       th:text="${order.getCustomer().getEmail()}">linhsk4@gmail.com </a>
+                                    <br>
+                                    <span>SĐT:</span>
+                                    <a th:href="${'tel:' + order.getReceiverPhone()}"
+                                       target="_blank"
+                                       th:text="${(order.receiverPhone != null) ? order.receiverPhone : order.customer.phone }">0123456789</a>
+                                </td>
+
+                                <td valign="top"
+                                    style="padding:3px 9px 9px 9px; border-top:0; border-left:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                    <span th:if="${order.getIsBuyAtStore()}">Nhận hàng tại cửa hàng</span>
+                                    <span th:unless="${order.getIsBuyAtStore()}"
+                                          th:text="${order.getReceiverAddress()}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top"
+                                    style="padding:7px 9px 0px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444">
+                                    <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                        <strong>Phương thức thanh
+                                            toán: </strong>
+                                        <span th:if="${order.getPaymentMethod() == 'momo'}"> Thanh toán bằng momo </span>
+                                        <span th:unless="${order.getPaymentMethod() == 'momo'}">Thanh toán khi nhận hàng (C.O.D)</span>
+                                    </p>
+                                </td>
+                                <td style="padding: 3px 9px 9px 9px;">
+                                    <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                        <strong>Ghi chú: </strong>
+                                        <br/>
+                                        <span th:text="${order.getNote()}"></span>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <table style="width: 100%">
+            <thead>
+            <tr class="heading">
+                <th style="border:1px solid #eeeeee;background: #eeeeee; width: 50px;padding: 10px; text-align: left">
+                    #
+                </th>
+                <th style="border:1px solid #eeeeee;background: #eeeeee; vertical-align: bottom;text-transform: capitalize;white-space: nowrap;text-align: left;padding: 10px;">
+                    Sản phẩm
+                </th>
+                <th style="border:1px solid #eeeeee;background: #eeeeee; vertical-align: bottom; text-transform: capitalize; white-space: nowrap; text-align: right; padding: 10px;">
+                    Đơn giá
+                </th>
+                <th style="border:1px solid #eeeeee;background: #eeeeee; vertical-align: bottom; text-transform: capitalize; white-space: nowrap; text-align: right; padding: 10px;">
+                    Số Lượng
+                </th>
+                <th style="border:1px solid #eeeeee;background: #eeeeee; vertical-align: bottom; text-transform: capitalize; white-space: nowrap; text-align: right; padding: 10px;">
+                    Số Tiền
+                </th>
+            </tr>
+            </thead>
+            <tbody class="list-order-item">
+            <th:block th:each="item, state : ${order.getOrderItems()}">
+                <tr th:data-id="${item.getId()}">
+                    <td style="border-top:1px solid #dee2e6; padding: 10px;">
+                        <span th:text="${state.count}"></span>
+                    </td>
+                    <td style="border-top:1px solid #dee2e6; " th:text="${item.getProduct().getName()}">
+                    </td>
+                    <td style="border-top:1px solid #dee2e6; padding: 10px; text-align: right">
+                        <span th:text="${converterUtils.formatPrice(item.getPrice())}"></span>
+                        &#x20AB;
+                    </td>
+                    <td style="border-top:1px solid #dee2e6; padding: 10px; text-align: right">
+                        <span th:text="${item.getQuantity()}"></span>
+                    </td>
+                    <td style="border-top:1px solid #dee2e6; padding: 10px; text-align: right">
+                        <span th:text="${converterUtils.formatPrice(item.amount)}"></span>
+                        &#x20AB;
+                    </td>
+                </tr>
+            </th:block>
+            <tr bgcolor="#eee">
+                <td colspan="4" align="right" style="padding:7px 9px">
+                    <strong>
+                        <big>Tổng giá trị đơn hàng</big>
+                    </strong>
+                </td>
+                <td align="right" style="padding:7px 9px">
+                    <strong>
+                        <big>
+                            <span th:text="${converterUtils.formatPrice(order.totalAmount)}"></span>
+                            &#x20AB;
+                        </big>
+                    </strong>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

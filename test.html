@@ -1,0 +1,155 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    const input = [
+        {
+            "name": "name",
+            "value": "Android Tivi Sony 8K 85 inch KD-85Z8H"
+        }, {
+            "name": "brandId",
+            "value": "12"
+        }, {
+            "name": "categoryId",
+            "value": "1"
+        }, {
+            "name": "priceFinal",
+            "value": "1990009"
+        }, {
+            "name": "priceFirst",
+            "value": "2090000"
+        }, {
+            "name": "quantity", "value": "8"
+        }, {
+            "name": "sku", "value": ""
+        }, {
+            "name": "isAvailable",
+            "value": "true"
+        }, {
+            "name": "salientFeatures[]",
+            "value": " Màn hình rộng 85 inch chất lượng 8K cho hình ảnh tuyệt đẹp"
+        }, {
+            "name": "salientFeatures[]",
+            "value": " Công nghệ Full Array LED của Sony điều chỉnh ánh sáng rực rỡ"
+        }, {
+            "name": "salientFeatures[]",
+            "value": " Tái tạo màu chân thực hơn với công nghệ hiển thị TRILUMINOS"
+        }, {
+            "name": "salientFeatures[]",
+            "value": " Công nghệ S-Force Front Surround tận hưởng âm thanh đa chiều"
+        }, {
+            "name": "salientFeatures[]",
+            "value": " Netflix trên remote giúp thưởng thức những bộ phim hấp dẫn"
+        }, {
+            "name": "salientFeatures[]",
+            "value": "Điểu khiển từ xa có đèn nền nhìn được rõ ngay trong bóng tối"
+        }, {
+            "name": "salientFeatures[]",
+            "value": " Tích hợp micro trên remote điều khiển bằng giọng nói thông minh"
+        }, {
+            "name": "description",
+            "value": ""
+        },
+        {
+            "name": "specifications[0].id",
+            "value": "id_0"
+        }, {
+            "name": "specifications[0].value",
+            "value": "value_0"
+        }, {
+            "name": "specifications[1].id",
+            "value": "id_1"
+        }, {
+            "name": "specifications[1].value",
+            "value": "value_1"
+        }, {
+            "name": "specifications[2].id",
+            "value": "id_2"
+        }, {
+            "name": "specifications[2].value",
+            "value": "value_2"
+        }, {
+            "name": "specifications[3].id",
+            "value": "id_3"
+        }, {
+            "name": "specifications[3].value",
+            "value": "value_3"
+        }, {
+            "name": "specifications[4].id",
+            "value": "id_4"
+        }, {
+            "name": "specifications[4].value",
+            "value": "value_4"
+        },
+        {
+            "name": "coverImage",
+            "value": "/media/static/054f1c91-8360-4be4-a413-d0332a222846.jpg"
+        }, {
+            "name": "productImages[]",
+            "value": "/media/static/6d041529-8578-4847-aa69-e45101567e71.gif"
+        }, {
+            "name": "productImages[]",
+            "value": "/media/static/babbb6fc-0f11-4a8b-b2a2-f72f32edb728.jpg"
+        }, {
+            "name": "productImages[]",
+            "value": "/media/static/054f1c91-8360-4be4-a413-d0332a222846.jpg"
+        }, {
+            "name": "warrantyPeriod",
+            "value": ""
+        }, {
+            "name": "dimensionWeight",
+            "value": ""
+        }, {
+            "name": "dimensionHeight",
+            "value": ""
+        }, {
+            "name": "dimensionWidth",
+            "value": ""
+        }, {
+            "name": "dimensionLength",
+            "value": ""
+        }, {
+            "name": "slug",
+            "value": "android-tivi-sony-8k-85-inch-kd-85z8h"
+        }, {
+            "name": "metaTitle",
+            "value": "Android Tivi Sony 8K 85 inch KD-85Z8H"
+        }, {
+            "name": "metaKeyword",
+            "value": "Android Tivi Sony 8K 85 inch KD-85Z8H"
+        }, {
+            "name": "metaDescription",
+            "value": "Android Tivi Sony 8K 85 inch KD-85Z8H"
+        }
+    ]
+
+    function getFormData(unindexed_array) {
+        let indexed_array = {};
+        let temp_array = {}
+        $.map(unindexed_array, function (n, i) {
+            if (n['name'].endsWith('[]')) {
+                if (indexed_array[n['name'].replace('[]', '')]) {
+                    indexed_array[n['name'].replace('[]', '')] = [...indexed_array[n['name'].replace('[]', '')], n['value']]
+                } else
+                    indexed_array[n['name'].replace('[]', '')] = [n['value']]
+            } else if (n['name'].split(".").length === 2) {
+                let arr = n['name'].split(".")
+
+                if (temp_array[arr[0]])
+                    temp_array[arr[0]][`${arr[1]}`] = n['value']
+                else
+                    temp_array[arr[0]] = JSON.parse(`{"${arr[1]}": "${n['value']}"}`)
+            } else
+                indexed_array[n['name']] = n['value'];
+        });
+
+        Object.keys(temp_array).forEach(n => {
+            let field = n.replace(/\[\d]/i, "")
+            if (indexed_array[field])
+                indexed_array[field] = [...indexed_array[field], temp_array[n]]
+            else indexed_array[field] = [temp_array[n]]
+        })
+
+        return indexed_array;
+    }
+
+    console.log(getFormData(input))
+</script>

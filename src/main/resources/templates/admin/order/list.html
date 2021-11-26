@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Danh sách đơn hàng</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/vendor/pagination/simplePagination.css}"/>
+        <style>
+            .list-order-item tr td {
+                vertical-align: middle;
+            }
+
+            .list-order-item .product-info {
+                display: flex;
+                align-items: center;
+                color: #484848;
+                padding: 0.3rem 0;
+                justify-content: space-between;
+            }
+
+            .list-order-item .amount {
+                text-align: right;
+            }
+
+            .list-order-item .quantity {
+                width: 9rem;
+            }
+
+            .list-order-item .quantity input {
+                text-align: center;
+            }
+
+            .list-order-item .quantity input::-webkit-outer-spin-button,
+            .list-order-item .quantity input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+
+            .list-order-item .product-info .product-img {
+                width: 65px;
+                height: 65px;
+                display: flex;
+                align-items: center;
+            }
+
+            .list-order-item .price {
+                text-align: right;
+                display: flex;
+                justify-content: end;
+            }
+
+            .list-order-item .price .price-old {
+                max-width: 50%;
+                font-size: 90%;
+                color: #a6a6a6;
+                text-decoration: line-through;
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item active">Danh sách đơn hàng</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-success" href="/admin/orders/create">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Tạo đơn hàng</span>
+        </a>
+        <a role="button" class="btn btn-info" href="/admin/orders">
+            <span class="fas fa-redo-alt" style="margin-right:0.5rem;"></span>
+            <span>Refresh</span>
+        </a>
+        <button class="btn btn-secondary" id="btn-search">
+            <span class="fas fa-search" style="margin-right:0.5rem;"></span>
+            <span>Tìm kiếm</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="table-responsive">
+                        <!-- Table data -->
+                        <form method="GET" id="search-form">
+                            <input type="hidden" name="page" id="page">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr class="heading">
+                                    <th width="10%">
+                                        Mã đơn
+                                    </th>
+                                    <th width="15%">
+                                        Người nhận
+                                    </th>
+                                    <th width="15%">
+                                        Điện thoại
+                                    </th>
+                                    <th>
+                                        Địa chỉ nhận hàng
+                                    </th>
+                                    <th width="12%">
+                                        Trạng thái
+                                    </th>
+                                    <th width="15%">
+                                        Ngày tạo đơn
+                                    </th>
+                                </tr>
+                                <tr class="heading-search">
+                                    <th>
+                                        <label>
+                                            <input type="text" name="code" class="form-control thuy-search-input">
+                                        </label>
+                                    </th>
+                                    <th>
+                                        <label>
+                                            <input type="text" name="name" class="form-control thuy-search-input">
+                                        </label>
+                                    </th>
+                                    <th>
+                                        <label>
+                                            <input type="text" name="phone"
+                                                   class="form-control thuy-search-input">
+                                        </label>
+                                    </th>
+                                    <th>
+                                        <label>
+                                            <input type="text" name="receiverAddress"
+                                                   class="form-control thuy-search-input">
+                                        </label>
+                                    </th>
+                                    <th>
+                                        <label>
+                                            <select name="status" class="form-control thuy-search-select">
+                                                <option value="">Tất cả</option>
+                                                <option value="new">Đơn mới</option>
+                                                <option value="inprogress">Đang giao hàng</option>
+                                                <option value="complete">Đã giao hàng</option>
+                                                <option value="pending">Chờ xử lý</option>
+                                                <option value="cancel">Đơn hàng bị hủy</option>
+                                            </select>
+                                        </label>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="list-order">
+                                <th:block th:each="order : ${orders}">
+                                    <tr th:data-code="${order.code}">
+                                        <td>
+                                            <a href="#" class="btn-show-order" th:data-code="${order.code}"
+                                               th:text="${order.code}"></a>
+                                        </td>
+                                        <td th:text="${(order.receiverName == null) ? order.customer.firstName : order.receiverName }"></td>
+                                        <td th:text="${(order.receiverPhone == null) ? order.customer.phone : order.receiverPhone}"></td>
+                                        <td th:text="${(order.isBuyAtStore == true) ? 'Mua tại cửa hàng' : order.receiverAddress}"></td>
+                                        <td>
+                                            <span th:if="${order.status} == 'new'"
+                                                  class="badge badge-primary">Đơn mới</span>
+                                            <span th:if="${order.status} == 'pending'"
+                                                  class="badge badge-primary">Chờ xử lý</span>
+                                            <span th:if="${order.status} == 'inprogress'"
+                                                  class="badge badge-success">Đang giao hàng</span>
+                                            <span th:if="${order.status} == 'complete'"
+                                                  class="badge badge-success">Đã giao hàng</span>
+                                            <span th:if="${order.status} == 'cancel'"
+                                                  class="badge badge-light">Đã hủy</span>
+                                            <br>
+                                            <span class="badge badge-success" th:if="${order.alreadyPaid == true}"> Đã thanh toán</span>
+                                            <span class="badge badge-warning" th:unless="${order.alreadyPaid == true}"> Chưa thanh toán</span>
+                                        </td>
+                                        <td>
+                                            <span th:text="${order.createdAt}"></span>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal detail order-->
+    <div class="modal fade" id="modal-change-detail-order" tabindex="-1" role="dialog"
+         aria-labelledby="modal-change-detail-order"
+         aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 1000px !important;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết đơn hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger btn-update">Cập nhật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<th:block id="js-resources">
+    <script type="text/javascript" th:src="@{/adminlte/dist/js/table.js}"></script>
+    <script th:inline="javascript">
+
+        $(document).on('click', '.btn-show-order', function (e) {
+            let code = $(this).data('code')
+            showOder(code)
+        })
+
+        $(document).on('click', '#modal-change-detail-order .btn-update', function (event) {
+            event.preventDefault();
+            let form = $(this.form)
+            let code = form.data('code')
+            $.ajax({
+                url: "/api/admin/orders/" + code,
+                type: 'PUT',
+                data: JSON.stringify(getFormData(form)),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    toastr.success(data.message);
+                    var order = data.data
+                    $(`.list-order tr[data-code=${code}]`).html(`
+                        <td>
+                            <a href="#" class="btn-show-order" data-code="${order.code}">${order.code}</a>
+                        </td>
+                        <td>${(order.receiverName == null) ? order.customer.firstName : order.receiverName }</td>
+                        <td>${(order.receiverPhone == null) ? order.customer.phone : order.receiverPhone}</td>
+                        <td>${(order.isBuyAtStore === true) ? 'Mua tại cửa hàng' : order.receiverAddress}</td>
+                        <td>
+                           ${order.status === 'new' ?  '<span  class="badge badge-primary">Đơn mới</span>' : ''}
+                           ${order.status === 'pending' ?  '<span class="badge badge-primary">Chờ xử lý</span>' : ''}
+                           ${order.status === 'inprogress' ?  '<span class="badge badge-success">Đang giao hàng</span>' : ''}
+                           ${order.status === 'complete' ?  '<span class="badge badge-success">Đã giao hàng</span>' : ''}
+                           ${order.status === 'cancel' ?  '<span class="badge badge-light">Đã hủy</span>' : ''}
+                            <br>
+                           ${order.alreadyPaid === true ? '<span class="badge badge-success" > Đã thanh toán</span>' : '<span class="badge badge-warning"> Chưa thanh toán</span>'}
+                        </td>
+                        <td>
+                            <span>${order.createdAt}</span>
+                        </td>
+                    `)
+                    $('.modal').modal('hide');
+                    $('.invalid-feedback').hide()
+                    form[0].reset()
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    toastr.error(error.responseText);
+                }
+            });
+        })
+
+
+        function showOder(code) {
+            $.ajax({
+                url: '/api/admin/orders/' + code,
+                type: 'GET',
+                success: function (data) {
+                    toastr.success(data.message);
+                    let order = data.data
+                    $("#modal-change-detail-order .modal-body").html(`
+                        <form id="form-update-order" data-code="${order.code}">
+                             <div class="pb-4">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <h5 style="  font-weight:bold;  color:#35a84d;  text-transform:uppercase;  margin: 0;  border-bottom:1px solid #ddd">
+                                                <span>Thông tin đơn hàng</span>
+                                                <span style="text-transform: initial;">${'#' + order.code}</span>
+                                                <span style="font-size: 80%; color:#777; text-transform:none; font-weight:normal">${order.createdAt}</span>
+                                                <select name="alreadyPaid" class="border-0">
+                                                    <option value="true" ${order.alreadyPaid == true ? 'selected' : ''}>Đã thanh toán</option>
+                                                    <option value="false"  ${order.alreadyPaid == false ? 'selected' : ''}>Chưa thanh toán</option>
+                                                </select>
+                                            </h5>
+                                        </td>
+                                        <td>
+                                            <h5 style="margin: 0; text-align: end; border-bottom:1px solid #ddd">
+                                                <strong>Trạng thái:</strong>
+                                                <select name="status" class="border-0">
+                                                    <option value="new" ${order.status === 'new' ? 'selected' : ''}>Đơn mới</option>
+                                                    <option value="inprogress" ${order.status === 'inprogress' ? 'selected' : ''}>Đang giao hàng</option>
+                                                    <option value="complete" ${order.status === 'complete' ? 'selected' : ''}>Đã giao hàng</option>
+                                                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Chờ xử lý</option>
+                                                    <option value="cancel"  ${order.status === 'cancel' ? 'selected' : ''}>Đơn hàng bị hủy</option>
+                                                </select>
+                                            </h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px">
+                                            <table cellspacing="0" cellpadding="0" border="0"
+                                                   width="100%">
+                                                <thead>
+                                                <tr>
+                                                    <th align="left" width="50%"
+                                                        style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                        <span>Thông tin thanh toán</span>
+                                                    </th>
+                                                    <th align="left" width="50%"
+                                                        style="padding:6px 9px 0px 9px; font-family:Arial,Helvetica,sans-serif; color:#444; font-weight:bold">
+                                                        <span>Địa chỉ giao hàng</span>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td valign="top"
+                                                        style="padding:3px 9px 9px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                        <span style="text-transform:capitalize">
+                                                            <span>Tên:</span>
+                                                            <span>${order.receiverName ? order.receiverName : order.customer.firstName}</span>
+                                                        </span>
+                                                        <br>
+                                                        <span>Email:</span>
+                                                        <a href="${'mailto:' + order.customer.email}" target="_blank">${order.customer.email}</a>
+                                                        <br>
+                                                        <span>SĐT:</span>
+                                                        <a href="${'tel:' + (order.receiverPhone ? order.receiverPhone : order.customer.phone)}"
+                                                           target="_blank" >${order.receiverPhone ? order.receiverPhone : order.customer.phone}</a>
+                                                    </td>
+
+                                                    <td valign="top"
+                                                        style="padding:3px 9px 9px 9px; border-top:0; border-left:0; font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                        <span>${order.isBuyAtStore ? 'Nhận hàng tại cửa hàng' : order.receiverAddress} </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top"
+                                                        style="padding:7px 9px 0px 9px; border-top:0; font-family:Arial,Helvetica,sans-serif; color:#444">
+                                                        <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                            <strong>Phương thức thanh toán: </strong>
+                                                            <span>${(order.paymentMethod = 'momo' ? 'Thanh toán bằng momo' : 'Thanh toán khi nhận hàng (C.O.D)')}</span>
+                                                        </p>
+                                                    </td>
+                                                    <td style="padding: 3px 9px 9px 9px;">
+                                                        <p style="font-family:Arial,Helvetica,sans-serif; color:#444; line-height:18px; font-weight:normal">
+                                                            <strong>Ghi chú: </strong>
+                                                            <br/>
+                                                            <span>${order.note}</span>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                             <table class="table table-hover">
+                        <thead>
+                        <tr class="heading">
+                            <th style="width: 50px;">#</th>
+                            <th class="text-capitalize text-nowrap">Sản phẩm</th>
+                            <th class="text-capitalize text-nowrap text-right">Đơn giá
+                            </th>
+                            <th class="text-capitalize text-nowrap text-right">Số
+                                Lượng
+                            </th>
+                            <th class="text-capitalize text-nowrap text-right">Số Tiền
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="list-order-item">
+                            ${order.orderItems.map((item, index) => `
+                                <tr data-id="${item.id}">
+                                    <td>
+                                        <span>${index + 1}</span>
+                                    </td>
+                                    <td class="product-info">
+                                        <div class="product-img">
+                                            <div class="img-container"
+                                                 style="padding-top: 100%;">
+                                                <div class="div-img">
+                                                    <img src="${item.product.coverImage}" alt="${item.product.name}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-name">
+                                            <a class="px-2"
+                                                target="_blank"
+                                                href="${'/product/' + item.product.slug + '/' + item.product.id}">
+                                                <div class="name">${item.product.name}</div>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        <span class="text-price">${item.price}</span> &#x20AB;
+                                    </td>
+                                    <td class="quantity text-right">
+                                        <span class="text-price">${item.quantity}</span>
+                                    </td>
+                                    <td class="amount">
+                                       <span class="text-price" >${item.amount}</span> &#x20AB;
+                                    </td>
+                                </tr>
+                            `).reduce((a, b) => a + b)}
+                        <tr bgcolor="#eee">
+                            <td colspan="4" align="right" style="padding:7px 9px">
+                                <strong>
+                                    <big>Tổng tiền hàng</big>
+                                </strong>
+                            </td>
+                            <td align="right" style="padding:7px 9px">
+                                <strong>
+                                    <big>
+                                        <span class="text-price">${order.totalAmount + order.totalDiscount}</span>
+                                        &#x20AB;
+                                    </big>
+                                </strong>
+                            </td>
+                        </tr>
+                         <tr bgcolor="#eee">
+                            <td colspan="4" align="right" style="padding:7px 9px">
+                                <strong>
+                                    <big>Khuyến mãi</big>
+                                </strong>
+                            </td>
+                            <td align="right" style="padding:7px 9px">
+                                <strong>
+                                    <big>
+                                        <span class="text-price">${order.totalDiscount}</span>
+                                        &#x20AB;
+                                    </big>
+                                </strong>
+                            </td>
+                        </tr>
+                         <tr bgcolor="#eee">
+                            <td colspan="4" align="right" style="padding:7px 9px">
+                                <strong>
+                                    <big>Tổng giá trị đơn hàng</big>
+                                </strong>
+                            </td>
+                            <td align="right" style="padding:7px 9px">
+                                <strong>
+                                    <big>
+                                        <span class="text-price">${order.totalAmount}</span>
+                                        &#x20AB;
+                                    </big>
+                                </strong>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                         </form>
+                    `)
+                    $('#modal-change-detail-order .btn-update').attr('form', 'form-update-order')
+                    formatMoney();
+                    $('#modal-change-detail-order').modal('show');
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    toastr.error(error.responseText);
+                }
+            });
+        }
+    </script>
+</th:block>
+</body>
+</html>
+
+

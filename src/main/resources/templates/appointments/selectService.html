@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}" lang="vi">
+
+<head>
+    <title>Danh sách tài khoản người dùng</title>
+
+    <th:block id="css-resources">
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item active">Danh sách user</li>
+            </ol>
+        </div>
+    </div>
+
+
+    <div class="row align-items-center justify-content-center d-block" style="margin-top: 50px">
+    <div class="row align-items-center justify-content-center" style="margin-top: 50px">
+        <div>
+            <table id="customers" class="table table-striped text-center">
+                <thead class="thead-dark">
+                <tr>
+                    <th> Name</th>
+                    <th> Duration</th>
+                    <th> Price</th>
+                    <th> Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${works == null}">
+                    <td colspan="4"> No works available</td>
+                </tr>
+                <tr th:each="work : ${works}">
+                    <td><span th:text="${work.name}"> work name </span></td>
+                    <td><span th:text="${work.duration }"> 30 min </span></td>
+                    <td><span th:text="${work.price}"> 3 </span></td>
+                    <td><a class="btn btn-primary"
+                           th:href="@{'/appointments/new/'+${providerId} +'/'+ ${work.id}}"
+                           role="button">Select</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+</main>
+
+<th:block id="js-resources">
+    <!-- List js -->
+    <script th:src="@{/adminlte/plugins/list/list.min.js}"></script>
+    <!-- main js -->
+    <script th:src="@{/script/admin/manage-user.js}"></script>
+</th:block>
+</body>
+</html>

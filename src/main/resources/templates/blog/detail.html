@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                 'blog-header',
+                                                 'full-footer',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Tin tức</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/vendor/slick/slick-theme.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/header.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/products.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/lastest-news.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/news.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/post.css}"/>
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+<!--    &lt;!&ndash; Breadcrumb &ndash;&gt;-->
+<!--    <div class="container mt-2">-->
+<!--        <div class="row mb-4">-->
+<!--            <div class="col-12">-->
+<!--                <ol class="breadcrumb mb-0">-->
+<!--                    <li class="breadcrumb-item"><a th:href="@{/}">Trang chủ</a></li>-->
+<!--                    <li class="breadcrumb-item"><a th:href="@{/tin-tuc}">Tin tức</a></li>-->
+<!--                    <li class="breadcrumb-item active" th:text="${post.title}"></li>-->
+<!--                </ol>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <!-- Main content -->
+    <div class="main-content-wrapper container">
+        <h1 class="h1 title" th:text="${post.title}"></h1>
+        <div class="author-and-date">By <span class="author" th:text="${post.createdBy.firstName}"></span> &middot; <span
+                th:text="${#dates.format(post.publishedAt, 'dd/MM/yyyy')}"></span></div>
+        <div class="main-content mt-5" th:utext="${post.content}"></div>
+    </div>
+
+    <!-- Latest new -->
+    <section class="latest-news container">
+        <div class="row">
+            <div class="title col-12">
+                <h2 class="h2">BÀI VIẾT MỚI NHẤT</h2>
+                <div class="slick-arrow"></div>
+            </div>
+        </div>
+        <div class="carousel">
+            <th:block th:each="post : ${latestPosts}">
+                <a th:href="@{/tin-tuc/{slug}/{id}(id=${post.id}, slug=${post.slug})}">
+                    <div class="news position-relative">
+                        <div class="card m-0"><img class="card-img-top" th:src="${post.thumbnail}" th:alt="${post.title}"/>
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${post.title}"></h5>
+                                <p class="card-text news-short-desc" th:text="${post.description}"></p>
+                                <p class="card-text author">By <span class="name" th:text="${post.createdBy.firstName}">Cody</span>
+                                    &middot; <span class="date"
+                                                   th:text="${#dates.format(post.publishedAt, 'dd/MM/yyyy')}"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="shadow mx-auto position-absolute"></div>
+                    </div>
+                </a>
+            </th:block>
+        </div>
+    </section>
+</main>
+
+<th:block id="js-resources">
+    <script th:src="@{/script/post.js}"></script>
+    <script th:src="@{/script/lastest-news.js}"></script>
+    <script th:src="@{/medikal1/js/own-menu.js}"></script>
+</th:block>
+</body>
+</html>
+
+

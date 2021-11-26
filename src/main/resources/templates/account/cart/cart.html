@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'short-header',
+                                                'short-footer',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Giỏ hàng</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/header.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/sidebar.css}"/>
+        <style>
+            .list-order-item tr td {
+                vertical-align: middle;
+            }
+
+            .list-order-item .product-info {
+                display: flex;
+                align-items: center;
+                color: #484848;
+                padding: 0.3rem 0;
+                justify-content: space-between;
+            }
+
+            .list-order-item .amount {
+                text-align: right;
+                color: #f86666;
+            }
+
+            .list-order-item .quantity {
+                width: 9rem;
+            }
+
+            .list-order-item .quantity input {
+                text-align: center;
+            }
+
+            .list-order-item .quantity input::-webkit-outer-spin-button,
+            .list-order-item .quantity input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+
+            .list-order-item .product-info .product-img {
+                width: 65px;
+                height: 65px;
+                display: flex;
+                align-items: center;
+            }
+
+            .list-order-item .price {
+                text-align: right;
+                display: flex;
+                justify-content: end;
+            }
+
+            .list-order-item .price .price-old {
+                max-width: 50%;
+                font-size: 90%;
+                color: #a6a6a6;
+                text-decoration: line-through;
+                margin-right: 10px;
+                display: flex;
+                align-items: center;
+            }
+
+            .total-amount .text-price {
+                font-size: 1.5rem;
+                color: #f86666;
+            }
+
+            .minus, .plus {
+                cursor: pointer;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+
+    <!-- Main Sidebar Container -->
+    <div class="" th:if="${cart.size() > 0}">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a th:href="@{/account}">Tài khoản</a></li>
+                        <li class="breadcrumb-item active">Giỏ hàng</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="table-responsive">
+                        <!-- Table data -->
+                        <table class="table table-hover">
+                            <thead>
+                            <tr class="heading">
+                                <th style="width: 50px;">
+                                    <input class="check-all--orderItem"
+                                           type="checkbox"
+                                           aria-label="">
+                                </th>
+                                <th class="text-capitalize text-nowrap">Sản phẩm</th>
+                                <th class="text-capitalize text-nowrap text-right">Đơn giá</th>
+                                <th class="text-capitalize text-nowrap text-center">Số Lượng</th>
+                                <th class="text-capitalize text-nowrap text-right">Số Tiền</th>
+                                <th class="text-capitalize text-nowrap text-center">Thao Tác</th>
+                            </tr>
+                            </thead>
+                            <tbody class="list-order-item">
+                            <th:block th:each="item : ${cart}">
+                                <tr th:data-id="${item.getId()}">
+                                    <td>
+                                        <input name="orderItemId" th:data-id="${item.getId()}" type="checkbox"
+                                               aria-label="" th:value="${item.getId()}">
+                                    </td>
+                                    <td class="product-info">
+                                        <div class="product-img">
+                                            <div class="img-container" style="padding-top: 100%;">
+                                                <div class="div-img">
+                                                    <img th:src="${item.getProduct().getCoverImage()}"
+                                                         th:alt="${item.getProduct().getName()}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-name">
+                                            <a class="px-2" href="#">
+                                                <div class="name" th:text="${item.getProduct().getName()}">
+                                                    Tủ lạnh LG Inverter 626 Lít Side by side GR-B247JS
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="price">
+                                            <div th:if="${item.getProduct().getPriceFirst() != null}"
+                                                 class="price-old">
+                                                    <span class="text-price"
+                                                          th:text="${item.getProduct().getPriceFirst()}"></span>
+                                                &#x20AB;
+                                            </div>
+                                            <div class="price-new">
+                                                    <span class="text-price"
+                                                          th:text="${item.getProduct().getPriceFinal()}"></span>
+                                                &#x20AB;
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="quantity">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend minus">
+                                                <div class="input-group-text">-</div>
+                                            </div>
+                                            <input type="number" class="form-control"
+                                                   name="quantity"
+                                                   min="1" th:max="${item.getProduct().getQuantity()}"
+                                                   th:value="${item.getQuantity()}" aria-label=""
+                                                   th:data-product-id="${item.getProduct().getId()}">
+                                            <div class="input-group-append plus">
+                                                <div class="input-group-text">+</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="amount">
+                                     <span class="text-price" th:data-amount="${item.getAmount()}"
+                                           th:text="${item.getAmount()}"></span>
+                                        &#x20AB;
+                                    </td>
+                                    <td class="action text-center">
+                                        <button class="btn btn-delete__item" th:data-id="${item.getId()}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-bottom: 80px ">
+            <div class="container">
+                <div class="card card-outline">
+                    <div class="card-body pad">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <input class="check-all--orderItem mr-2"
+                                       type="checkbox" aria-label="">
+                                <span>Chọn tất cả</span>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <div class="total-amount mr-3">
+                                    <span>Tổng số tiền:</span>
+                                    <span>
+                                        <strong class="text-price">0</strong>
+                                        <span style="color: #f86666"> &#x20AB;</span>
+                                    </span>
+                                </div>
+                                <button class="btn btn-danger btn-lg btn-payment-orders" disabled>Thanh toán</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center text-center mt-5 pt-5" th:unless="${cart.size() > 0}">
+        <div class="">
+            <h2>Bạn chưa có sản phẩm nào </h2>
+            <a href="/" class="btn btn-outline-danger">Tiếp tục mua hàng</a>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <!-- AdminLTE App -->
+    <script th:src="@{/adminlte/dist/js/adminlte.js}"></script>
+
+    <script>
+        function saveProductToCart(productId, quantity, fn) {
+            $.ajax({
+                url: '/api/cart',
+                type: 'POST',
+                data: JSON.stringify({
+                    "productId": productId,
+                    "quantity": quantity
+                }),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    toastr.success(res.message);
+                    fn(res);
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    toastr.error(data.message);
+                },
+            });
+        }
+
+        function removeProductInCart(itemId, fn) {
+            $.ajax({
+                url: '/api/cart/' + itemId,
+                type: 'DELETE',
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    toastr.success(res.message);
+                    fn(res);
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    toastr.error(data.message);
+                },
+            });
+        }
+
+        function totalAmount() {
+            let totalAmount = 0
+            let checked = $('input[name="orderItemId"]')
+            let ids = [];
+            for (let i = 0; i < checked.length; i++) {
+                if (checked[i].checked) {
+                    ids.push($(checked[i]).data('id'));
+                    let amount = $(checked[i]).parent().parent().find('.amount .text-price');
+                    totalAmount += parseInt(amount.data("amount"))
+                }
+            }
+            let btnPaymentOrders = $('.btn-payment-orders')
+            if (ids.length > 0) {
+                btnPaymentOrders.prop('disabled', false);
+                btnPaymentOrders.data("ids", ids)
+            } else {
+                btnPaymentOrders.prop('disabled', true);
+                btnPaymentOrders.data("ids", ids)
+            }
+            $('.total-amount .text-price').text(convertPrice(totalAmount))
+        }
+
+        $(document).on("click, change", '.check-all--orderItem, input[name="orderItemId"]', function () {
+            totalAmount()
+        })
+
+        $(document).on("click", '.btn-delete__item', function () {
+            let id = $(this).data("id")
+            let productName = $(this).parent().parent().find('.product-info .product-name .name ')
+            if (confirm(`Bạn chắc chắn muốn bỏ sản phẩm này? \n${productName.text()}`)) {
+                removeProductInCart(id, (data) => {
+                    $(`.list-order-item tr[data-id="${data.data}"]`).remove()
+                })
+            }
+        })
+
+        $(".check-all--orderItem").click(function () {
+            if (this.checked) {
+                $('input[name="orderItemId"]').prop('checked', true);
+                $('.check-all--orderItem').prop('checked', true);
+            } else {
+                $('input[name="orderItemId"]').prop('checked', false);
+                $('.check-all--orderItem').prop('checked', false);
+            }
+        });
+
+
+        $('.list-order-item .quantity input[name="quantity"]').change(function (e) {
+            let obj = $(this)
+            saveProductToCart(obj.data("product-id"), obj.val(), (data) => {
+                let amount = obj.parent().parent().parent().find('.amount .text-price');
+                amount.text(convertPrice(data?.data?.amount))
+                amount.data("amount", data?.data?.amount)
+                totalAmount()
+            })
+        })
+
+        $(".btn-payment-orders").click(function () {
+            let ids = $(this).data("ids")
+            window.location = "/checkout/" + ids
+        })
+
+        $(document).ready(function () {
+            $('.list-order-item .quantity .minus').click(function () {
+                const $input = $(this).parent().find('input');
+                let count = parseInt($input.val()) - 1;
+                if (count < 1) {
+                    let productName = $input.parent().parent().parent().find('.product-info .product-name .name ')
+                    if (confirm(`Bạn chắc chắn muốn bỏ sản phẩm này? \n${productName.text()}`)) {
+                        removeProductInCart($input.data("id"), (data) => {
+                            $(`.list-order-item tr[data-id="${data.data}"]`).remove()
+                        })
+                    }
+                    return false
+                }
+                $input.val(count);
+                $input.change();
+                return false;
+            });
+            $('.list-order-item .quantity .plus').click(function () {
+                const $input = $(this).parent().find('input');
+                let count = parseInt($input.val()) + 1;
+                if (count > parseInt($input.attr("max"))) {
+                    return false
+                }
+                $input.val(count);
+                $input.change();
+                return false;
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

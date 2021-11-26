@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout :: main-fragment(
+                                                ~{:: title},
+                                                'short-header',
+                                                'short-footer',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Thông tin tài khoản</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/header.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/components/sidebar.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/account.css}"/>
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+    <!-- Main Sidebar Container -->
+    <th:block th:replace="~{fragment/sidebar :: sidebar}"></th:block>
+    <div class="content-wrap">
+        <div class="row mb-4">
+            <div class="col-12">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a th:href="@{/account}">Tài khoản</a></li>
+                    <li class="breadcrumb-item active">Thông tin tài khoản</li>
+                </ol>
+            </div>
+        </div>
+        <!-- Toolbar -->
+        <div class="d-sm-flex justify-content-sm-between mb-3">
+            <div class="">
+                <a role="button" class="btn btn-outline-secondary -w-fixed-small font-weight-bold" th:href="@{/}">
+                    <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
+                    <span>Trở về</span>
+                </a>
+            </div>
+            <div class="d-flex justify-content-between d-sm-block mt-3 mt-sm-0">
+                <button type="button" class="btn btn-outline-success -w-fixed-small font-weight-bold btn-update-profile"
+                        form="form-update-profile">
+                    Cập nhật
+                </button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Thông tin tài khoản</div>
+            <div class="card-body">
+                <form id="form-update-profile">
+                    <div class="form-group">
+                        <div class="row-md">
+                            <label class="required-label p-0 pr-md-4 col-md-2 text-md-right m-md-0"
+                                   for="firstName--new">Họ tên</label>
+                            <div class="col-md-8 p-0">
+                                <input name="firstName"
+                                       required=""
+                                       th:value="${user.getFirstName()}"
+                                       type="text"
+                                       minlength="2" maxlength="255"
+                                       placeholder="Họ tên"
+                                       class="form-control"
+                                       id="firstName--new">
+                                <span class="invalid-feedback" id="invalid-feedback__firstName--new"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row-md">
+
+                        <label class="required-label min-w-20 p-0 pr-md-4 col-md-2 text-md-right m-md-0">Giới
+                            Tính</label>
+                        <div class="col-md-8 pl-1">
+                            <div class="form-check form-check-inline mr-4 ">
+                                <input th:if="${user.getGender() == 0}" checked
+                                       name="gender" value="0" required="" type="radio"
+                                       class="form-check-input"
+                                       id="gender-male--new">
+                                <input th:unless="${user.getGender() == 0}"
+                                       name="gender" value="0" required="" type="radio"
+                                       class="form-check-input"
+                                       id="gender-male--new">
+                                <label class="form-check-label" for="gender-male--new"> Nam </label>
+                            </div>
+                            <div class="form-check form-check-inline mr-4 ">
+                                <input th:if="${user.getGender() == 1}" checked
+                                       name="gender" value="1" required="" type="radio"
+                                       class="form-check-input"
+                                       id="gender-female--new">
+                                <input th:unless="${user.getGender() == 1}"
+                                       name="gender" value="1" required="" type="radio"
+                                       class="form-check-input"
+                                       id="gender-female--new">
+                                <label class="form-check-label" for="gender-female--new"> Nữ </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input th:if="${user.getGender() == 2}" checked
+                                       name="gender" value="2" required="" type="radio"
+                                       class="form-check-input"
+                                       id="gender-other--new">
+                                <input th:unless="${user.getGender() == 2}"
+                                       name="gender" value="2" required="" type="radio"
+                                       class="form-check-input"
+                                       id="gender-other--new">
+                                <label class="form-check-label" for="gender-other--new"> Khác </label>
+                            </div>
+                        </div>
+                        <span class="invalid-feedback" id="invalid-feedback__gender--new"></span>
+                    </div>
+                    <div class="form-group row-md">
+                        <label class="required-label p-0 pr-md-4 col-md-2 text-md-right m-md-0"
+                               for="email--new">Email</label>
+                        <div class="col-md-8 p-0">
+                            <input name="email"
+                                   required=""
+                                   th:value="${user.getEmail()}"
+                                   type="email"
+                                   placeholder="Email"
+                                   class="form-control"
+                                   id="email--new">
+                            <span class="invalid-feedback" id="invalid-feedback__email--new"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row-md">
+                        <label class=" p-0 pr-md-4 col-md-2 text-md-right m-md-0 pr-4"
+                               for="phone--new">SĐT</label>
+                        <div class="col-md-8 p-0">
+                            <input name="phone" required="" type="tel" pattern="0[1-9][0-9]{8}"
+                                   th:value="${user.getPhone()}"
+                                   placeholder="Số điện thoại" class="form-control" id="phone--new">
+                            <span class="invalid-feedback" id="invalid-feedback__phone--new"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row-md">
+                        <label class="required-label  p-0 pr-md-4 col-md-2 text-md-right m-md-0"
+                               for="address--new">Địa chỉ</label>
+                        <div class="col-md-8 p-0">
+                            <input name="address"
+                                   th:value="${user.getAddress()}"
+                                   minlength="5" maxlength="511" required="" type="text"
+                                   placeholder="Địa chỉ" class="form-control" id="address--new">
+                            <span class="invalid-feedback" id="invalid-feedback__address--new"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <!-- AdminLTE App -->
+    <script th:src="@{/adminlte/dist/js/adminlte.js}"></script>
+    <script th:src="@{/script/account.js}"></script>
+    <script>
+        $(document).on("click", ".btn-update-profile", function (event) {
+            event.preventDefault();
+            const form = $(this.form)
+            $.ajax({
+                url: '/api/account/update-profile',
+                type: 'POST',
+                data: JSON.stringify(getFormData(form)),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (res) {
+                    toastr.success(res.message);
+                    $(".user_full-name span").text(res.data.firstName)
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    if (data.errors instanceof Array) {
+                        toastr.error(data.message);
+                        $('.invalid-feedback').hide()
+                        $.map(data.errors, function (e) {
+                            let obj = $(`#invalid-feedback__${e.field}--new`)
+                            obj.show();
+                            obj.text(e.message)
+                        })
+                    } else {
+                        toastr.error(data);
+                    }
+                },
+            });
+        })
+    </script>
+</th:block>
+</body>
+</html>

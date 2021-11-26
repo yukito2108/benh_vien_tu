@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Medikal - Health Care &amp; Medical HTML5 Template</title>
+    <meta name="keywords" content="HTML5,CSS3,HTML,Template,Multi-Purpose,M_Adnan,Corporate Theme,Medikal,Health Care,Medikal - Health Care & Medical HTML5 Template">
+    <meta name="description" content="Medikal - Health Care & Medical HTML5 Template">
+
+
+    <!-- FONTS ONLINE -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:500,600,700,100,800,900,400,200,300' rel='stylesheet' type='text/css'>
+
+    <!--MAIN STYLE-->
+    <link th:href="@{/medikal1/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/main.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/style.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/responsive.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/animate.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/medikal1/css/ionicons.min.css}" rel="stylesheet" type="text/css">
+    <!-- Fullcalendar CSS -->
+    <link rel="stylesheet" th:href="@{/css/vendor/fullcalendar.css}"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<!-- Page Wrap ===========================================-->
+<div id="wrap">
+
+    <!-- TOP BAR ===========================================-->
+    <div class="top-bar light">
+        <div class="container">
+            <ul class="pull-left">
+                <li><a href="index.html">Welcome To Our Medikal Center</a></li>
+            </ul>
+
+            <!-- SOCIAL ICONS ===========================================-->
+            <ul class="social_icons">
+                <li class="facebook"><a href="#."><i class="fa fa-facebook"></i> </a></li>
+                <li class="twitter"><a href="#."><i class="fa fa-twitter"></i> </a></li>
+                <li class="dribbble"><a href="#."><i class="fa fa-dribbble"></i> </a></li>
+                <li class="instagram"><a href="#."><i class="fa fa-instagram"></i> </a></li>
+                <li class="googleplus"><a href="#."><i class="fa fa-google-plus"></i> </a></li>
+                <li class="pinterest"><a href="#."><i class="fa fa-pinterest"></i> </a></li>
+                <li class="linkedin"><a href="#."><i class="fa fa-linkedin"></i> </a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- HEADER ===========================================-->
+    <header class="navbar-fixed-top">
+        <div class="container">
+            <!--======= LOGO =========-->
+            <div class="logo"> <a href="index.html"><img th:src="@{/medikal1/images/logo.png}" alt="" ></a> </div>
+            <!--======= NAVIGATION =========-->
+            <nav class="webimenu">
+                <!-- MENU BUTTON RESPONSIVE -->
+                <div class="menu-toggle"> <i class="fa fa-bars"> </i> </div>
+                <ul class="ownmenu">
+                    <li><a th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li class="active"><a th:href="@{/home/}">Đặt khám</a>
+                        <ul class="dropdown animated-3s fadeIn">
+                            <li><a th:href="@{/home/}">Thời gian biểu</a></li>
+                            <li><a th:href="@{/appointments/all}">Đăng ký</a></li>
+                        </ul>
+                    </li>
+                    <li><a th:href="@{/shopping}">Dược phẩm</a>
+                    </li>
+                    <li><a th:href="@{/tin-tuc}">Trang tin</a> </li>
+
+
+                    <li><a href="12-contact.html">Liên hệ</a> </li>
+
+                    <li><a th:href="@{/account}">Tài khoản</a> </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+    <!--======= SUB BANNER =========-->
+    <section class="sub-banner" data-stellar-background-ratio="0.5">
+        <div class="overlay">
+            <div class="container">
+                <h3>Appointment</h3>
+                <p>Meet our team of highly skilled professionals</p>
+
+                <!--======= Breadcrumbs =========-->
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li class="active">Appointment</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!--======= SERVICES =========-->
+    <section id="services">
+        <div class="container-fluid">
+            <ul class="row">
+                <li class="col-md-3"> <i class="fa fa-heartbeat"></i>
+                    <h5>Heart  Rate</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+                <li class="col-md-3"> <i class="fa fa-stethoscope"></i>
+                    <h5>Medical Counseling</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+                <li class="col-md-3"> <i class="fa fa-user-md"></i>
+                    <h5>Qualified Doctors</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+                <li class="col-md-3"> <i class="fa fa-ambulance"></i>
+                    <h5>Emergency Services</h5>
+                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!--======= CONTENT =========-->
+    <div class="content">
+
+        <section class="make-oppient">
+            <div class="appointment">
+                <div class="container">
+                    <!-- Page Content -->
+                    <div class="row mt-3">
+                        <div class="col">
+
+                        </div>
+                        <div class="col-10">
+                            <div id='calendar'></div>
+                        </div>
+                        <div class="col">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!--======= WHY CHOOSE US =========-->
+        <div id="why-choose" class="margin-b-40">
+            <div class="container">
+                <!-- Services Row -->
+                <ul class="row">
+
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Medical Counseling</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Professional services</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>24 Hours service</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                </ul>
+                <ul class="row">
+
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Qualified medical facilities</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Top level doctors</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                    <!-- Section -->
+                    <li class="col-sm-4">
+                        <h6>Dedicated patient care</h6>
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+
+        <!--======= Contact Info =========-->
+        <section class="contact-info">
+            <div class="container">
+
+                <!--Address-->
+                <ul class="row">
+                    <li class="col-md-3"> <i class="ion-ios-location-outline"></i>
+                        <h5>Address</h5>
+                        <p>1800 Abbot Kinney Blvd. Unit D & E
+                            Venice, CA 90291</p>
+                    </li>
+
+                    <!--Hot line-->
+                    <li class="col-md-3"> <i class="ion-iphone"></i>
+                        <h5>Hotline</h5>
+                        <p>+00-0122-123-0089</p>
+                    </li>
+
+                    <!--Email Contact-->
+                    <li class="col-md-3"> <i class="ion-ios-email-outline"></i>
+                        <h5>Email contact</h5>
+                        <p>medikal@gmail.com</p>
+                        <p> contact@medikalclinic.com</p>
+                    </li>
+
+                    <!--Website-->
+                    <li class="col-md-3"> <i class="ion-earth"></i>
+                        <h5>Website</h5>
+                        <p>www.medikalclinic.com </p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <!--======= FOOTER =========-->
+    <footer>
+        <div class="container">
+
+            <!-- Row -->
+            <div class="row">
+
+                <!-- Latest Tweet -->
+                <div class="col-md-3">
+                    <div class="latest-tweet">
+                        <h5>Latest tweets</h5>
+                        <ul>
+
+                            <!--Tweet 1 -->
+                            <li>
+                                <p><span>@medikal</span> Sweets and Bakers
+                                    WordPress Theme' on @EnvatoMarket by themefore<a href="#."> http://t.co/we8Kf0</a></p>
+                                <span class="date"> - Thursday April 9, 2015</span> </li>
+
+                            <!--Tweet 2 -->
+                            <li>
+                                <p><span>@medikal</span> In hendrerit in molestie consequat in <a href="#."> http://t.co/we8Kf0</a></p>
+                                <span class="date"> - Thursday April 9, 2015</span> </li>
+
+                            <!--Tweet 3 -->
+                            <li>
+                                <p><span>@medikal</span> Duis autem vel eum iriure <span>@medikal</span> dolor in hendrerit in molestie consequat <a href="#."> http://t.co/we8Kf0</a></p>
+                                <span class="date"> - Thursday April 9, 2015</span> </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- About Us -->
+                <div class="col-md-6">
+                    <div class="small-info"> <img src="images/logo-white.png" alt="">
+                        <p>We work in a friendly and efficient using the latest technologies and sharing our expertise to make a diagnosis and implement cutting-edge therapies.</p>
+                        <ul class="social_icons">
+                            <li class="facebook"><a href="#."><i class="fa fa-facebook"></i> </a></li>
+                            <li class="twitter"><a href="#."><i class="fa fa-twitter"></i> </a></li>
+                            <li class="linkedin"><a href="#."><i class="fa fa-linkedin"></i> </a></li>
+                        </ul>
+
+                        <!-- News Letter -->
+                        <h5>register newsletter</h5>
+                        <form>
+                            <input type="email" placeholder="Enter your email here" required>
+                            <button type="submit"> Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Patient Guide -->
+                <div class="col-md-3">
+                    <div class="links text-right">
+                        <h5>Patient Guide</h5>
+                        <ul>
+                            <li><a href="#.">Choosing a doctor</a></li>
+                            <li><a href="#."> Health journals</a></li>
+                            <li><a href="#."> Insurance converage</a></li>
+                            <li><a href="#."> Talking to your doctor</a></li>
+                            <li><a href="#."> Medikal error</a></li>
+                        </ul>
+
+                        <!-- Timing -->
+                        <div class="timing">
+                            <h5>opening hours</h5>
+                            <p>Mon to Fri <span> 8:00 am to 7:00pm</span></p>
+                            <p>Sun & Sat <span>9:00 am to 5:00pm</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rights -->
+        <div class="rights">
+            <p>© 2015 Medikal. Made with by M_Adnan </p>
+        </div>
+    </footer>
+</div>
+<script th:src="@{/medikal1/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/medikal1/js/bootstrap.min.js}"></script>
+<script th:src="@{/medikal1/js/own-menu.js}"></script>
+<script th:src="@{/medikal1/js/owl.carousel.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.superslides.js}"></script>
+<script th:src="@{/medikal1/js/masonry.pkgd.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.stellar.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery-ui-1.10.3.custom.js}"></script>
+<script th:src="@{/medikal1/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.isotope.min.js}"></script>
+<script th:src="@{/medikal1/js/jquery.flexslider-min.js}"></script>
+<script th:src="@{/medikal1/js/appointment.js}"></script>
+<script th:src="@{/medikal1/js/jquery.downCount.js}"></script>
+<script th:src="@{/medikal1/js/counter.js}"></script>
+<script th:src="@{/medikal1/js/main.js}"></script>
+<!--Moment-->
+<script type="text/javascript" th:src="@{/js/vendor/moment.js}"></script>
+<!--FullCalendar-->
+<script type="text/javascript" th:src="@{/js/vendor/fullcalendar.js}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.0.0-alpha/locale-all.js"></script>
+<!--DataTables-->
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+
+
+<script th:inline="javascript">
+    $(function () {
+        $('#calendar').fullCalendar({
+            locale: 'VI',
+            defaultView: 'agendaWeek',
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek'
+            },
+            allDaySlot: false,
+            minTime: "05:00:00",
+            maxTime: "24:00:00",
+            timeFormat: 'H:mm', // uppercase H for 24-hour clock,
+            firstDay: 1,
+            eventSources: [
+
+                {
+                    url: /*[[${'/api/users/'+users.id+'/appointments'}]]*/ '/api/users/1/appointments',
+                    color: 'yellow',
+                    textColor: 'black'
+
+                }
+            ]
+        })
+
+    });
+</script>
+</body>
+</html>

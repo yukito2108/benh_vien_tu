@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title th:text="${promotion.name}"></title>
+
+    <th:block id="css-resources">
+
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/admin/promotions">Danh sách khuyến mãi</a></li>
+                <li class="breadcrumb-item active" th:text="${promotion.name}"></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-default" href="/admin/promotions">
+            <span class="fas fa-chevron-left" style="margin-right:0.5rem;"></span>
+            <span>Trở về</span>
+        </a>
+        <button class="btn btn-success btn-update-promotion" form="form-update-promotion">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Cập nhật</span>
+        </button>
+        <button class="btn btn-danger btn-delete-promotion">
+            <span class="fas fa-trash-alt" style="margin-right:0.5rem;"></span>
+            <span>Xóa</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class=" col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <form action="" id="form-update-promotion" th:data-id="${promotion.id}">
+                        <div class="form-group">
+                            <label class="required-label" for="code">Mã code</label> <i>Mã kích hoạt chỉ bao gồm ký tự
+                            viết hoa từ A-Z và số từ 0-9 và dấu gạch ngang (độ dài từ 4 - 16 ký tự)</i>
+                            <input type="text" name="code" class="form-control" th:value="${promotion.couponCode}"
+                                   id="code">
+                            <span class="invalid-feedback" id="invalid-feedback__code"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="required-label" for="name">Tên chương trình</label>
+                            <input type="text" name="name" class="form-control" th:value="${promotion.name}" id="name">
+                            <span class="invalid-feedback" id="invalid-feedback__name"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="discountType" class="required-label">Khuyến mãi theo</label>
+                            <select name="discountType" class="form-control" id="discountType">
+                                <option value="1" th:selected="${promotion.discountType} == 1">Phần trăm (%)</option>
+                                <option value="2" th:selected="${promotion.discountType} == 2">Khoản tiền trực tiếp
+                                </option>
+                            </select>
+                            <span class="invalid-feedback" id="invalid-feedback__discountType"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="required-label" for="discountValue">Mức giảm</label>
+                            <input type="number" name="discountValue" min="1" class="form-control"
+                                   th:value="${promotion.discountValue}" id="discountValue">
+                            <span class="invalid-feedback" id="invalid-feedback__discountValue"></span>
+                        </div>
+                        <div class="form-group discount-exactly" th:style="${promotion.discountType} == 1 ? '' : 'display:none'" >
+                            <label class="required-label" for="maxValue">Mức giảm tối đa</label>
+                            <input type="number" name="maxValue" min="1" class="form-control"
+                                   th:value="${promotion.maximumDiscountValue}" id="maxValue">
+                            <span class="invalid-feedback" id="invalid-feedback__maxValue"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="required-label" for="quantity">Số lần được sử dụng</label>
+                            <input type="number" name="quantity" min="1" class="form-control"
+                                   th:value="${promotion.quantity}" id="quantity">
+                            <span class="invalid-feedback" id="invalid-feedback__quantity"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="productIds" class="mr-2">Sản phẩm áp dụng</label>
+                            <i>Không chọn sản phẩm nào để áp dụng cho tất cả</i>
+                            <select name="productIds[]" class="form-control select2bs4" id="productIds" multiple>
+                                <th:block th:each="product : ${products}">
+                                    <option th:selected="${promotion.products.contains(product)}" th:value="${product.id}" th:text="${product.name}"></option>
+                                </th:block>
+                            </select>
+                            <span class="invalid-feedback" id="invalid-feedback__productIds"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="required-label" for="startDate">Thời gian bắt đầu</label>
+                            <input type="datetime-local" name="startDate" class="form-control"
+                                   th:value="${#dates.format(promotion.startDate, 'yyyy-MM-dd''T''HH:mm')}"
+                                   id="startDate">
+                            <span class="invalid-feedback" id="invalid-feedback__startDate"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="required-label" for="endDate">Thời gian kết thúc</label>
+                            <input type="datetime-local" name="endDate" class="form-control"
+                                   th:value="${#dates.format(promotion.endDate, 'yyyy-MM-dd''T''HH:mm')}" id="endDate">
+                            <span class="invalid-feedback" id="invalid-feedback__endDate"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" name="isPublic" value="true" class="custom-control-input"
+                                       id="isPublic" th:checked="${promotion.isPublic}">
+                                <label class="custom-control-label" for="isPublic">Công khai khuyến mãi</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script th:inline="javascript">
+        $("#discountType").change(function () {
+            let choice = $("#discountType").val();
+            if (choice === '1') {
+                $('.discount-exactly').show();
+            } else {
+                $('.discount-exactly').hide();
+            }
+        });
+
+        $('.btn-update-promotion').click(function (e) {
+            e.preventDefault();
+            const form = $(this.form)
+            const id = form.data("id")
+            $.ajax({
+                url: '/api/admin/promotions/' + id,
+                type: 'PUT',
+                data: JSON.stringify(getFormData(form)),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    toastr.success(data.message);
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    if (data.errors instanceof Array) {
+                        toastr.error(data.message);
+                        $('.invalid-feedback').hide()
+                        $.map(data.errors, function (e) {
+                            let obj = $(`#invalid-feedback__${e.field}`)
+                            obj.show();
+                            obj.text(e.message)
+                        })
+                    } else {
+                        toastr.error(error.responseText);
+                    }
+
+                }
+            });
+        })
+
+        $('.btn-delete-promotion').click(function () {
+            $.ajax({
+                url: '/api/admin/promotions/' + [[${promotion.id}]],
+                type: 'DELETE',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    toastr.success("Xóa khuyến mãi thành công");
+                    setTimeout(function () {
+                        location.href = "/admin/promotions";
+                    }, 1000);
+                },
+                error: function (data) {
+                    toastr.warning(data.responseJSON.message);
+                }
+            });
+        })
+    </script>
+</th:block>
+</body>
+</html>

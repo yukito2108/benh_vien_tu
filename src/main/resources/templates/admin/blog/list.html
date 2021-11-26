@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+
+<head>
+    <title>Danh sách bài viết</title>
+
+    <th:block id="css-resources">
+        <link rel="stylesheet" type="text/css" th:href="@{/vendor/pagination/simplePagination.css}"/>
+    </th:block>
+</head>
+<body>
+<main id="main-content">
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item active">Danh sách bài viết</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <a role="button" class="btn btn-success" href="/admin/posts/create">
+            <span class="fa fa-plus" style="margin-right:0.5rem;"></span>
+            <span>Viết bài</span>
+        </a>
+        <a role="button" class="btn btn-info" href="/admin/posts">
+            <span class="fas fa-redo-alt" style="margin-right:0.5rem;"></span>
+            <span>Refresh</span>
+        </a>
+        <button class="btn btn-secondary" id="btn-search">
+            <span class="fas fa-search" style="margin-right:0.5rem;"></span>
+            <span>Tìm kiếm</span>
+        </button>
+        <div class="clear"></div>
+    </div>
+
+    <!-- Main content -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="table-responsive">
+                        <!-- Table data -->
+                        <form method="GET" id="search-form">
+                            <input type="hidden" th:value="${page.getCurrentPage()}" name="page">
+                            <input type="hidden" th:value="${formSearch.getOrder()}" name="order">
+                            <input type="hidden" th:value="${formSearch.getDirection()}" name="direction">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr class="heading">
+                                    <th width="10px">#</th>
+                                    <th>Tiêu đề</th>
+                                    <th width="15%">Trạng thái</th>
+                                    <th width="15%" class="thuy-sort-area" data-order="createdAt">
+                                        Ngày tạo
+                                        <i class="fa fa-sort float-right" style="margin-top: 3px;"></i>
+                                    </th>
+                                    <th width="15%" class="thuy-sort-area" data-order="publishedAt">
+                                        Ngày xuất bản
+                                        <i class="fa fa-sort float-right" style="margin-top: 3px;"></i>
+                                    </th>
+                                </tr>
+                                <tr class="heading-search">
+                                    <th></th>
+                                    <th>
+                                        <input th:value="${formSearch.getTitle()}" type="text" name="title"
+                                               class="form-control thuy-search-input" aria-label="">
+                                    </th>
+                                    <th>
+                                        <select name="status" class="form-control thuy-search-select"  aria-label="">
+                                            <option value="">Tất cả</option>
+                                            <option value="0">Nháp</option>
+                                            <option value="1">Công khai</option>
+                                        </select>
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="list-data">
+                                <th:block th:each="post, index : ${posts}">
+                                    <tr>
+                                        <td th:text="${index.count}"></td>
+                                        <td>
+                                            <a th:href="@{/admin/posts/{id}(id=${post.id})}"
+                                               th:text="${post.title}"></a>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-success" th:if="${post.status == '1'}">Công khai</span>
+                                            <span class="badge badge-light" th:unless="${post.status == '1'}">Nháp</span>
+                                        </td>
+                                        <td th:text="${post.createdAt}"></td>
+                                        <td th:text="${post.publishedAt}"></td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div th:if="${!page.isLast}" class="text-center">
+                        <button class="btn btn-default btn-load-more">load more</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block id="js-resources">
+    <script type="text/javascript" th:src="@{/vendor/pagination/jquery.simplePagination.js}"></script>
+    <script type="text/javascript" th:src="@{/adminlte/dist/js/table.js}"></script>
+    <script th:inline="javascript">
+        var order, page, direction;
+
+        $(function () {
+            let vars = parseUrl();
+            order = vars["order"] || ""
+            page = vars["page"] || "1"
+            direction = vars["direction"] || ""
+
+            $(`#search-form input[name='order']`).val(order)
+            $(`#search-form input[name='page']`).val(page)
+            $(`#search-form input[name='direction']`).val(direction)
+
+            let th = $('.heading').find(`[data-order='${order}']`)
+            th.find('i').removeClass("fa-sort")
+            if (direction === "asc")
+                th.find('i').addClass("fas fa-sort-up")
+            else
+                th.find('i').addClass("fas fa-sort-down")
+        })
+
+        $('.btn-load-more').click(function () {
+            loadMore()
+        })
+
+        $(window).scroll(function () {
+            if (Math.abs($(window).scrollTop() - ($(document).height() - $(window).height())) < 1) {
+                loadMore()
+                console.log($(window).scrollTop())
+            }
+        });
+
+        let loadMore = () => {
+            if (!$('.btn-load-more')[0])
+                return;
+            const form = $('#search-form')
+            let page_input = $('#search-form input[name="page"]')
+            var currentPage = page_input.val();
+            page_input.val(++currentPage)
+
+            $.ajax({
+                url: '/api/admin/posts?' + serialize(getFormData(form)),
+                type: 'GET',
+                success: function (res) {
+                    toastr.success(res.message);
+                    let data = res.data.content
+                    let count = $('tbody.list-data > tr').length;
+                    if (res.data.currentPage >= res.data.totalPages)
+                        $('.btn-load-more').remove()
+
+                    $('.list-data').append(data.map(post => `
+                         <tr>
+                            <td><span>${++count}</span></td>
+                            <td>
+                                <a href="${`/admin/posts/${post.id}`}">${post.title}</a>
+                            </td>
+                            <td>
+                                ${post.status === '1' ? '<span class="badge badge-success">Công khai</span>' : '<span class="badge badge-light">Nháp</span>'}
+                            </td>
+                            <td>${post.createdAt}</td>
+                            <td>${post.publishedAt}</td>
+                        </tr>
+                    `).reduce((a, b) => a + b))
+                    formatMoney()
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    toastr.error(data.message);
+                },
+            });
+        }
+    </script>
+</th:block>
+</body>
+</html>
+
+

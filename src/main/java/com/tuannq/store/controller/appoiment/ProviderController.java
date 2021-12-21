@@ -1,5 +1,6 @@
 package com.tuannq.store.controller.appoiment;
 
+import com.tuannq.store.entity.Image;
 import com.tuannq.store.entity.Users;
 import com.tuannq.store.entity.WorkingPlan;
 import com.tuannq.store.model.ChangePasswordForm;
@@ -7,10 +8,7 @@ import com.tuannq.store.model.TimePeroid;
 import com.tuannq.store.model.UsersForm;
 import com.tuannq.store.security.CustomUserDetails;
 import com.tuannq.store.security.CustomUsersDetails;
-import com.tuannq.store.service.AppointmentService;
-import com.tuannq.store.service.UsersService;
-import com.tuannq.store.service.WorkService;
-import com.tuannq.store.service.WorkingPlanService;
+import com.tuannq.store.service.*;
 import com.tuannq.store.validation.groups.CreateProvider;
 import com.tuannq.store.validation.groups.CreateUsers;
 import com.tuannq.store.validation.groups.UpdateProvider;
@@ -28,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -38,12 +37,14 @@ public class ProviderController {
     private final WorkService workService;
     private final WorkingPlanService workingPlanService;
     private final AppointmentService appointmentService;
+    private final ImageService imageService;
 
-    public ProviderController(UsersService usersService, WorkService workService, WorkingPlanService workingPlanService, AppointmentService appointmentService) {
+    public ProviderController(UsersService usersService, WorkService workService, WorkingPlanService workingPlanService, AppointmentService appointmentService, ImageService imageService) {
         this.usersService = usersService;
         this.workService = workService;
         this.workingPlanService = workingPlanService;
         this.appointmentService = appointmentService;
+        this.imageService = imageService;
     }
 
 
@@ -100,9 +101,11 @@ public class ProviderController {
     @GetMapping("/new")
     public String showProviderRegistrationForm(Model model) {
         if (!model.containsAttribute("users")) model.addAttribute("users", new UsersForm());
+        var images = imageService.getAll().stream().map(Image::getLink).collect(Collectors.toList());
         model.addAttribute("account_type", "provider");
         model.addAttribute("registerAction", "/providers/new");
         model.addAttribute("allWorks", workService.getAllWorks());
+        model.addAttribute("images", images);
         return "users/createUsersForm";
     }
 

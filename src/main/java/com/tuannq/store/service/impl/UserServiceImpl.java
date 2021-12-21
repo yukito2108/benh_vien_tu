@@ -1,8 +1,10 @@
 package com.tuannq.store.service.impl;
 
+import com.tuannq.store.dao.user.customer.CustomerRepository;
 import com.tuannq.store.entity.OTP;
 import com.tuannq.store.entity.Role;
 import com.tuannq.store.entity.Users;
+import com.tuannq.store.entity.user.customer.Customer;
 import com.tuannq.store.exception.ArgumentException;
 import com.tuannq.store.exception.NotFoundException;
 import com.tuannq.store.model.request.*;
@@ -37,6 +39,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final UsersRepository usersRepository;
+    private final CustomerRepository customerRepository;
     private final ConverterUtils converterUtils;
     private final PasswordEncoder passwordEncoder;
     private final MessageSource messageSource;
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserServiceImpl(
             UsersRepository usersRepository,
+            CustomerRepository customerRepository,
             ConverterUtils converterUtils,
             MessageSource messageSource,
             AuthenticationManager authenticationManager,
@@ -60,6 +64,7 @@ public class UserServiceImpl implements UserService {
         this.otpRepository = otpRepository;
         this.javaMailSender = javaMailSender;
         this.usersRepository = usersRepository;
+        this.customerRepository = customerRepository;
         this.converterUtils = converterUtils;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -194,16 +199,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users addUserByCustomer(UserFormCustomer form) throws ArgumentException {
+    public Customer addUserByCustomer(UserFormCustomer form) throws ArgumentException {
         if (usersRepository.findByPhone(form.getPhone()) != null)
             throw new ArgumentException("phone", messageSource.getMessage("phone.exist", null, LocaleContextHolder.getLocale()));
         if (usersRepository.findByEmail(form.getEmail()) != null)
             throw new ArgumentException("email", messageSource.getMessage("email.exist", null, LocaleContextHolder.getLocale()));
         HashSet<Role> roles = new HashSet();
         roles.add(roleRepository.findByName("ROLE_CUSTOMER"));
+        roles.add(roleRepository.findByName("ROLE_CUSTOMER_RETAIL"));
 
         Users user = new Users(form, passwordEncoder.encode(form.getPassword()), roles);
-        return usersRepository.save(user);
+        Customer customer = new Customer(user, roles);
+        return customerRepository.save(customer);
     }
 
     @Override

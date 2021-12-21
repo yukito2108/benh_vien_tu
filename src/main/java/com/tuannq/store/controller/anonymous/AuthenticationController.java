@@ -1,6 +1,7 @@
 package com.tuannq.store.controller.anonymous;
 
 import com.tuannq.store.entity.Users;
+import com.tuannq.store.entity.user.customer.Customer;
 import com.tuannq.store.exception.ArgumentException;
 import com.tuannq.store.model.dto.UserDTO;
 import com.tuannq.store.model.request.ChangePasswordWithOTPRequest;
@@ -117,8 +118,7 @@ public class AuthenticationController {
             @Validated @RequestBody UserFormCustomer form,
             HttpServletResponse response
     ) throws ArgumentException {
-        Users user = userService.addUserByCustomer(form);
-
+        Customer user = userService.addUserByCustomer(form);
         // Gen token
         UserDetails principal = new CustomUserDetails(user);
         String token = jwtTokenUtil.generateToken(principal);

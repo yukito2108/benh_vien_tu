@@ -43,6 +43,8 @@ public class Users extends BaseEntity {
     private String phone;
     @Column(nullable = false, length = 511)
     private String address;
+    @Column(nullable = false, length = 511)
+    private String coverImage;
 
 
     @OneToMany(mappedBy = "users")
@@ -51,6 +53,16 @@ public class Users extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+    public Users(Users users, Collection<Role> roles) {
+        this.firstName = users.getFirstName();
+        this.gender = users.getGender();
+        this.email = users.getEmail();
+        this.password = users.password;
+        this.phone = users.getPhone();
+        this.address = users.getAddress();
+        this.roles = roles;
+    }
 
     public Set<String> getRoles() {
         return this.roles

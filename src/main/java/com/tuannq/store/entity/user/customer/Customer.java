@@ -4,6 +4,7 @@ import com.tuannq.store.entity.Appointment;
 import com.tuannq.store.entity.Role;
 import com.tuannq.store.entity.Users;
 import com.tuannq.store.model.UsersForm;
+import com.tuannq.store.model.request.UserFormCustomer;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -25,6 +26,9 @@ public class Customer extends Users {
         super(usersFormDTO, encryptedPassword, roles);
     }
 
+    public Customer(Users users, Collection<Role> roles) {
+        super(users, roles);
+    }
 
     public String getType() {
         if (super.hasRole("ROLE_CUSTOMER_CORPORATE")) {

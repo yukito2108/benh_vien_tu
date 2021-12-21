@@ -85,7 +85,7 @@
                         </a>
                     </li>
                     <li class="nav-item has-treeview">
-                        <a th:href="@{/admin/orders}" class="nav-link">
+                        <a th:href="@{/home/}" class="nav-link">
                             <i class="nav-icon fas fa-stethoscope"></i>
                             <p>
                                 Quản lý đăng ký khám
@@ -104,6 +104,12 @@
                                 <a th:href="@{/appointments/all}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Danh sách đăng ký</p>
+                                </a>
+                            </li>
+                            <li th:if="${_user.roles.contains('ROLE_ADMIN')}" class="nav-item">
+                                <a th:href="@{/invoices/all}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Xuất hoá đơn</p>
                                 </a>
                             </li>
                             <li th:if="${_user.roles.contains('ROLE_ADMIN')}" class="nav-item">

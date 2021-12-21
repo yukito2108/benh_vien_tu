@@ -1,6 +1,7 @@
 package com.tuannq.store.service;
 
 import com.tuannq.store.entity.Users;
+import com.tuannq.store.entity.user.customer.Customer;
 import com.tuannq.store.exception.ArgumentException;
 import com.tuannq.store.model.request.*;
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,7 @@ public interface UserService {
 
     Optional<Users> findById(long id);
 
-    Users addUserByCustomer(UserFormCustomer form) throws ArgumentException;
+    Customer addUserByCustomer(UserFormCustomer form) throws ArgumentException;
 
     Users addUserByAdmin(UserFormAdmin form) throws ArgumentException;
 

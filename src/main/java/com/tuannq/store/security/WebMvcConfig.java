@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebMvc
-public class WebMvcConfig implements WebMvcConfigurer {
+public class  WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private  ConfigInterceptor configInterceptor;
 

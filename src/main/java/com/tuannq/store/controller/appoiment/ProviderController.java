@@ -56,6 +56,7 @@ public class ProviderController {
 
     @GetMapping("/{id}")
     public String showProviderDetails(@PathVariable("id") Long providerId, Model model) {
+        var provider = usersService.getProviderById(providerId);
         Optional<Users> currentUsers = Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .map(Authentication::getPrincipal)
@@ -73,7 +74,10 @@ public class ProviderController {
                 System.out.println("i'm in 2");
                 model.addAttribute("passwordChange", new ChangePasswordForm(providerId));
             }
+            var images = imageService.getAll().stream().map(Image::getLink).collect(Collectors.toList());
             System.out.println("i'm in 3");
+            model.addAttribute("images", images);
+            model.addAttribute("provider", provider);
             model.addAttribute("account_type", "provider");
             model.addAttribute("formActionProfile", "/providers/update/profile");
             model.addAttribute("formActionPassword", "/providers/update/password");

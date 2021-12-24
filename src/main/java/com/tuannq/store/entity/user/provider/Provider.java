@@ -29,6 +29,8 @@ public class Provider extends Users {
     @OneToOne(mappedBy = "provider",cascade = CascadeType.ALL)
     private WorkingPlan workingPlan;
 
+//    @Column(nullable = false, length = 511)
+//    private String coverImage;
     public Provider() {
     }
 
@@ -37,12 +39,14 @@ public class Provider extends Users {
         this.workingPlan = workingPlan;
         workingPlan.setProvider(this);
         this.works = usersFormDTO.getWorks();
+        this.setCoverImage(usersFormDTO.getCoverImage());
     }
 
     @Override
     public void update(UsersForm updateData) {
         super.update(updateData);
         this.works = updateData.getWorks();
+        this.setCoverImage(updateData.getCoverImage());
     }
 
     public List<Appointment> getAppointments() {

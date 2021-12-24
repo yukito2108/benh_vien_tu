@@ -6,11 +6,17 @@ import com.tuannq.store.entity.user.provider.Provider;
 import com.tuannq.store.validation.FieldsMatches;
 //import com.tuannq.store.validation.UniqueUsername;
 import com.tuannq.store.validation.groups.*;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.util.List;
 
 @FieldsMatches(field = "password", matchingField = "matchingPassword", groups = {CreateUsers.class})
+@Data
+@AllArgsConstructor
 public class UsersForm {
 
     @NotNull(groups = {UpdateUsers.class})
@@ -48,7 +54,8 @@ public class UsersForm {
     @NotBlank(groups = {CreateUsers.class, UpdateUsers.class}, message = "Street cannot be empty")
     private String address;
 
-
+    @NotBlank(groups = {CreateUsers.class, UpdateUsers.class}, message = "Cover image cannot be empty")
+    private String coverImage;
 
     /*
      * CorporateCustomer only:
@@ -78,6 +85,7 @@ public class UsersForm {
         this.setEmail(users.getEmail());
         this.setAddress(users.getAddress());
         this.setPhone(users.getPhone());
+        this.setCoverImage(users.getCoverImage());
     }
 
     public UsersForm(Provider provider) {
@@ -191,4 +199,11 @@ public class UsersForm {
         this.works = works;
     }
 
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
 }

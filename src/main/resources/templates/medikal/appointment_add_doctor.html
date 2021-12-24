@@ -138,7 +138,17 @@
 
                         <div class="col-md-3 m-3" th:each="provider : ${providers}">
                             <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Card image cap">
+                                <div class="img-container">
+
+                                    <div class="choose-cover-img choose-img-wrap">
+                                        <div class="img-container">
+                                            <div class="img-div">
+                                                <img th:src="${provider.getCoverImage()}" alt="product img" width="200px">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                                 <div class="card-body text-center">
                                     <h5 class="card-title"><span th:text="${provider.firstName +' ' +provider.lastName}"> Name
                             Lastname</span></h5>

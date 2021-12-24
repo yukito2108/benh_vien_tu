@@ -2,13 +2,11 @@ package com.tuannq.store.controller.appoiment;
 
 import com.tuannq.store.entity.Appointment;
 import com.tuannq.store.entity.ChatMessage;
+import com.tuannq.store.entity.Image;
 import com.tuannq.store.entity.Users;
 import com.tuannq.store.security.CustomUserDetails;
 import com.tuannq.store.security.CustomUsersDetails;
-import com.tuannq.store.service.AppointmentService;
-import com.tuannq.store.service.ExchangeService;
-import com.tuannq.store.service.UsersService;
-import com.tuannq.store.service.WorkService;
+import com.tuannq.store.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/appointments")
@@ -31,12 +30,15 @@ public class AppointmentController {
     private final UsersService usersService;
     private final AppointmentService appointmentService;
     private final ExchangeService exchangeService;
+    private final ImageService imageService;
 
-    public AppointmentController(WorkService workService, UsersService usersService, AppointmentService appointmentService, ExchangeService exchangeService) {
+    public AppointmentController(WorkService workService, UsersService usersService, AppointmentService appointmentService,
+                                 ExchangeService exchangeService, ImageService imageService) {
         this.workService = workService;
         this.usersService = usersService;
         this.appointmentService = appointmentService;
         this.exchangeService = exchangeService;
+        this.imageService = imageService;
     }
 
     @GetMapping("/all")
@@ -167,6 +169,8 @@ public class AppointmentController {
 
     @GetMapping("/new")
     public String selectProvider(Model model) {
+        var images = imageService.getAll().stream().map(Image::getLink).collect(Collectors.toList());
+        model.addAttribute("images", images);
         Optional<Users> currentUsers = Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .map(Authentication::getPrincipal)

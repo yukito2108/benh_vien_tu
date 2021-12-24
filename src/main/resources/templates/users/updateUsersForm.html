@@ -85,6 +85,36 @@
 
                     <input type="hidden" class="form-control" th:field="*{id}">
 
+                    <div class="card card-outline">
+                        <div class="card-body pad">
+                            <div class="cover-img">
+                                <div>
+                                    <label class="required-label">Ảnh dại diện sản phẩm</label> <i>(Lưu ý: Nên để nền trắng)</i>
+                                </div>
+                                <div class="grid-list-img">
+                                    <div class="grid-item">
+                                        <div class="img-container">
+                                            <div class="choose-cover-img choose-img-wrap">
+                                                <div class="img-container">
+                                                    <div class="img-div">
+                                                        <img th:src="${provider.getCoverImage()}" alt="product img" src="#" width="200px">
+                                                    </div>
+                                                </div>
+                                                <div class="img-btn-actions">
+                                                    <div class="btn-edit-img">
+                                                        <i class="fas fa-edit"></i>
+                                                    </div>
+                                                </div>
+                                                <input class="d-none" name="coverImage" th:value="${provider.getCoverImage()}"  hidden>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="invalid-feedback" id="invalid-feedback__coverImage"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="userName">Username</label>
@@ -230,6 +260,64 @@
     <script th:src="@{/adminlte/plugins/list/list.min.js}"></script>
     <!-- main js -->
     <script th:src="@{/script/admin/manage-user.js}"></script>
+
+    <script th:inline="javascript">
+        $(function () {
+            let imgs = [[${images}]];
+            let tmp = [];
+            for (img of imgs) {
+                tmp.push({"grid-item-img": img})
+            }
+            initListImg(tmp);
+
+        })
+
+        $(document).on("click", ".choose-cover-img", function (event) {
+            let obj = $(this).parent().parent()
+            $('#choose-img-modal').modal('show');
+            $("#choose-img-modal .btn-choose-img").on('click', function (event) {
+                let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
+                if (url === "" || url == null) {
+                    toastr.warning("Bạn chưa chọn ảnh");
+                    return;
+                }
+                closeChooseImgModal();
+                $('.btn-choose-img').off('click');
+                obj.html(`
+                    <div class="img-container">
+                        <div class="img-div">
+                            <img src="${url}" alt="product img">
+                        </div>
+                    </div>
+                    <div class="img-btn-actions">
+                        <div class="btn-edit-img">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                    </div>
+                    <input class="d-none" name="coverImage" value="${url}" hidden>
+                `)
+            });
+        })
+
+        $(document).on("click", ".btn-delete-img", function (e) {
+            $(this).parent().parent().remove();
+        })
+        $(document).on("click", ".btn-edit-img", function (e) {
+            let obj = $(this).parent().parent()
+            $('#choose-img-modal').modal('show');
+            $("#choose-img-modal .btn-choose-img").on('click', function (event) {
+                let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
+                if (url === "" || url == null) {
+                    toastr.warning("Bạn chưa chọn ảnh");
+                    return;
+                }
+                closeChooseImgModal();
+                $('.btn-choose-img').off('click');
+                obj.find('input').attr('value', url)
+                obj.find('input').attr('img', url)
+            });
+        })
+    </script>
 </th:block>
 </body>
 </html>

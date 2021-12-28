@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@ToString
 //@MappedSuperclass
 public class Users extends BaseEntity {
     @Column(name = "username")

@@ -11,6 +11,11 @@
     <title>Danh sách tài khoản người dùng</title>
 
     <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/modal_img.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/category.css}">
+        <link rel="stylesheet" th:href="@{/css/admin/product.css}">
     </th:block>
 </head>
 <body>
@@ -24,9 +29,6 @@
             </ol>
         </div>
     </div>
-
-
-    <body>
 
 
 <div class="row p-3">
@@ -89,7 +91,7 @@
                         <div class="card-body pad">
                             <div class="cover-img">
                                 <div>
-                                    <label class="required-label">Ảnh dại diện sản phẩm</label> <i>(Lưu ý: Nên để nền trắng)</i>
+                                    <label class="required-label">Ảnh bác sĩ</label> <i>(Lưu ý: Nên để nền trắng)</i>
                                 </div>
                                 <div class="grid-list-img">
                                     <div class="grid-item">
@@ -253,12 +255,18 @@
 
 
 </div>
+<div class="col-lg-3 text-center"></div>
+    <th:block th:replace="~{fragment/choose_img_modal :: choose-img-modal}"></th:block>
+</div>
 </main>
 
 <th:block id="js-resources">
+    <script th:src="@{/adminlte/plugins/summernote/summernote-bs4.min.js}"></script>
     <!-- List js -->
     <script th:src="@{/adminlte/plugins/list/list.min.js}"></script>
     <!-- main js -->
+    <script th:src="@{/adminlte/dist/js/modal_img.js}"></script>
+    <script th:src="@{/script/admin/manage-category.js}"></script>
     <script th:src="@{/script/admin/manage-user.js}"></script>
 
     <script th:inline="javascript">
@@ -277,7 +285,7 @@
             $('#choose-img-modal').modal('show');
             $("#choose-img-modal .btn-choose-img").on('click', function (event) {
                 let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
-                if (url === "" || url == null) {
+                if (url == "" || url == null) {
                     toastr.warning("Bạn chưa chọn ảnh");
                     return;
                 }
@@ -307,7 +315,7 @@
             $('#choose-img-modal').modal('show');
             $("#choose-img-modal .btn-choose-img").on('click', function (event) {
                 let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
-                if (url === "" || url == null) {
+                if (url == "" || url == null) {
                     toastr.warning("Bạn chưa chọn ảnh");
                     return;
                 }

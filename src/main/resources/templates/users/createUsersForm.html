@@ -25,7 +25,7 @@
         <div class="col-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                <li class="breadcrumb-item active">Danh sách user</li>
+                <li class="breadcrumb-item active">Thêm bác sĩ mới</li>
             </ol>
         </div>
     </div>
@@ -38,7 +38,7 @@
             <div class="card-header text-center">
                 <th:block th:if="${account_type =='customer_corporate'}">Register new Corporate Customer Account</th:block>
                 <th:block th:if="${account_type =='customer_retail'}">Register new Retail Customer Account</th:block>
-                <th:block th:if="${account_type =='provider'}">Register new Provider Account</th:block>
+                <th:block th:if="${account_type =='provider'}">Thêm bác sĩ mới</th:block>
             </div>
             <div class="card-body">
 
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="password">Mật khẩu</label>
                         <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password') ? 'is-invalid' :''}" th:field="*{password}" placeholder="password">
                         <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
                             <p th:errors="*{password}"></p>
@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="matchingPassword">Repeat</label>
+                        <label for="matchingPassword">Nhập lại mật khẩu</label>
                         <input type="password" class="form-control" th:classappend="${#fields.hasErrors('matchingPassword') ? 'is-invalid' :''}" th:field="*{matchingPassword}"
                                placeholder="reapeat password">
                         <div th:if="${#fields.hasErrors('matchingPassword')}" class="invalid-feedback">
@@ -117,7 +117,7 @@
 
                     <th:block th:if="${account_type =='customer_corporate'}">
                         <div class="form-group">
-                            <label for="companyName">Company Name</label>
+                            <label for="companyName">Tên công ty</label>
                             <input type="text" class="form-control" th:classappend="${#fields.hasErrors('companyName') ? 'is-invalid' :''}" th:field="*{companyName}"
                                    placeholder="company name">
                             <div th:if="${#fields.hasErrors('companyName')}" class="invalid-feedback">
@@ -127,7 +127,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="vatNumber">VAT number</label>
+                            <label for="vatNumber">Mã số VAT</label>
 
                             <input type="text" class="form-control" th:classappend="${#fields.hasErrors('vatNumber') ? 'is-invalid' :''}" th:field="*{vatNumber}"
                                    placeholder="vat number">
@@ -143,8 +143,7 @@
                         <label th:if="${account_type =='customer_corporate'}" for="firstName">Contact person first
                             name</label>
                         <label th:if="${account_type =='customer_retail' or account_type =='provider'}"
-                               for="firstName">First
-                            name</label>
+                               for="firstName">Tên</label>
                         <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid' :''}" th:field="*{firstName}"  placeholder="Jan">
                         <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
                             <p th:errors="*{firstName}"></p>
@@ -156,8 +155,7 @@
                         <label th:if="${account_type =='customer_corporate'}" for="lastName">Contact person last
                             name</label>
                         <label th:if="${account_type =='customer_retail' or account_type =='provider'}"
-                               for="lastName">Last
-                            name</label>
+                               for="lastName">Họ</label>
                         <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName') ? 'is-invalid' :''}" th:field="*{lastName}" placeholder="Kowalski">
                         <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
                             <p th:errors="*{lastName}"></p>
@@ -174,7 +172,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="phone">phone</label>
+                        <label for="phone">Số điện thoại</label>
 
                         <input type="text" class="form-control" th:classappend="${#fields.hasErrors('phone') ? 'is-invalid' :''}" th:field="*{phone}"
                                placeholder="505162073">
@@ -185,7 +183,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="address">address</label>
+                        <label for="address">Địa chỉ</label>
 
                         <input type="text" class="form-control" th:classappend="${#fields.hasErrors('address') ? 'is-invalid' :''}" th:field="*{address}" placeholder="ul. Adama Mickiewicza 1">
                         <div th:if="${#fields.hasErrors('address')}" class="invalid-feedback">
@@ -195,9 +193,9 @@
 
                     <th:block th:if="${account_type =='provider'}">
                         <div class="form-group">
-                            <p class="text-primary">retail customer target</p>
-                            <p class="text-info">corporate customer target</p>
-                            <label>Works:</label>
+<!--                            <p class="text-primary">retail customer target</p>-->
+<!--                            <p class="text-info">corporate customer target</p>-->
+                            <label>Công việc:</label>
                             <ul>
                                 <li th:each="work : ${allWorks}">
                                     <input type="checkbox" th:field="*{works}" th:value="${work.id}" />
@@ -208,7 +206,7 @@
                         </div>
                     </th:block>
 
-                    <button type="submit" class="btn btn-success">Register</button>
+                    <button type="submit" class="btn btn-success">Thêm</button>
 
 
             </div>

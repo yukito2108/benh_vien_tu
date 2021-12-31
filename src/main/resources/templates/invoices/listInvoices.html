@@ -8,7 +8,7 @@
                                                )}" lang="vi">
 
 <head>
-    <title>Danh sách tài khoản người dùng</title>
+    <title>Danh sách hóa đơn</title>
 
     <th:block id="css-resources">
     </th:block>
@@ -20,7 +20,7 @@
         <div class="col-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                <li class="breadcrumb-item active">Danh sách user</li>
+                <li class="breadcrumb-item active">Danh sách hóa đơn</li>
             </ol>
         </div>
     </div>
@@ -37,12 +37,12 @@
             <thead class="thead-dark">
 
             <tr >
-                <th> Number</th>
-                <th> Issued</th>
-                <th> Status</th>
-                <th> Total price</th>
-                <th> Customer</th>
-                <th> Action</th>
+                <th> Mã hóa đơn</th>
+                <th> Ngày tạo</th>
+                <th> Trạng thái</th>
+                <th> Tổng giá</th>
+                <th> Khách hàng</th>
+                <th> Thao tác</th>
             </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
                 <td colspan="4"> No Invoices Available</td>
             </tr>
             <tr th:each="invoice : ${invoices}">
-                <td><span th:text="${invoice.number}"> FV/2019/02/03 </span></td>
+                <td><span th:text="${invoice.number}"Ư> FV/2019/02/03 </span></td>
                 <td><span th:text="${#temporals.format(invoice.issued, 'dd-MM-yyyy HH:mm')}"> 15-03-2019 15:00 </span>
                 </td>
                 <td><span th:text="${invoice.status}"> paid </span></td>
@@ -61,7 +61,7 @@
                     <form th:if="${invoice.status=='issued'}" class="d-inline-block"
                           th:action="@{'/invoices/paid/' + ${invoice.id}}" method="POST">
                         <input type="hidden" name="invoiceId" th:value="${invoice.id}"/>
-                        <button type="submit" name="submit" value="value" class="btn btn-success">Mark as paid</button>
+                        <button type="submit" name="submit" value="value" class="btn btn-success">Đánh dấu đã thanh toán</button>
                     </form>
                 </td>
             </tr>
@@ -71,7 +71,7 @@
 
 </div>
 <div class="row align-items-center justify-content-center">
-    <a style="margin-bottom: 5px"  th:href="@{/invoices/issue}" class="btn btn-success" role="button" aria-pressed="true">Issue invoices manually</a>
+    <a style="margin-bottom: 5px"  th:href="@{/invoices/issue}" class="btn btn-success" role="button" aria-pressed="true">Thêm hóa đơn</a>
 </div>
 </main>
 

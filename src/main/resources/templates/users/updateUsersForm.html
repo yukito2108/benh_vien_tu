@@ -25,7 +25,7 @@
         <div class="col-12">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                <li class="breadcrumb-item active">Danh sách user</li>
+                <li class="breadcrumb-item active">Hồ sơ bác sĩ</li>
             </ol>
         </div>
     </div>
@@ -45,17 +45,17 @@
 
         <div class="card text-center">
             <div class="card-header">
-                Appointments
+                Lịch hẹn
             </div>
             <div class="card-body p-0">
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Scheduled
+                        Đã xếp
                         <span class="badge badge-primary badge-pill"
                               th:text="${numberOfScheduledAppointments}">2</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Canceled this month
+                        Đã hủy vào tháng này
                         <span class="badge badge-danger badge-pill"
                               th:text="${numberOfCanceledAppointments}">1</span>
                     </li>
@@ -71,11 +71,11 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                   aria-controls="profile" aria-selected="true">Profile</a>
+                   aria-controls="profile" aria-selected="true">Hồ sơ</a>
             </li>
             <li th:if="${_user.roles.contains('ROLE_CUSTOMER') || _user.roles.contains('ROLE_PROVIDER')}" class="nav-item">
                 <a class="nav-link" id="newPassword-tab" data-toggle="tab" href="#newPassword" role="tab"
-                   aria-controls="newPassword" aria-selected="false">Password</a>
+                   aria-controls="newPassword" aria-selected="false">Mật khẩu</a>
             </li>
 
         </ul>
@@ -138,14 +138,14 @@
                     <th:block th:if="${account_type =='customer_corporate'}">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="companyName">Company Name</label>
+                                <label for="companyName">Tên công ty</label>
                                 <input type="text" class="form-control" th:classappend="${#fields.hasErrors('companyName') ? 'is-invalid' :''}" th:field="*{companyName}">
                                 <div th:if="${#fields.hasErrors('companyName')}" class="invalid-feedback">
                                     <p th:errors="*{companyName}"></p>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="vatNumber">VAT number</label>
+                                <label for="vatNumber">Mã số VAT</label>
                                 <input type="text" class="form-control" th:classappend="${#fields.hasErrors('vatNumber') ? 'is-invalid' :''}" th:field="*{vatNumber}">
                                 <div th:if="${#fields.hasErrors('vatNumber')}" class="invalid-feedback">
                                     <p th:errors="*{vatNumber}"></p>
@@ -158,14 +158,14 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="firstName">First name</label>
+                            <label for="firstName">Tên</label>
                             <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName') ? 'is-invalid' :''}" th:field="*{firstName}">
                             <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
                                 <p th:errors="*{firstName}"></p>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="lastName">Last name</label>
+                            <label for="lastName">Họ</label>
                             <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName') ? 'is-invalid' :''}" th:field="*{lastName}">
                             <div th:if="${#fields.hasErrors('lastName')}" class="invalid-feedback">
                                 <p th:errors="*{lastName}"></p>
@@ -175,14 +175,14 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="phone">Phone</label>
+                            <label for="phone">Số điện thoại</label>
                             <input type="text" class="form-control" th:classappend="${#fields.hasErrors('phone') ? 'is-invalid' :''}" th:field="*{phone}">
                             <div th:if="${#fields.hasErrors('phone')}" class="invalid-feedback">
                                 <p th:errors="*{phone}"></p>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="address">Address</label>
+                            <label for="address">Địa chỉ</label>
                             <input type="text" class="form-control" th:classappend="${#fields.hasErrors('address') ? 'is-invalid' :''}" th:field="*{address}">
                             <div th:if="${#fields.hasErrors('address')}" class="invalid-feedback">
                                 <p th:errors="*{addyress}"></p>
@@ -194,9 +194,9 @@
 
                     <th:block th:if="${account_type =='provider'}">
                         <div class="form-group">
-                            <p class="text-primary">retail customer target</p>
-                            <p class="text-info">corporate customer target</p>
-                            <label>Works:</label>
+<!--                            <p class="text-primary">retail customer target</p>-->
+<!--                            <p class="text-info">corporate customer target</p>-->
+                            <label>Công việc:</label>
                             <ul>
                                 <li th:each="work : ${allWorks}">
                                     <input type="checkbox" th:field="*{works}" th:value="${work.id}" />
@@ -206,7 +206,7 @@
                         </div>
                     </th:block>
 
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
                 </form>
 
 
@@ -219,7 +219,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="currentPassword">Current password</label>
+                            <label for="currentPassword">Mật khẩu hiện tại</label>
                             <input type="password" class="form-control" th:classappend="${#fields.hasErrors('currentPassword') ? 'is-invalid' :''}" th:field="*{currentPassword}">
                             <div th:if="${#fields.hasErrors('currentPassword')}" class="invalid-feedback">
                                 <p th:errors="*{currentPassword}"></p>
@@ -229,7 +229,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="password">New password</label>
+                            <label for="password">Mật khẩu mới</label>
                             <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password') ? 'is-invalid' :''}" th:field="*{password}">
                             <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
                                 <p th:errors="*{password}"></p>
@@ -238,14 +238,14 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="matchingPassword">Repeat new password</label>
+                            <label for="matchingPassword">Nhập lại mật khẩu mới</label>
                             <input type="password" class="form-control" th:classappend="${#fields.hasErrors('matchingPassword') ? 'is-invalid' :''}" th:field="*{matchingPassword}">
                             <div th:if="${#fields.hasErrors('matchingPassword')}" class="invalid-feedback">
                                 <p th:errors="*{matchingPassword}"></p>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
                 </form>
             </div>
 

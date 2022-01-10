@@ -11,10 +11,10 @@ button:focus {
   display: block;
 }
 
-.home-banner {
-  max-width: 905px;
-  margin-left: auto;
-}
+/*.home-banner {*/
+/*  max-width: 905px;*/
+/*  margin-left: auto;*/
+/*}*/
 
 .home-banner img {
   width: 100%;

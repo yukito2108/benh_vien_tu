@@ -1,13 +1,19 @@
 package com.tuannq.store.service.impl;
 
 import com.tuannq.store.dao.WorkingPlanRepository;
+import com.tuannq.store.entity.Users;
 import com.tuannq.store.entity.WorkingPlan;
 import com.tuannq.store.model.TimePeroid;
+import com.tuannq.store.security.CustomUserDetails;
 import com.tuannq.store.security.CustomUsersDetails;
 import com.tuannq.store.service.WorkingPlanService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class WorkingPlanServiceImpl implements WorkingPlanService {
@@ -34,9 +40,15 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
 
     @Override
     public void addBreakToWorkingPlan(TimePeroid breakToAdd, Long planId, String dayOfWeek) {
-        CustomUsersDetails currentUsers = (CustomUsersDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Users> currentUsers = Optional.ofNullable(SecurityContextHolder.getContext())
+                .map(SecurityContext::getAuthentication)
+                .map(Authentication::getPrincipal)
+                .map(u -> {
+                    if (u instanceof CustomUserDetails) return ((CustomUserDetails) u).getUser();
+                    else return null;
+                });
         WorkingPlan workingPlan = workingPlanRepository.getOne(planId);
-        if (workingPlan.getProvider().getId().equals(currentUsers.getId())) {
+        if (!workingPlan.getProvider().getId().equals(currentUsers.get().getId())) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }
         workingPlan.getDay(dayOfWeek).getBreaks().add(breakToAdd);
@@ -45,9 +57,15 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
 
     @Override
     public void deleteBreakFromWorkingPlan(TimePeroid breakToDelete, Long planId, String dayOfWeek) {
-        CustomUsersDetails currentUsers = (CustomUsersDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Users> currentUsers = Optional.ofNullable(SecurityContextHolder.getContext())
+                .map(SecurityContext::getAuthentication)
+                .map(Authentication::getPrincipal)
+                .map(u -> {
+                    if (u instanceof CustomUserDetails) return ((CustomUserDetails) u).getUser();
+                    else return null;
+                });
         WorkingPlan workingPlan = workingPlanRepository.getOne(planId);
-        if (workingPlan.getProvider().getId().equals(currentUsers.getId())) {
+        if (!workingPlan.getProvider().getId().equals(currentUsers.get().getId())) {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }
         workingPlan.getDay(dayOfWeek).getBreaks().remove(breakToDelete);

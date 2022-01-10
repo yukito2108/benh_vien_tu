@@ -23,6 +23,14 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
         <link rel="stylesheet" th:href="@{/css/vendor/bootstrap-notifications.css}"/>
+
+        <!-- summernote -->
+        <!--        <link rel="stylesheet" th:href="@{/adminlte/plugins/select2-to-tree/src/select2totree.css}">-->
+        <link rel="stylesheet" th:href="@{/adminlte/plugins/summernote/summernote-bs4.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/modal_img.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/list_image_product.css}">
+        <link rel="stylesheet" th:href="@{/adminlte/dist/css/category.css}">
+        <link rel="stylesheet" th:href="@{/css/admin/product.css}">
     </th:block>
 </head>
 <body>
@@ -162,46 +170,51 @@
 
             </div>
             <div class="col-md-5">
-
-                <div class="chatbody">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading top-bar">
-                            <div class="col-md-8 col-xs-8">
-                                <p>
-                                    Appointment chat with
-                                    <span th:if="${_user.roles.contains('ROLE_PROVIDER')}" th:text="${appointment.customer.firstName}"></span>
-                                    <span th:if="!${_user.roles.contains('ROLE_CUSTOMER')}" th:text="${appointment.provider.firstName}"></span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="panel-body msg_container_base">
-                            <div th:each="chatMessage : ${appointment.chatMessages}" class="row msg_container base_receive">
-                                <div class="col-md-12 col-xs-12">
-                                    <div class="messages msg_receive">
-                                        <p th:text="${chatMessage.message}">messae</p>
-                                        <time datetime="2009-11-13T20:00"><span
-                                                th:text="${chatMessage.author.firstName}">author</span> • <span
-                                                th:text="${#temporals.format(chatMessage.createdAt, 'dd-MM-yyyy HH:mm')}"></span></time>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <form th:action="@{/appointments/messages/new}" th:object="${chatMessage}" method='POST'>
-                            <div class="input-group mb-3">
-                                <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                                <input type="text" class="form-control" th:field="*{message}" placeholder="Write your message here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">Send</button>
-                                </div>
-                            </div>
-                        </form>
-
-
-                    </div>
-
+                <div class="form-group">
+                    <label for="description">Mô tả sản phẩm</label>
+                    <textarea name="description" class="form-control" id="description"
+                              placeholder="Mô tả sản phẩm"></textarea>
+                    <span class="invalid-feedback" id="invalid-feedback__description"></span>
                 </div>
+<!--                <div class="chatbody">-->
+<!--                    <div class="panel panel-primary">-->
+<!--                        <div class="panel-heading top-bar">-->
+<!--                            <div class="col-md-8 col-xs-8">-->
+<!--                                <p>-->
+<!--                                    Appointment chat with-->
+<!--                                    <span th:if="${_user.roles.contains('ROLE_PROVIDER')}" th:text="${appointment.customer.firstName}"></span>-->
+<!--                                    <span th:if="!${_user.roles.contains('ROLE_CUSTOMER')}" th:text="${appointment.provider.firstName}"></span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="panel-body msg_container_base">-->
+<!--                            <div th:each="chatMessage : ${appointment.chatMessages}" class="row msg_container base_receive">-->
+<!--                                <div class="col-md-12 col-xs-12">-->
+<!--                                    <div class="messages msg_receive">-->
+<!--                                        <p th:text="${chatMessage.message}">messae</p>-->
+<!--                                        <time datetime="2009-11-13T20:00"><span-->
+<!--                                                th:text="${chatMessage.author.firstName}">author</span> • <span-->
+<!--                                                th:text="${#temporals.format(chatMessage.createdAt, 'dd-MM-yyyy HH:mm')}"></span></time>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <form th:action="@{/appointments/messages/new}" th:object="${chatMessage}" method='POST'>-->
+<!--                            <div class="input-group mb-3">-->
+<!--                                <input type="hidden" name="appointmentId" th:value="${appointment.id}">-->
+<!--                                <input type="text" class="form-control" th:field="*{message}" placeholder="Write your message here..." aria-label="Recipient's username" aria-describedby="basic-addon2">-->
+<!--                                <div class="input-group-append">-->
+<!--                                    <button class="btn btn-outline-secondary" type="submit">Send</button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </form>-->
+
+
+<!--                    </div>-->
+
+<!--                </div>-->
 
 
             </div>
@@ -229,6 +242,255 @@
     <!--DataTables-->
     <script type="text/javascript" charset="utf8"
             src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <!-- Summernote -->
+    <script th:src="@{/adminlte/plugins/summernote/summernote-bs4.min.js}"></script>
+    <!-- List js -->
+    <script th:src="@{/adminlte/plugins/list/list.min.js}"></script>
+    <!-- Modal img js -->
+    <script th:src="@{/adminlte/dist/js/modal_img.js}"></script>
+    <script th:src="@{/script/admin/manage-category.js}"></script>
+    <script th:inline="javascript">
+        let specifications = [[${brands}]]
+
+
+        $(function () {
+            $('#description').summernote(
+                {
+                    height: 450,
+                    focus: true
+                }
+            )
+
+            let imgs = [[${images}]];
+            let tmp = [];
+            for (img of imgs) {
+                tmp.push({"grid-item-img": img})
+            }
+            initListImg(tmp);
+
+            var c = [[${allCategories}]]
+            initListCategories(c)
+        })
+
+        $(document).ready(function () {
+            const input_name = $('input[name="name"]')
+            input_name.keyup(function () {
+                let slug = $('input[name="slug"]')
+                if (slug)
+                    slug.val(convertToSlug($(this).val()));
+            });
+
+            input_name.bind("paste", function () {
+                let slug = $('input[name="slug"]')
+                if (slug)
+                    slug.val(convertToSlug($(this).val()));
+            });
+
+        })
+
+        $(document).on("click", ".choose-cover-img", function (event) {
+            let obj = $(this).parent().parent()
+            $('#choose-img-modal').modal('show');
+            $("#choose-img-modal .btn-choose-img").on('click', function (event) {
+                let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
+                if (url === "" || url == null) {
+                    toastr.warning("Bạn chưa chọn ảnh");
+                    return;
+                }
+                closeChooseImgModal();
+                $('.btn-choose-img').off('click');
+                obj.html(`
+                    <div class="img-container">
+                        <div class="img-div">
+                            <img src="${url}" alt="product img">
+                        </div>
+                    </div>
+                    <div class="img-btn-actions">
+                        <div class="btn-edit-img">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                    </div>
+                    <input class="d-none" name="coverImage" value="${url}" hidden>
+                `)
+            });
+        })
+
+        $(document).on("click", ".choose-product-img", function (event) {
+            $('#choose-img-modal').modal('show');
+            $("#choose-img-modal .btn-choose-img").on('click', function (event) {
+                let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
+                if (url === "" || url == null) {
+                    toastr.warning("Bạn chưa chọn ảnh");
+                    return;
+                }
+                closeChooseImgModal();
+                $('.btn-choose-img').off('click');
+                $('#list-product-image').append(`
+                    <div class="grid-item">
+                        <div class="img-container">
+                            <div class="img-div">
+                                <img src="${url}" alt="product img">
+                            </div>
+                        </div>
+                         <div class="img-btn-actions">
+                            <div class="btn-edit-img">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="btn-delete-img">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                        </div>
+                        <input class="d-none" name="productImages[]" value="${url}" hidden>
+                    </div>
+                `)
+            });
+        })
+
+        $(document).on("click", ".btn-delete-img", function (e) {
+            $(this).parent().parent().remove();
+        })
+        $(document).on("click", ".btn-edit-img", function (e) {
+            let obj = $(this).parent().parent()
+            $('#choose-img-modal').modal('show');
+            $("#choose-img-modal .btn-choose-img").on('click', function (event) {
+                let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
+                if (url === "" || url == null) {
+                    toastr.warning("Bạn chưa chọn ảnh");
+                    return;
+                }
+                closeChooseImgModal();
+                $('.btn-choose-img').off('click');
+                obj.find('input').attr('value', url)
+                obj.find('input').attr('img', url)
+            });
+        })
+
+        $(document).on("click", ".delete-salient-features", function (e) {
+            $(this).parent().parent().remove();
+        })
+
+        $(document).on("click", ".add-salient-features", function (e) {
+            $('.salient-features').append(`
+                <li>
+                    <div class="d-flex mb-3">
+                        <label class="w-100 m-0">
+                            <input name="salientFeatures[]" type="text" class="form-control"
+                                   placeholder="Tính năng nổi bật">
+                        </label>
+                        <div class="delete-item delete-salient-features">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                </li>
+           `)
+        })
+
+
+        $(document).on("click", ".add-product-specifications", function (event) {
+            console.log(event)
+            let count = $('.product-specifications li').length
+            $('.product-specifications').append(`
+                <li>
+                    <div class="d-flex mb-3">
+                        <div class="d-flex w-100 m-0">
+                            <div class="form-group col-6 mb-0 pl-0">
+                                <select name="specifications[${count}].id" class="form-control select2bs4" aria-label="">
+                                    <option value="" disabled selected>Chọn thông số</option>
+                                    ${specifications.map(spec => `
+                                        <option value="${spec.id}">${spec.name}</option>
+                                    `).reduce((a, b) => a + b)}
+                                </select>
+                                <span class="invalid-feedback" id="invalid-feedback__specifications[${count}].id"></span>
+                            </div>
+                            <div class="form-group col-6 mb-0 pr-0">
+                                <input name="specifications[0].value" type="text" class="form-control" aria-label=""
+                                       placeholder="Thông số">
+                                <span class="invalid-feedback" id="invalid-feedback__specifications[${count}].value"></span>
+                            </div>
+                        </div>
+                        <div class="delete-item btn-delete-specific">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                </li>
+            `)
+
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        })
+
+        $(document).on("click", ".btn-add-product", function (e) {
+            e.preventDefault();
+            const form = $(this.form)
+            $.ajax({
+                url: '/api/admin/products',
+                type: 'POST',
+                data: JSON.stringify(getFormData(form)),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    toastr.success(data.message);
+                    setTimeout(function () {
+                        window.location = "/admin/products/" + data.data.id
+                    }, 500)
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    if (data.errors instanceof Array) {
+                        toastr.error(data.message);
+                        $('.invalid-feedback').hide()
+                        $.map(data.errors, function (e) {
+                            let obj = $(`#invalid-feedback__${e.field}`)
+                            obj.show();
+                            obj.text(e.message)
+                        })
+                    } else {
+                        toastr.error(error.responseText);
+                    }
+
+                }
+            });
+        })
+
+        $(document).on("click", ".category-list .scroll-item .category-item", function (e) {
+            let btnChooseCategory = $('.btn-choose-category')
+            let categoryId = $(this).data("id")
+            let col = $(this).parent().data("cols")
+
+            let sc = listCategory.filter(i => i.id === categoryId)[0]
+
+            console.log(sc)
+            if (col === 4 || sc.categoryChild.length === 0) {
+                btnChooseCategory.data("category-id", categoryId)
+                categoryText(categoryId)
+                btnChooseCategory.prop("disabled", false);
+            } else {
+                btnChooseCategory.prop("disabled", true);
+            }
+
+            function categoryText(id) {
+                btnChooseCategory.data("category-text", "")
+                let categoryParentId = id
+                do {
+                    let kq = btnChooseCategory.data("category-text")
+                    let c = listCategory.filter(i => i.id === categoryParentId)[0]
+                    btnChooseCategory.data("category-text", kq === "" ? c.name : c.name + ' > ' + kq)
+                    categoryParentId = c.categoryParentId
+                    if (categoryParentId == null) return;
+                } while (true)
+            }
+        })
+
+        $(document).on("click", ".btn-choose-category", function (e) {
+            let btnChooseCategory = $('.btn-choose-category')
+            let categoryId = btnChooseCategory.data("category-id")
+            let categoryText = btnChooseCategory.data("category-text")
+            $('#categoryId').val(categoryId)
+            $('#choose-category').val(categoryText)
+            $('#modal-choose-category').modal('hide');
+        })
+    </script>
 
 
 

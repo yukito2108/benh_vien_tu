@@ -88,13 +88,13 @@
     <section class="sub-banner" data-stellar-background-ratio="0.5">
         <div class="overlay">
             <div class="container">
-                <h3>Appointment</h3>
-                <p>Meet our team of highly skilled professionals</p>
+                <h3>Lịch Hẹn</h3>
+                <p>Gặp gỡ đội ngũ chuyên gia có tay nghề cao của chúng tôi</p>
 
                 <!--======= Breadcrumbs =========-->
                 <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Appointment</li>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li class="active">Lịch Hẹn</li>
                 </ol>
             </div>
         </div>
@@ -107,20 +107,16 @@
         <div class="container-fluid">
             <ul class="row">
                 <li class="col-md-3"> <i class="fa fa-heartbeat"></i>
-                    <h5>Heart  Rate</h5>
-                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                    <h5>Nhịp Tim</h5>
                 </li>
                 <li class="col-md-3"> <i class="fa fa-stethoscope"></i>
-                    <h5>Medical Counseling</h5>
-                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                    <h5>Tư Vấn Y Tế</h5>
                 </li>
                 <li class="col-md-3"> <i class="fa fa-user-md"></i>
-                    <h5>Qualified Doctors</h5>
-                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                    <h5>Các bác sĩ đạt tiêu chuẩn</h5>
                 </li>
                 <li class="col-md-3"> <i class="fa fa-ambulance"></i>
-                    <h5>Emergency Services</h5>
-                    <p>Duis autem vel eum iriure dolor in hendr erit in vulpt feugiat nulla facilisis utate velit esse molestie consequat</p>
+                    <h5>Dịch Vụ Cấp Cứu</h5>
                 </li>
             </ul>
         </div>
@@ -140,31 +136,31 @@
                                 <thead>
                                 <tr class="text-center">
                                     <td colspan="2">
-                                        <h3>Your new appointment summary</h3>
+                                        <h3>Lịch hẹn của bạn</h3>
                                     </td>
                                 </tr>
                                 </thead>
 
                                 <tr>
-                                    <td><b>date</b></td>
+                                    <td><b>Ngày</b></td>
                                     <td><span th:text="${#temporals.format(start, 'dd-MM-yyyy')}">10-01-2019</span></td>
                                 </tr>
                                 <tr>
-                                    <td><b>time</b></td>
+                                    <td><b>Thời gian</b></td>
                                     <td><span th:text="${#temporals.format(start, 'HH:mm')+' - '+ #temporals.format(end, 'HH:mm')}">14:00 - 15:00</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><b>provider</b></td>
+                                    <td><b>Bác sĩ</b></td>
                                     <td><span th:text="${provider}">Marian Nowak</span></td>
                                 </tr>
 
                                 <tr>
-                                    <td><b>work</b></td>
+                                    <td><b>Dịch vụ</b></td>
                                     <td><span th:text="${work.name}"> english </span></td>
                                 </tr>
                                 <tr>
-                                    <td><b>description</b></td>
+                                    <td><b>Mô tả</b></td>
                                     <td><span th:text="${work.description}">description</span></td>
                                 </tr>
 
@@ -174,8 +170,8 @@
                                 </tr>
 
                                 <tr>
-                                    <td><b>cancellable by customer?</b></td>
-                                    <td><p th:text="${work.editable ? 'Yes':'No, only by provider'}">Yes</p></td>
+                                    <td><b>Bạn có thể huỷ không</b></td>
+                                    <td><p th:text="${work.editable ? 'Có':'Không'}">Yes</p></td>
                                 </tr>
                                 <tr class="text-center">
                                     <td colspan="2">
@@ -185,7 +181,7 @@
                                             <input type="hidden" name="start" th:value="${start}">
 
 
-                                            <button type="submit" class="btn btn-primary">Book</button>
+                                            <button type="submit" class="btn btn-primary">Đặt ngay</button>
                                         </form>
 
                                     </td>
@@ -209,36 +205,30 @@
 
                     <!-- Section -->
                     <li class="col-sm-4">
-                        <h6>Medical Counseling</h6>
-                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                        <h6>Tư Vấn Y Tế</h6>
                     </li>
                     <!-- Section -->
                     <li class="col-sm-4">
-                        <h6>Professional services</h6>
-                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                        <h6>Dịch Vụ Chuyên Nghiệp</h6>
                     </li>
                     <!-- Section -->
                     <li class="col-sm-4">
-                        <h6>24 Hours service</h6>
-                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                        <h6>Dịch Vụ 24h</h6>
                     </li>
                 </ul>
                 <ul class="row">
 
                     <!-- Section -->
                     <li class="col-sm-4">
-                        <h6>Qualified medical facilities</h6>
-                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                        <h6>Cơ Sở Y Tế Đủ Điều Kiện</h6>
                     </li>
                     <!-- Section -->
                     <li class="col-sm-4">
-                        <h6>Top level doctors</h6>
-                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                        <h6>Các Bác Sĩ Chuyên Nghiệp</h6>
                     </li>
                     <!-- Section -->
                     <li class="col-sm-4">
-                        <h6>Dedicated patient care</h6>
-                        <p>Cum sociis natoque penatibus et magnis dis parturient montesmus. Nunc finibus sit amet gravida. </p>
+                        <h6>Chăm Sóc Bệnh Nhân Tận Tâm</h6>
                     </li>
                 </ul>
 
@@ -253,22 +243,20 @@
                 <!--Address-->
                 <ul class="row">
                     <li class="col-md-3"> <i class="ion-ios-location-outline"></i>
-                        <h5>Address</h5>
-                        <p>1800 Abbot Kinney Blvd. Unit D & E
-                            Venice, CA 90291</p>
+                        <h5>Địa Chỉ</h5>
+                        <p>50 Nguyễn Trãi, Hà Nội</p>
                     </li>
 
                     <!--Hot line-->
                     <li class="col-md-3"> <i class="ion-iphone"></i>
                         <h5>Hotline</h5>
-                        <p>+00-0122-123-0089</p>
+                        <p>0904859385</p>
                     </li>
 
                     <!--Email Contact-->
                     <li class="col-md-3"> <i class="ion-ios-email-outline"></i>
-                        <h5>Email contact</h5>
-                        <p>medikal@gmail.com</p>
-                        <p> contact@medikalclinic.com</p>
+                        <h5>Email</h5>
+                        <p>hoangnv@gmail.com</p>
                     </li>
 
                     <!--Website-->
@@ -335,20 +323,19 @@
                 <!-- Patient Guide -->
                 <div class="col-md-3">
                     <div class="links text-right">
-                        <h5>Patient Guide</h5>
+                        <h5>Hướng dẫn bệnh nhân</h5>
                         <ul>
-                            <li><a href="#.">Choosing a doctor</a></li>
-                            <li><a href="#."> Health journals</a></li>
-                            <li><a href="#."> Insurance converage</a></li>
-                            <li><a href="#."> Talking to your doctor</a></li>
-                            <li><a href="#."> Medikal error</a></li>
+                            <li><a href="#.">Chọn bác sĩ</a></li>
+                            <li><a href="#."> Tạp chí sức khỏe</a></li>
+                            <li><a href="#."> Các gói bảo hiểm</a></li>
+                            <li><a href="#."> Gặp bác sĩ</a></li>
                         </ul>
 
                         <!-- Timing -->
                         <div class="timing">
-                            <h5>opening hours</h5>
-                            <p>Mon to Fri <span> 8:00 am to 7:00pm</span></p>
-                            <p>Sun & Sat <span>9:00 am to 5:00pm</span></p>
+                            <h5>Giờ mở cửa</h5>
+                            <p>Thứ 2 đến Thứ 6 <span> 8h đến 19h</span></p>
+                            <p>Thứ 7 & Chủ nhật <span>9h đến 17h</span></p>
                         </div>
                     </div>
                 </div>

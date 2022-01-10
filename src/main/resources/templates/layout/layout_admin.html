@@ -118,6 +118,12 @@
                                     <p>Danh sách dịch vụ</p>
                                 </a>
                             </li>
+                            <li th:if="${_user.roles.contains('ROLE_PROVIDER')}" class="nav-item">
+                                <a th:href="@{/providers/availability}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Lịch làm việc</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li th:if="${_user.roles.contains('ROLE_ADMIN')}" class="nav-item has-treeview">

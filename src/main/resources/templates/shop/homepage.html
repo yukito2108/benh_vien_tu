@@ -117,38 +117,38 @@
             <div class="header-nav">
                 <div class="container">
                     <div class="header-nav-content">
-                        <div class="header-nav-menu">
-                            <strong style="    width: 235px;">
-                                <i class="fas fa-bars"></i>
-                                Danh mục sản phẩm
-                            </strong>
-                            <ul class="header-nav-menu-list"style="    width: 235px;">
-                                <th:block th:each="category : ${header_categories}">
-                                    <li class="header-nav-menu-item" style="    width: 235px;">
-                                        <a th:href="@{/danh-muc/{slug}(slug=${category.slug})}"
-                                           th:text="${category.name}"></a>
-                                    </li>
-                                </th:block>
-                                <li class="header-nav-menu-item"style="    width: 235px;">
-                                    <a href="#">Máy ảnh</a>
-                                </li>
-                                <li class="header-nav-menu-item"style="    width: 235px;">
-                                    <a href="#">Máy lạnh</a>
-                                </li>
-                                <li class="header-nav-menu-item"style="    width: 235px;">
-                                    <a href="#">Máy lọc không khí</a>
-                                </li>
-                                <li class="header-nav-menu-item"style="    width: 235px;">
-                                    <a href="#">Đồ gia dụng</a>
-                                </li>
-                                <li class="header-nav-menu-item"style="    width: 235px;">
-                                    <a href="#">Thương hiệu nổi bật</a>
-                                </li>
-                                <li class="header-nav-menu-item"style="    width: 235px;">
-                                    <a href="#">Kinh nghiệm hay, mẹo vặt</a>
-                                </li>
-                            </ul>
-                        </div>
+<!--                        <div class="header-nav-menu">-->
+<!--                            <strong style="    width: 235px;">-->
+<!--                                <i class="fas fa-bars"></i>-->
+<!--                                Danh mục sản phẩm-->
+<!--                            </strong>-->
+<!--                            <ul class="header-nav-menu-list"style="    width: 235px;">-->
+<!--                                <th:block th:each="category : ${header_categories}">-->
+<!--                                    <li class="header-nav-menu-item" style="    width: 235px;">-->
+<!--                                        <a th:href="@{/danh-muc/{slug}(slug=${category.slug})}"-->
+<!--                                           th:text="${category.name}"></a>-->
+<!--                                    </li>-->
+<!--                                </th:block>-->
+<!--                                <li class="header-nav-menu-item"style="    width: 235px;">-->
+<!--                                    <a href="#">Máy ảnh</a>-->
+<!--                                </li>-->
+<!--                                <li class="header-nav-menu-item"style="    width: 235px;">-->
+<!--                                    <a href="#">Máy lạnh</a>-->
+<!--                                </li>-->
+<!--                                <li class="header-nav-menu-item"style="    width: 235px;">-->
+<!--                                    <a href="#">Máy lọc không khí</a>-->
+<!--                                </li>-->
+<!--                                <li class="header-nav-menu-item"style="    width: 235px;">-->
+<!--                                    <a href="#">Đồ gia dụng</a>-->
+<!--                                </li>-->
+<!--                                <li class="header-nav-menu-item"style="    width: 235px;">-->
+<!--                                    <a href="#">Thương hiệu nổi bật</a>-->
+<!--                                </li>-->
+<!--                                <li class="header-nav-menu-item"style="    width: 235px;">-->
+<!--                                    <a href="#">Kinh nghiệm hay, mẹo vặt</a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
                         <ul class="header-nav-list">
                             <!--                                <li class="header-nav-item">-->
                             <!--                                    <i class="fas fa-book"></i>-->
@@ -181,9 +181,9 @@
     <div class="main">
         <div class="container">
             <div class="home-banner">
-                <img th:src="@{/image/banner/banner-1.jpg}" alt="banner-1.jpg" style="height: 370px">
-                <img th:src="@{/image/banner/banner-2.jpg}" alt="banner-2.jpg"style="height: 370px">
-                <img th:src="@{/image/banner/banner-3.jpg}" alt="banner-3.jpg"style="height: 370px">
+                <img th:src="@{/image/banner/banner1.jpg}" alt="banner-1.jpg" style="height: 370px">
+                <img th:src="@{/image/banner/banner2.jpg}" alt="banner-2.jpg"style="height: 370px">
+                <img th:src="@{/image/banner/banner3.jpg}" alt="banner-3.jpg"style="height: 370px">
             </div>
 
             <div class="product-list">
@@ -484,23 +484,23 @@
                 </div>
             </div>
 
-            <div class="most-searched block-title-animation">
-                <h3 class="animation-title">Sản phẩm dành riêng cho bạn</h3>
-                <ul class="most-searched-list">
-                    <li class="most-searched-item">Máy lạnh</li>
-                    <li class="most-searched-item">Máy lọc không khí</li>
-                    <li class="most-searched-item">Máy sấy quần áo</li>
-                    <li class="most-searched-item">Quạt điều hòa</li>
-                    <li class="most-searched-item">Tủ lạnh mini</li>
-                    <li class="most-searched-item">Laptop</li>
-                    <li class="most-searched-item">Điện thoại</li>
-                    <li class="most-searched-item">Tivi 4K</li>
-                    <li class="most-searched-item">Máy giặt cửa trước</li>
-                    <li class="most-searched-item">Máy lọc nước</li>
-                    <li class="most-searched-item">Máy say sinh tố</li>
-                    <li class="most-searched-item">Nồi cơm điện</li>
-                </ul>
-            </div>
+<!--            <div class="most-searched block-title-animation">-->
+<!--                <h3 class="animation-title">Sản phẩm dành riêng cho bạn</h3>-->
+<!--                <ul class="most-searched-list">-->
+<!--                    <li class="most-searched-item">Máy lạnh</li>-->
+<!--                    <li class="most-searched-item">Máy lọc không khí</li>-->
+<!--                    <li class="most-searched-item">Máy sấy quần áo</li>-->
+<!--                    <li class="most-searched-item">Quạt điều hòa</li>-->
+<!--                    <li class="most-searched-item">Tủ lạnh mini</li>-->
+<!--                    <li class="most-searched-item">Laptop</li>-->
+<!--                    <li class="most-searched-item">Điện thoại</li>-->
+<!--                    <li class="most-searched-item">Tivi 4K</li>-->
+<!--                    <li class="most-searched-item">Máy giặt cửa trước</li>-->
+<!--                    <li class="most-searched-item">Máy lọc nước</li>-->
+<!--                    <li class="most-searched-item">Máy say sinh tố</li>-->
+<!--                    <li class="most-searched-item">Nồi cơm điện</li>-->
+<!--                </ul>-->
+<!--            </div>-->
         </div>
     </div>
 </main>

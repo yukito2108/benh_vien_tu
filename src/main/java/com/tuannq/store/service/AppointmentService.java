@@ -4,6 +4,9 @@ import com.tuannq.store.entity.Appointment;
 import com.tuannq.store.entity.ChatMessage;
 import com.tuannq.store.entity.Work;
 import com.tuannq.store.model.TimePeroid;
+import com.tuannq.store.model.request.MedicalExaminationResultForm;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -69,6 +72,8 @@ public interface AppointmentService {
 
     int getNumberOfScheduledAppointmentsForUsers(Long usersId);
 
-
     boolean isAvailable(Long workId, Long providerId, Long customerId, LocalDateTime start);
+
+    public void saveMedicalExaminationResults(Long appointmentId, MedicalExaminationResultForm form);
+
 }

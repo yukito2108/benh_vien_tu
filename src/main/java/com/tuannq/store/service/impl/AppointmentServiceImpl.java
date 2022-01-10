@@ -6,8 +6,10 @@ import com.tuannq.store.entity.*;
 import com.tuannq.store.entity.Users;
 import com.tuannq.store.entity.user.provider.Provider;
 import com.tuannq.store.exception.AppointmentNotFoundException;
+import com.tuannq.store.exception.NotFoundException;
 import com.tuannq.store.model.DayPlan;
 import com.tuannq.store.model.TimePeroid;
+import com.tuannq.store.model.request.MedicalExaminationResultForm;
 import com.tuannq.store.service.AppointmentService;
 import com.tuannq.store.service.NotificationService;
 import com.tuannq.store.service.UsersService;
@@ -20,10 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -367,6 +366,17 @@ public class AppointmentServiceImpl implements AppointmentService {
         Work work = workService.getWorkById(workId);
         TimePeroid timePeroid = new TimePeroid(start.toLocalTime(), start.toLocalTime().plusMinutes(work.getDuration()));
         return getAvailableHours(providerId, customerId, workId, start.toLocalDate()).contains(timePeroid);
+    }
+
+    @Override
+    public void saveMedicalExaminationResults(Long appointmentId, MedicalExaminationResultForm form) {
+        Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+        if (appointment.isEmpty())
+            throw new NotFoundException("appointment.not-found");
+        Appointment appoint = appointment.get();
+        appoint.setStatus(AppointmentStatus.FINISHED);
+        appoint.setMedicalExaminationResults(form.getMedicalExaminationResults());
+        appointmentRepository.save(appoint);
     }
 
     @Override

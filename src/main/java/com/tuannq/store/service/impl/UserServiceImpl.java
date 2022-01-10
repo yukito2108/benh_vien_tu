@@ -204,7 +204,7 @@ public class UserServiceImpl implements UserService {
             throw new ArgumentException("phone", messageSource.getMessage("phone.exist", null, LocaleContextHolder.getLocale()));
         if (usersRepository.findByEmail(form.getEmail()) != null)
             throw new ArgumentException("email", messageSource.getMessage("email.exist", null, LocaleContextHolder.getLocale()));
-        HashSet<Role> roles = new HashSet();
+        HashSet<Role> roles = new HashSet<>();
         roles.add(roleRepository.findByName("ROLE_CUSTOMER"));
         roles.add(roleRepository.findByName("ROLE_CUSTOMER_RETAIL"));
 

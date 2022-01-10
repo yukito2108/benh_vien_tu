@@ -4,15 +4,20 @@ import com.tuannq.store.entity.Appointment;
 import com.tuannq.store.entity.ChatMessage;
 import com.tuannq.store.entity.Image;
 import com.tuannq.store.entity.Users;
+import com.tuannq.store.model.dto.CategoryDTO;
+import com.tuannq.store.model.request.MedicalExaminationResultForm;
+import com.tuannq.store.model.response.SuccessResponse;
 import com.tuannq.store.security.CustomUserDetails;
 import com.tuannq.store.security.CustomUsersDetails;
 import com.tuannq.store.service.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -42,7 +47,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/all")
-    public String showAllAppointments(Model model ) {
+    public String showAllAppointments(Model model) {
         String appointmentsModelName = "appointments";
         Optional<Users> currentUsers = Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
@@ -56,21 +61,21 @@ public class AppointmentController {
         } else {
             appointmentService.updateUsersAppointmentsStatuses(currentUsers.get().getId());
         }
-        System.out.println("id="+currentUsers.get().getId());
+        System.out.println("id=" + currentUsers.get().getId());
         if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
-            System.out.println("id_customer="+Math.toIntExact(currentUsers.get().getId()));
+            System.out.println("id_customer=" + Math.toIntExact(currentUsers.get().getId()));
             model.addAttribute(appointmentsModelName, appointmentService.getAppointmentByCustomerId(currentUsers.get().getId()));
             System.out.println("ROLE_CUSTOMER");
         } else if (currentUsers.get().hasRole("ROLE_PROVIDER")) {
-            System.out.println("id_provider="+Math.toIntExact(currentUsers.get().getId()));
+            System.out.println("id_provider=" + Math.toIntExact(currentUsers.get().getId()));
             model.addAttribute(appointmentsModelName, appointmentService.getAppointmentByProviderId(currentUsers.get().getId()));
             System.out.println("ROLE_PROVIDER");
         } else if (currentUsers.get().hasRole("ROLE_ADMIN")) {
-            System.out.println("id_admin="+currentUsers.get().getId());
+            System.out.println("id_admin=" + currentUsers.get().getId());
             model.addAttribute(appointmentsModelName, appointmentService.getAllAppointments());
             System.out.println("ROLE_ADMIN");
         }
-        if(currentUsers.get().hasRole("ROLE_CUSTOMER")){
+        if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
             return "medikal/appointment";
         }
         return "appointments/listAppointments";
@@ -100,7 +105,7 @@ public class AppointmentController {
         String cancelNotAllowedReason = appointmentService.getCancelNotAllowedReason(currentUsers.get().getId(), appointmentId);
         model.addAttribute("allowedToCancel", cancelNotAllowedReason == null);
         model.addAttribute("cancelNotAllowedReason", cancelNotAllowedReason);
-        if(currentUsers.get().hasRole("ROLE_CUSTOMER")){
+        if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
             return "medikal/appointment_detail";
         }
         return "appointments/appointmentDetail";
@@ -183,7 +188,7 @@ public class AppointmentController {
         } else if (currentUsers.get().hasRole("ROLE_CUSTOMER_CORPORATE")) {
             model.addAttribute("providers", usersService.getProvidersWithCorporateWorks());
         }
-        if(currentUsers.get().hasRole("ROLE_CUSTOMER")){
+        if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
             return "medikal/appointment_add_doctor";
         }
         return "appointments/selectProvider";
@@ -204,7 +209,7 @@ public class AppointmentController {
             model.addAttribute("works", workService.getWorksForCorporateCustomerByProviderId(providerId));
         }
         model.addAttribute(providerId);
-        if(currentUsers.get().hasRole("ROLE_CUSTOMER")){
+        if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
             return "medikal/appointment_add_work";
         }
         return "appointments/selectService";
@@ -222,7 +227,7 @@ public class AppointmentController {
         if (workService.isWorkForCustomer(workId, currentUsers.get().getId())) {
             model.addAttribute(providerId);
             model.addAttribute("workId", workId);
-            if(currentUsers.get().hasRole("ROLE_CUSTOMER")){
+            if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
                 return "medikal/appointment_add_time";
             }
             return "appointments/selectDate";
@@ -247,7 +252,7 @@ public class AppointmentController {
             model.addAttribute(providerId);
             model.addAttribute("start", LocalDateTime.parse(start));
             model.addAttribute("end", LocalDateTime.parse(start).plusMinutes(workService.getWorkById(workId).getDuration()));
-            if(currentUsers.get().hasRole("ROLE_CUSTOMER")){
+            if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
                 return "medikal/appointment_add_overview";
             }
             return "appointments/newAppointmentSummary";
@@ -286,6 +291,15 @@ public class AppointmentController {
     public static String formatDuration(Duration duration) {
         long s = duration.getSeconds();
         return String.format("%dh%02dm", s / 3600, (s % 3600) / 60);
+    }
+
+    @PutMapping("/api/appointments/{id}/medical-examination-results")
+    public ResponseEntity<SuccessResponse<String>> saveMedicalExaminationResults(
+            @PathVariable("id") Long appointmentId,
+            @Validated @RequestBody MedicalExaminationResultForm form
+    ) {
+        appointmentService.saveMedicalExaminationResults(appointmentId, form);
+        return ResponseEntity.ok(null);
     }
 
 }

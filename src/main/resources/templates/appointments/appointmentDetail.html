@@ -47,181 +47,125 @@
 
 
     <div class="row" style="margin-top: 50px">
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div clas="col-md-1">
-            </div>
-            <div th:if="${appointment.exchangeRequest !=null && appointment.exchangeRequest.getStatus().name()== 'PENDING'}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
-                <p>Someone requested this appointment to be exchanged.</p>
-
-                <form th:action="@{/exchange/reject}" method='POST'>
-                    <input type="hidden" name="exchangeId" th:value="${appointment.exchangeRequest.id}">
-                    <input type="submit" class="btn btn-success" value="Reject" />
-                </form>
-                <form th:action="@{/exchange/accept}" method='POST'>
-                    <input type="hidden" name="exchangeId" th:value="${appointment.exchangeRequest.id}">
-                    <input type="submit" class="btn btn-success" value="Accept" />
-                </form>
-            </div>
-            <div th:if="${allowedToRequestRejection}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
-                <p>You have <span class="font-weight-bold" th:text="${remainingTime}">3h 45m</span> to deny that
-                    this appointment took place.</p>
-                <p>After that time it will be invoiced automatically.</p>
-
-                <form th:action="@{/appointments/reject}" method='POST'>
-                    <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                    <input type="submit" class="btn btn-danger" value="Reject" />
-                </form>
-            </div>
-            <div th:if="${allowedToAcceptRejection}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
-                <p>Customer claims that this appointment didn't take place.</p>
-                <p>If you agree with that, click the button below:</p>
-
-                <form th:action="@{/appointments/acceptRejection}" method='POST'>
-                    <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                    <input type="submit" class="btn btn-danger" value="Accept" /></form>
-            </div>
-
-        </div>
-
-        <div class="row">
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-4">
-
-                <table id="appointments" class="table">
-                    <tr>
-                        <td><b>status</b></td>
-                        <td><span th:text="${appointment.status}"> scheduled </span></td>
-                    </tr>
-                    <tr th:if="${appointment.status.name()=='CANCELED'}">
-                        <td><b>canceled by</b></td>
-                        <td><span
-                                th:text="${appointment.canceler.firstName+' '+appointment.canceler.lastName}">Canceller
+        <div class="col-12">
+            <div class="card card-outline">
+                <div class="card-body pad">
+                    <div class="row d-md-flex justify-content-md-between">
+                        <div class="col-md-4">
+                            <table id="appointments" class="table">
+                                <tr>
+                                    <td><b>status</b></td>
+                                    <td><span th:text="${appointment.status}"> scheduled </span></td>
+                                </tr>
+                                <tr th:if="${appointment.status.name()=='CANCELED'}">
+                                    <td><b>canceled by</b></td>
+                                    <td><span
+                                            th:text="${appointment.canceler.firstName+' '+appointment.canceler.lastName}">Canceller
                             name</span>
-                        </td>
+                                    </td>
 
-                    </tr>
+                                </tr>
 
-                    <tr>
-                        <td><b>date</b></td>
-                        <td><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy')}">10-01-2019</span></td>
-                    </tr>
-                    <tr>
-                        <td><b>time</b></td>
-                        <td><span th:text="${#temporals.format(appointment.start, 'HH:mm')+' - '+ #temporals.format(appointment.end, 'HH:mm')}">14:00 - 15:00</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>customer</b></td>
-                        <td><span th:text="${appointment.customer.firstName+' '+appointment.customer.lastName}">Peter Kowalski</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><b>provider</b></td>
-                        <td><span th:text="${appointment.provider.firstName+' '+appointment.provider.lastName}">Marian Nowak</span>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td><b>date</b></td>
+                                    <td><span
+                                            th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy')}">10-01-2019</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>time</b></td>
+                                    <td><span
+                                            th:text="${#temporals.format(appointment.start, 'HH:mm')+' - '+ #temporals.format(appointment.end, 'HH:mm')}">14:00 - 15:00</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>customer</b></td>
+                                    <td><span
+                                            th:text="${appointment.customer.firstName+' '+appointment.customer.lastName}">Peter Kowalski</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>provider</b></td>
+                                    <td><span
+                                            th:text="${appointment.provider.firstName+' '+appointment.provider.lastName}">Marian Nowak</span>
+                                    </td>
+                                </tr>
 
-                    <tr>
-                        <td><b>work</b></td>
-                        <td><span th:text="${appointment.work.name}"> english </span></td>
-                    </tr>
-                    <tr>
-                        <td><b>description</b></td>
-                        <td><span th:text="${appointment.work.description}">description</span></td>
-                    </tr>
+                                <tr>
+                                    <td><b>work</b></td>
+                                    <td><span th:text="${appointment.work.name}"> english </span></td>
+                                </tr>
+                                <tr>
+                                    <td><b>description</b></td>
+                                    <td><span th:text="${appointment.work.description}">description</span></td>
+                                </tr>
 
 
-                    <tr>
-                        <td><b>price</b></td>
-                        <td><span th:text="${appointment.work.price}"> 50 </span> vnd</td>
-                    </tr>
-                    <tr th:if="${appointment.status.name()=='INVOICED'}">
-                        <td><b>invoice</b></td>
-                        <td><a th:href="@{'/invoices/download/'+${appointment.invoice.id}}">download</a></td>
-                    </tr>
+                                <tr>
+                                    <td><b>price</b></td>
+                                    <td><span th:text="${appointment.work.price}"> 50 </span> vnd</td>
+                                </tr>
+                                <tr th:if="${appointment.status.name()=='INVOICED'}">
+                                    <td><b>invoice</b></td>
+                                    <td><a th:href="@{'/invoices/download/'+${appointment.invoice.id}}">download</a>
+                                    </td>
+                                </tr>
 
-                    <tr>
-                        <td><b>exchange</b></td>
-                        <td th:if="${allowedToExchange}">
-                            <a th:href="@{'/exchange/'+${appointment.id}}">exchange</a>
-                        </td>
-                        <td th:unless="${allowedToExchange}">
-                            <p>This appointment cannot be exchanged.</p>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td><b>cancellation</b></td>
-                        <td th:if="${allowedToCancel}">
-                            <form th:action="@{/appointments/cancel}" method='POST'>
-                                <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                                <input type="submit" class="btn btn-danger" value="Cancel" />
-                            </form>
-                        </td>
-                        <td th:unless="${allowedToCancel}">
-                            <p th:text="${cancelNotAllowedReason}">Reason why appointment cannot be cancelled.</p>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td><b>exchange</b></td>
+                                    <td th:if="${allowedToExchange}">
+                                        <a th:href="@{'/exchange/'+${appointment.id}}">exchange</a>
+                                    </td>
+                                    <td th:unless="${allowedToExchange}">
+                                        <p>This appointment cannot be exchanged.</p>
+                                    </td>
+                                </tr>
 
-                </table>
+                                <tr>
+                                    <td><b>cancellation</b></td>
+                                    <td th:if="${allowedToCancel}">
+                                        <form th:action="@{/appointments/cancel}" method='POST'>
+                                            <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                            <input type="submit" class="btn btn-danger" value="Cancel"/>
+                                        </form>
+                                    </td>
+                                    <td th:unless="${allowedToCancel}">
+                                        <p th:text="${cancelNotAllowedReason}">Reason why appointment cannot be
+                                            cancelled.</p>
+                                    </td>
+                                </tr>
 
-            </div>
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label for="description">Mô tả sản phẩm</label>
-                    <textarea name="description" class="form-control" id="description"
-                              placeholder="Mô tả sản phẩm"></textarea>
-                    <span class="invalid-feedback" id="invalid-feedback__description"></span>
+                            </table>
+                        </div>
+                        <form class="col-md-7" id="form_medical_examination_results">
+                            <div class="form-group">
+                                <label for="description">Kết quả khám</label>
+                                <textarea th:if="${appointment.medicalExaminationResults == null}"
+                                          name="medicalExaminationResults"
+                                          class="form-control" id="description"
+                                          placeholder="Mô tả sản phẩm">
+                                                        <table border="0" style="text-align: left; margin: 0px; padding: 0px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; border-spacing: 0px; max-width: 100%; overflow: auto; color: rgba(0, 0, 0, 0.87); width: 696px;"><tbody><tr><td style="padding: 4px;"><ul><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font: inherit; overflow-wrap: break-word;">Sở Y tế: ..............................</li><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font: inherit; overflow-wrap: break-word;">BV: ....................................</li></ul></td><td style="padding: 4px; text-align: center;"><ul><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 8px 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: 700; font-stretch: inherit; font-size: 1.1em; line-height: inherit; color: rgba(0, 0, 0, 0.87);">PHIẾU XÉT NGHIỆM HOÁ SINH MÁU</li></ul></td><td style="padding: 4px;"><ul><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font: inherit; overflow-wrap: break-word;">MS: 33/BV-01</li><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font: inherit; overflow-wrap: break-word;">Số .....................</li></ul></td></tr></tbody></table><ul><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; overflow-wrap: break-word; color: rgba(0, 0, 0, 0.87);">Thường: ... Cấp cứu: ...</li><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; overflow-wrap: break-word; color: rgba(0, 0, 0, 0.87);">- Họ tên người bệnh: ............................................. Tuổi: ......................... Nam/Nữ</li><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; overflow-wrap: break-word; color: rgba(0, 0, 0, 0.87);">- Địa chỉ: ...................................................................Số thẻ BHYT: ..........................</li><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; overflow-wrap: break-word; color: rgba(0, 0, 0, 0.87);">- Khoa: .................................. Buồng: ...............................Giường: ..........................</li><li style="text-align: left; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px 0px 8px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; overflow-wrap: break-word; color: rgba(0, 0, 0, 0.87);">- Chẩn đoán: .............................................................................................................</li></ul><table border="1" style="text-align: left; margin: 0px; padding: 0px; border: 1px rgb(0, 0, 0); font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; border-spacing: 0px; max-width: 100%; overflow: auto; color: rgba(0, 0, 0, 0.87); width: 696px;"><tbody><tr><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Tên</strong><br><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">xét nghiệm</strong></td><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Trị số</strong><br><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">bình thường</strong></td><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Kết quả</strong></td><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Tên xét nghiệm</strong></td><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Trị số</strong><br><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">bình thường</strong></td><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Kết quả</strong></td></tr><tr><td style="padding: 4px;"></td><td style="padding: 4px;"></td><td style="padding: 4px;"></td><td style="padding: 4px;"></td><td style="padding: 4px;"><br></td><td style="padding: 4px;"></td></tr></tbody></table><table border="0" style="text-align: left; margin: 0px; padding: 0px; border: 0px; font-variant-numeric: inherit; font-variant-east-asian: inherit; font-stretch: inherit; line-height: inherit; font-family: Arial, Helvetica, sans-serif; border-spacing: 0px; max-width: 100%; overflow: auto; color: rgba(0, 0, 0, 0.87); width: 696px;"><tbody><tr><td style="padding: 4px; text-align: right;"><em style="margin: 0px; padding: 0px; border: 0px; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Giờ.....Ngày....tháng....năm......</em></td><td style="padding: 4px; text-align: right;"><em style="margin: 0px; padding: 0px; border: 0px; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">Giờ.....Ngày....tháng....năm......</em></td></tr><tr><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">BÁC SĨ ĐIỀU TRỊ</strong><br>Họ tên ...............................................</td><td style="padding: 4px; text-align: center;"><strong style="margin: 0px; padding: 0px; border: 0px; font-style: inherit; font-variant: inherit; font-weight: bold; font-stretch: inherit; font-size: inherit; line-height: inherit; font-family: inherit;">TRƯỞNG KHOA XÉT NGHIỆM</strong><br>Họ tên ...............................................</td></tr></tbody></table>
+                                </textarea>
+                                <textarea th:if="${appointment.medicalExaminationResults != null}"
+                                          name="medicalExaminationResults"
+                                          class="form-control" id="description"
+                                          th:utext="${appointment.medicalExaminationResults}"
+                                          placeholder="Mô tả sản phẩm">
+                                </textarea>
+                                <span class="invalid-feedback" id="invalid-feedback__medicalExaminationResults"></span>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block " id="btn--save__medical-examination-results"
+                                     th:data-id="${appointment.id}"
+                                     form="form_medical_examination_results">Lưu kết quả
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-<!--                <div class="chatbody">-->
-<!--                    <div class="panel panel-primary">-->
-<!--                        <div class="panel-heading top-bar">-->
-<!--                            <div class="col-md-8 col-xs-8">-->
-<!--                                <p>-->
-<!--                                    Appointment chat with-->
-<!--                                    <span th:if="${_user.roles.contains('ROLE_PROVIDER')}" th:text="${appointment.customer.firstName}"></span>-->
-<!--                                    <span th:if="!${_user.roles.contains('ROLE_CUSTOMER')}" th:text="${appointment.provider.firstName}"></span>-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="panel-body msg_container_base">-->
-<!--                            <div th:each="chatMessage : ${appointment.chatMessages}" class="row msg_container base_receive">-->
-<!--                                <div class="col-md-12 col-xs-12">-->
-<!--                                    <div class="messages msg_receive">-->
-<!--                                        <p th:text="${chatMessage.message}">messae</p>-->
-<!--                                        <time datetime="2009-11-13T20:00"><span-->
-<!--                                                th:text="${chatMessage.author.firstName}">author</span> • <span-->
-<!--                                                th:text="${#temporals.format(chatMessage.createdAt, 'dd-MM-yyyy HH:mm')}"></span></time>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        <form th:action="@{/appointments/messages/new}" th:object="${chatMessage}" method='POST'>-->
-<!--                            <div class="input-group mb-3">-->
-<!--                                <input type="hidden" name="appointmentId" th:value="${appointment.id}">-->
-<!--                                <input type="text" class="form-control" th:field="*{message}" placeholder="Write your message here..." aria-label="Recipient's username" aria-describedby="basic-addon2">-->
-<!--                                <div class="input-group-append">-->
-<!--                                    <button class="btn btn-outline-secondary" type="submit">Send</button>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </form>-->
-
-
-<!--                    </div>-->
-
-<!--                </div>-->
-
-
             </div>
-
         </div>
     </div>
-</div>
     </div>
 </main>
 
@@ -490,8 +434,41 @@
             $('#choose-category').val(categoryText)
             $('#modal-choose-category').modal('hide');
         })
-    </script>
 
+        $(document).on("click", "#btn--save__medical-examination-results", function (event) {
+            event.preventDefault();
+            const form = $(this.form)
+            console.log(this)
+            let id = $(this).data("id")
+            $.ajax({
+                url: '/appointments/api/appointments/' + id + '/medical-examination-results',
+                type: 'PUT',
+                data: JSON.stringify(getFormData(form)),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    toastr.success(data.message);
+
+                    $('.invalid-feedback').hide()
+                    form[0].reset()
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    if (data.errors instanceof Array) {
+                        toastr.error(data.message);
+                        $('.invalid-feedback').hide()
+                        $.map(data.errors, function (e) {
+                            let obj = $(`#invalid-feedback__${e.field}`)
+                            obj.show();
+                            obj.text(e.message)
+                        })
+                    } else {
+                        toastr.error(error.responseText);
+                    }
+                }
+            });
+        })
+    </script>
 
 
 </th:block>

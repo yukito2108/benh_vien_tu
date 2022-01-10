@@ -6,6 +6,8 @@ import com.tuannq.store.entity.user.customer.Customer;
 import com.tuannq.store.entity.user.provider.Provider;
 import com.tuannq.store.model.AppointmentSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,11 +15,14 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "appointments")
 @JsonSerialize(using = AppointmentSerializer.class)
 public class Appointment extends BaseEntity implements Comparable<Appointment> {
+    @Column(name = "medical_examination_results", columnDefinition = "longtext")
+    private String medicalExaminationResults;
 
     @Column(name = "start")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")

@@ -183,9 +183,9 @@
                                                             <div class="form-group col-6 mb-0 pl-0">
                                                                 <div class="d-flex">
                                                                     <select th:name="${#strings.concat('medicine[', state.index, ']' ,'.id')}"
-                                                                            class="form-control specifications-select select2bs4"
+                                                                            class="form-control medicine-select select2bs4"
                                                                             aria-label="">
-                                                                        <option value="" disabled selected>Chọn thông số
+                                                                        <option value="" selected>Chọn thông số
                                                                             sản phẩm
                                                                         </option>
                                                                         <th:block th:each="spec : ${productList}">
@@ -263,7 +263,7 @@
     <script th:src="@{/adminlte/dist/js/modal_img.js}"></script>
     <script th:src="@{/script/admin/manage-category.js}"></script>
     <script th:inline="javascript">
-        let medicine = [[${productList}]]
+        let productList = [[${productList}]]
 
 
         $(function () {
@@ -398,32 +398,33 @@
            `)
         })
 
-
-        $(document).on("click", ".add-product-medicine", function (event) {
-            console.log(event)
-            let count = $('.product-medicine li').length
+        $(document).on("click", ".add-product-medicine", function () {
+            let count = $('ul.product-medicine li').length
             $('.product-medicine').append(`
                 <li>
                     <div class="d-flex mb-3">
                         <div class="d-flex w-100 m-0">
                             <div class="form-group col-6 mb-0 pl-0">
-                                <select name="medicine[${count}].id" class="form-control select2bs4" aria-label="">
-                                    <option value="" disabled selected>Chọn thông số</option>
-                                    ${medicine.map(spec => `
-                                        <option value="${spec.id}">${spec.name}</option>
-                                    `).reduce((a, b) => a + b)}
-                                </select>
-                                <span class="invalid-feedback" id="invalid-feedback__medicine[${count}].id"></span>
+                                <div class="d-flex">
+                                     <select name="medicine[${count}].id" class="form-control medicine-select select2bs4" aria-label="">
+                                        <option value="" selected>Chọn thông số sản phẩm</option>
+                                        ${productList.length === 0 ? '' : productList.map(spec => `
+                                            <option value="${spec.id}">${spec.name}</option>
+                                        `).reduce((a, b) => a + b)}
+                                    </select>
+
+                                </div>
+                                <span class="invalid-feedback" id="invalid-feedback__medicine_${count}__id"></span>
                             </div>
                             <div class="form-group col-6 mb-0 pr-0">
-                                <input name="medicine[0].value" type="text" class="form-control" aria-label=""
+                                <input name="medicine[${count}].value" type="text" class="form-control" aria-label=""
                                        placeholder="Thông số">
-                                <span class="invalid-feedback" id="invalid-feedback__medicine[${count}].value"></span>
+                                <span class="invalid-feedback" id="invalid-feedback__medicine_${count}__value"></span>
                             </div>
                         </div>
-                        <div class="delete-item btn-delete-specific">
-                            <i class="fas fa-times"></i>
-                        </div>
+<!--                        <div class="delete-item btn-delete-specific">-->
+<!--                            <i class="fas fa-times"></i>-->
+<!--                        </div>-->
                     </div>
                 </li>
             `)

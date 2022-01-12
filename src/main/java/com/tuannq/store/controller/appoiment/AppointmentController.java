@@ -1,10 +1,9 @@
 package com.tuannq.store.controller.appoiment;
 
-import com.tuannq.store.entity.Appointment;
-import com.tuannq.store.entity.ChatMessage;
-import com.tuannq.store.entity.Image;
-import com.tuannq.store.entity.Users;
+import com.tuannq.store.entity.*;
+import com.tuannq.store.model.dto.BrandDTO;
 import com.tuannq.store.model.dto.CategoryDTO;
+import com.tuannq.store.model.dto.ProductDTO;
 import com.tuannq.store.model.request.MedicalExaminationResultForm;
 import com.tuannq.store.model.response.SuccessResponse;
 import com.tuannq.store.security.CustomUserDetails;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,14 +36,18 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final ExchangeService exchangeService;
     private final ImageService imageService;
+    private final BrandService brandService;
+    private final ProductService productService;
 
     public AppointmentController(WorkService workService, UsersService usersService, AppointmentService appointmentService,
-                                 ExchangeService exchangeService, ImageService imageService) {
+                                 ExchangeService exchangeService, ImageService imageService, BrandService brandService, ProductService productService) {
         this.workService = workService;
         this.usersService = usersService;
         this.appointmentService = appointmentService;
         this.exchangeService = exchangeService;
         this.imageService = imageService;
+        this.brandService = brandService;
+        this.productService = productService;
     }
 
     @GetMapping("/all")
@@ -105,6 +109,10 @@ public class AppointmentController {
         String cancelNotAllowedReason = appointmentService.getCancelNotAllowedReason(currentUsers.get().getId(), appointmentId);
         model.addAttribute("allowedToCancel", cancelNotAllowedReason == null);
         model.addAttribute("cancelNotAllowedReason", cancelNotAllowedReason);
+
+        var brands = brandService.findAll().stream().map(BrandDTO::new).collect(Collectors.toList());
+        var productList = productService.findAll().stream().map(ProductDTO::new).collect(Collectors.toList());;
+        model.addAttribute("brands", productList);
         if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
             return "medikal/appointment_detail";
         }

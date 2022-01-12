@@ -321,12 +321,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
 
         if (users.hasRole("ROLE_ADMIN")) {
-            return "Only customer or provider can cancel appointments";
+            return "Chỉ khách hàng hoặc bác sĩ mới có thể huỷ.";
         }
 
         if (appointment.getProvider().equals(users)) {
             if (!appointment.getStatus().equals(AppointmentStatus.SCHEDULED)) {
-                return "Only appoinmtents with scheduled status can be cancelled.";
+                return "Chỉ có thể huỷ các cuộc hẹn có trạng thái scheduled.";
             } else {
                 return null;
             }
@@ -334,13 +334,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         if (appointment.getCustomer().equals(users)) {
             if (!appointment.getStatus().equals(AppointmentStatus.SCHEDULED)) {
-                return "Only appoinmtents with scheduled status can be cancelled.";
+                return "Chỉ có thể huỷ các cuộc hẹn có trạng thái scheduled.";
             } else if (LocalDateTime.now().plusDays(1).isAfter(appointment.getStart())) {
-                return "Appointments which will be in less than 24 hours cannot be canceled.";
+                return "Chỉ có thể huỷ cuộc hẹn trong vòng 24h sau khi cuộc hẹn bắt đầu.";
             } else if (!appointment.getWork().getEditable()) {
-                return "This type of appointment can be canceled only by Provider.";
+                return "Chỉ có thể huỷ bởi bác sĩ.";
             } else if (getCanceledAppointmentsByCustomerIdForCurrentMonth(usersId).size() >= NUMBER_OF_ALLOWED_CANCELATIONS_PER_MONTH) {
-                return "You can't cancel this appointment because you exceeded maximum number of cancellations in this month.";
+                return "Bạn đã vượt qua giới hạn huỷ hẹn trong tháng này.";
             } else {
                 return null;
             }

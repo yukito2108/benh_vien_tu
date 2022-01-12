@@ -42,7 +42,7 @@ public class Users extends BaseEntity {
     private String phone;
     @Column(nullable = false, length = 511)
     private String address;
-    @Column(nullable = false, length = 511)
+    @Column(nullable = true, length = 511)
     private String coverImage;
 
 

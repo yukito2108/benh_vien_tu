@@ -1,11 +1,13 @@
 package com.tuannq.store.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tuannq.store.entity.core.BaseEntity;
 import com.tuannq.store.entity.Users;
 import com.tuannq.store.entity.user.customer.Customer;
 import com.tuannq.store.entity.user.provider.Provider;
 import com.tuannq.store.model.AppointmentSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +15,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -65,6 +69,11 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
 
     @OneToOne(mappedBy = "requested", cascade = {CascadeType.ALL})
     private ExchangeRequest exchangeRequest;
+
+    @OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @EqualsAndHashCode.Exclude
+    Set<Prescription> prescriptions = new HashSet<>();
 
     public Appointment() {
     }

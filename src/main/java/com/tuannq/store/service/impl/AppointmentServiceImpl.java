@@ -10,10 +10,15 @@ import com.tuannq.store.exception.NotFoundException;
 import com.tuannq.store.model.DayPlan;
 import com.tuannq.store.model.TimePeroid;
 import com.tuannq.store.model.request.MedicalExaminationResultForm;
+import com.tuannq.store.model.request.PrescriptionForm;
+import com.tuannq.store.repository.PrescriptionRepository;
+import com.tuannq.store.repository.ProductRepository;
 import com.tuannq.store.service.AppointmentService;
 import com.tuannq.store.service.NotificationService;
 import com.tuannq.store.service.UsersService;
 import com.tuannq.store.service.WorkService;
+import com.tuannq.store.util.ConverterUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -23,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -34,14 +40,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final ChatMessageRepository chatMessageRepository;
     private final NotificationService notificationService;
     private final JwtTokenServiceImpl jwtTokenService;
+    private final PrescriptionRepository prescriptionRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, UsersService usersService, WorkService workService, ChatMessageRepository chatMessageRepository, NotificationService notificationService, JwtTokenServiceImpl jwtTokenService) {
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, UsersService usersService, WorkService workService, ChatMessageRepository chatMessageRepository, NotificationService notificationService, JwtTokenServiceImpl jwtTokenService, PrescriptionRepository prescriptionRepository) {
         this.appointmentRepository = appointmentRepository;
         this.usersService = usersService;
         this.workService = workService;
         this.chatMessageRepository = chatMessageRepository;
         this.notificationService = notificationService;
         this.jwtTokenService = jwtTokenService;
+        this.prescriptionRepository = prescriptionRepository;
     }
 
     @Override
@@ -377,6 +387,35 @@ public class AppointmentServiceImpl implements AppointmentService {
         appoint.setStatus(AppointmentStatus.FINISHED);
         appoint.setMedicalExaminationResults(form.getMedicalExaminationResults());
         appointmentRepository.save(appoint);
+    }
+
+    @Override
+    public void savePrescriptionForm(Long appointmentId, PrescriptionForm form) {
+        Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+        if (appointment.isEmpty())
+            throw new NotFoundException("appointment.not-found");
+        Appointment appoint = appointment.get();
+
+        var ids = form.getMedicine()
+                .stream()
+                .map(PrescriptionForm.Specific::getId)
+                .map(ConverterUtils::convertStringToLong)
+                .collect(Collectors.toSet());
+
+        var prescription = productRepository.findByIds(ids)
+                .stream()
+                .map(product -> {
+                    var specific = form.getMedicine()
+                            .stream()
+                            .filter(s -> Objects.equals(ConverterUtils.convertStringToLong(s.getId()), product.getId()))
+                            .findFirst();
+                    if (specific.isEmpty()) return null;
+                    return new Prescription(appoint, product, specific.get().getValue());
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        prescriptionRepository.saveAll(prescription);
+        prescriptionRepository.deleteByAppointment(ids, appoint.getId());
     }
 
     @Override

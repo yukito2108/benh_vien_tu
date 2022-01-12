@@ -5,6 +5,7 @@ import com.tuannq.store.model.dto.BrandDTO;
 import com.tuannq.store.model.dto.CategoryDTO;
 import com.tuannq.store.model.dto.ProductDTO;
 import com.tuannq.store.model.request.MedicalExaminationResultForm;
+import com.tuannq.store.model.request.PrescriptionForm;
 import com.tuannq.store.model.response.SuccessResponse;
 import com.tuannq.store.security.CustomUserDetails;
 import com.tuannq.store.security.CustomUsersDetails;
@@ -112,7 +113,7 @@ public class AppointmentController {
 
         var brands = brandService.findAll().stream().map(BrandDTO::new).collect(Collectors.toList());
         var productList = productService.findAll().stream().map(ProductDTO::new).collect(Collectors.toList());;
-        model.addAttribute("brands", productList);
+        model.addAttribute("productList", productList);
         if (currentUsers.get().hasRole("ROLE_CUSTOMER")) {
             return "medikal/appointment_detail";
         }
@@ -307,6 +308,15 @@ public class AppointmentController {
             @Validated @RequestBody MedicalExaminationResultForm form
     ) {
         appointmentService.saveMedicalExaminationResults(appointmentId, form);
+        return ResponseEntity.ok(null);
+    }
+
+    @PutMapping("/api/appointments/{id}/prescription")
+    public ResponseEntity<SuccessResponse<String>> savePrescription(
+            @PathVariable("id") Long appointmentId,
+            @Validated @RequestBody PrescriptionForm form
+    ) {
+        appointmentService.savePrescriptionForm(appointmentId, form);
         return ResponseEntity.ok(null);
     }
 

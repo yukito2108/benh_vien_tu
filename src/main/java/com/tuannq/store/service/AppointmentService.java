@@ -5,6 +5,7 @@ import com.tuannq.store.entity.ChatMessage;
 import com.tuannq.store.entity.Work;
 import com.tuannq.store.model.TimePeroid;
 import com.tuannq.store.model.request.MedicalExaminationResultForm;
+import com.tuannq.store.model.request.PrescriptionForm;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -76,4 +77,5 @@ public interface AppointmentService {
 
     public void saveMedicalExaminationResults(Long appointmentId, MedicalExaminationResultForm form);
 
+    void savePrescriptionForm(Long appointmentId, PrescriptionForm form);
 }

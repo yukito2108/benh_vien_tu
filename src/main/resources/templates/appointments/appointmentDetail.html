@@ -111,15 +111,15 @@
                                     </td>
                                 </tr>
 
-<!--                                <tr>-->
-<!--                                    <td><b>exchange</b></td>-->
-<!--                                    <td th:if="${allowedToExchange}">-->
-<!--                                        <a th:href="@{'/exchange/'+${appointment.id}}">exchange</a>-->
-<!--                                    </td>-->
-<!--                                    <td th:unless="${allowedToExchange}">-->
-<!--                                        <p>This appointment cannot be exchanged.</p>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
+                                <!--                                <tr>-->
+                                <!--                                    <td><b>exchange</b></td>-->
+                                <!--                                    <td th:if="${allowedToExchange}">-->
+                                <!--                                        <a th:href="@{'/exchange/'+${appointment.id}}">exchange</a>-->
+                                <!--                                    </td>-->
+                                <!--                                    <td th:unless="${allowedToExchange}">-->
+                                <!--                                        <p>This appointment cannot be exchanged.</p>-->
+                                <!--                                    </td>-->
+                                <!--                                </tr>-->
 
                                 <tr>
                                     <td><b>cancellation</b></td>
@@ -138,7 +138,8 @@
                                 <tr>
                                     <td><b>Lịch sử khám</b></td>
                                     <td>
-                                        <a class="btn btn-secondary" th:href="@{'/works/' + ${appointment.work.id}}" role="button">Xem</a>
+                                        <a class="btn btn-secondary" th:href="@{'/works/' + ${appointment.work.id}}"
+                                           role="button">Xem</a>
                                     </td>
                                 </tr>
                             </table>
@@ -163,22 +164,65 @@
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success btn-block " id="btn--save__medical-examination-results"
-                                     th:data-id="${appointment.id}"
-                                     form="form_medical_examination_results">Lưu kết quả
+                                        th:data-id="${appointment.id}"
+                                        form="form_medical_examination_results">Lưu kết quả
                                 </button>
                             </div>
                         </form>
 
-                        <form class="col-md-12" id="form-add__product" action="#" method="POST">
+                        <form class="col-md-12" id="form-add__prescription" action="#" method="POST">
                             <div class="card card-outline">
                                 <div class="card-body pad">
                                     <div class="form-group">
-                                        <label>Thông số sản phẩm</label>
-                                        <ul class="list-item product-specifications">
-
+                                        <label>Đon thuốc</label>
+                                        <ul class="list-item product-medicine">
+                                            <th:block th:each="specific, state : ${appointment.prescriptions}">
+                                                <li>
+                                                    <div class="d-flex mb-3">
+                                                        <div class="d-flex w-100 m-0">
+                                                            <div class="form-group col-6 mb-0 pl-0">
+                                                                <div class="d-flex">
+                                                                    <select th:name="${#strings.concat('medicine[', state.index, ']' ,'.id')}"
+                                                                            class="form-control specifications-select select2bs4"
+                                                                            aria-label="">
+                                                                        <option value="" disabled selected>Chọn thông số
+                                                                            sản phẩm
+                                                                        </option>
+                                                                        <th:block th:each="spec : ${productList}">
+                                                                            <option th:value="${spec.id}"
+                                                                                    th:text="${spec.name}"
+                                                                                    th:selected="${spec.id == specific.product.id}"></option>
+                                                                        </th:block>
+                                                                    </select>
+                                                                </div>
+                                                                <span class="invalid-feedback"
+                                                                      th:id="${'invalid-feedback__medicine_' + state.index + '_' + '_id'}"></span>
+                                                            </div>
+                                                            <div class="form-group col-6 mb-0 pr-0">
+                                                                <input th:name="${#strings.concat('medicine[', state.index, ']' ,'.value')}"
+                                                                       th:value="${specific.value}"
+                                                                       type="text" class="form-control" aria-label=""
+                                                                       placeholder="Thông số">
+                                                                <span class="invalid-feedback"
+                                                                      th:id="${'invalid-feedback__medicine_' + state.index + '_' + '_value'}"></span>
+                                                            </div>
+                                                        </div>
+                                                        <!--                                    <div class="delete-item btn-delete-specific">-->
+                                                        <!--                                        <i class="fas fa-times"></i>-->
+                                                        <!--                                    </div>-->
+                                                    </div>
+                                                </li>
+                                            </th:block>
                                         </ul>
-                                        <div class="add-product-specifications btn btn-outline-success">
-                                            Thêm +
+                                        <div class="d-flex justify-content-between">
+                                            <div class="add-product-medicine btn btn-outline-primary">
+                                                Thêm +
+                                            </div>
+                                            <button class="save-prescription btn btn-outline-success"
+                                                    th:data-id="${appointment.id}"
+                                                    form="form-add__prescription">
+                                                Luu don thuoc
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -219,15 +263,15 @@
     <script th:src="@{/adminlte/dist/js/modal_img.js}"></script>
     <script th:src="@{/script/admin/manage-category.js}"></script>
     <script th:inline="javascript">
-        let specifications = [[${brands}]]
+        let medicine = [[${productList}]]
 
 
         $(function () {
             $('#description').summernote(
-                {
-                    height: 450,
-                    focus: true
-                }
+                    {
+                        height: 450,
+                        focus: true
+                    }
             )
 
             let imgs = [[${images}]];
@@ -355,26 +399,26 @@
         })
 
 
-        $(document).on("click", ".add-product-specifications", function (event) {
+        $(document).on("click", ".add-product-medicine", function (event) {
             console.log(event)
-            let count = $('.product-specifications li').length
-            $('.product-specifications').append(`
+            let count = $('.product-medicine li').length
+            $('.product-medicine').append(`
                 <li>
                     <div class="d-flex mb-3">
                         <div class="d-flex w-100 m-0">
                             <div class="form-group col-6 mb-0 pl-0">
-                                <select name="specifications[${count}].id" class="form-control select2bs4" aria-label="">
+                                <select name="medicine[${count}].id" class="form-control select2bs4" aria-label="">
                                     <option value="" disabled selected>Chọn thông số</option>
-                                    ${specifications.map(spec => `
+                                    ${medicine.map(spec => `
                                         <option value="${spec.id}">${spec.name}</option>
                                     `).reduce((a, b) => a + b)}
                                 </select>
-                                <span class="invalid-feedback" id="invalid-feedback__specifications[${count}].id"></span>
+                                <span class="invalid-feedback" id="invalid-feedback__medicine[${count}].id"></span>
                             </div>
                             <div class="form-group col-6 mb-0 pr-0">
-                                <input name="specifications[0].value" type="text" class="form-control" aria-label=""
+                                <input name="medicine[0].value" type="text" class="form-control" aria-label=""
                                        placeholder="Thông số">
-                                <span class="invalid-feedback" id="invalid-feedback__specifications[${count}].value"></span>
+                                <span class="invalid-feedback" id="invalid-feedback__medicine[${count}].value"></span>
                             </div>
                         </div>
                         <div class="delete-item btn-delete-specific">
@@ -484,6 +528,39 @@
                         $('.invalid-feedback').hide()
                         $.map(data.errors, function (e) {
                             let obj = $(`#invalid-feedback__${e.field}`)
+                            obj.show();
+                            obj.text(e.message)
+                        })
+                    } else {
+                        toastr.error(error.responseText);
+                    }
+                }
+            });
+        })
+
+        $(document).on("click", ".save-prescription", function (event) {
+            event.preventDefault();
+            const form = $(this.form)
+            console.log(this)
+            let id = $(this).data("id")
+            $.ajax({
+                url: '/appointments/api/appointments/' + id + '/prescription',
+                type: 'PUT',
+                data: JSON.stringify(getFormData(form)),
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    toastr.success(data.message);
+
+                    $('.invalid-feedback').hide()
+                },
+                error: function (error) {
+                    let data = error.responseJSON
+                    if (data.errors instanceof Array) {
+                        toastr.error(data.message);
+                        $('.invalid-feedback').hide()
+                        $.map(data.errors, function (e) {
+                            let obj = $(`#invalid-feedback__${e.field.replaceAll(/[\[\].]/ig, "_")}`)
                             obj.show();
                             obj.text(e.message)
                         })

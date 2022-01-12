@@ -86,4 +86,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select x1 from Product x1 where x1.id in :#{#ids}")
     Set<Product> findByIds(List<Long> ids);
+
+    @Query("select x1 from Product x1 where x1.id in :#{#ids}")
+    Set<Product> findByIds(Set<Long> ids);
 }
